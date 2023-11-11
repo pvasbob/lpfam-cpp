@@ -1,0 +1,13 @@
+# Directories
+Markus_05_2
+Markus_cpp_05_9_01
+Orig_Markus
+Orig_Markus_test
+
+
+#files
+*.o
+*.F90
+
+
+
