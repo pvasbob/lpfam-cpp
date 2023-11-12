@@ -14,7 +14,9 @@ public:
   void calculate_natural_units();
   void print_functional_parameters(int lout);
   void t_from_C();
-  void Constraint_or_not(int& inin_INI,int& inin,int& icstr);  
+  void Constraint_or_not(int &inin_INI, int &inin, int &icstr);
+  void preparer(bool lpr);
+  void gfv();
 
 private:
   int iw, ib, j, i, it;

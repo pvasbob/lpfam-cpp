@@ -1,0 +1,44 @@
+05: 	split program worked!
+05.1	split further Solver.F90 part.
+	worked!
+05.2	split further qrpa_HFBTHO part.
+	worked!
+
+05.3	Merge UNEDF.F90 into HFBTHO.F90.
+	worked!
+
+05.4  	Merge all HFBTHO modules into HFBTHO.F90. No qrpa.
+	worked!
+
+05.5 	copy 05.4 to 05.5, delete comments.	
+	worked!
+
+05.6 	copy 05.5 to 05.6, delete Public, Private.	
+	worked!
+
+05.7	consturct UNEDF and HFBTHO class, set global variables to be static as protected.
+	worked!
+
+
+06: 	copy from 05.2. 
+	delete QRPA part in Main. Just let HFBTHO part work.
+	worked.
+
+cpp_05.2	translate 05.2 to cpp. 
+cpp_05.5	translate 05.5 to cpp. 
+cpp_05.6	translate 05.6 to cpp. 
+cpp_05.7	translate 05.2 to cpp
+			define HFBTHO base class, include all public variables.
+
+cpp_05.8	copy cpp_05.7  
+		read_UNEDF_NAMELIST();
+		read_HFBTHO_NAMELIST();
+		set nkblo  = 0;
+
+cpp_05.9 	copy cpp_05.8
+cpp_05.10	copy cpp_05.9
+				
+
+cpp		copy from cpp_05.10
+		11/11/2023
+		commit to github. No longer recored by number series.

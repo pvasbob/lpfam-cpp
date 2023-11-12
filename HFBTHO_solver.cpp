@@ -1,5 +1,7 @@
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
+#include <iomanip>
 
 #include "HFBTHO_solver.h"
 
@@ -8,13 +10,55 @@ void HFBTHO_solver::solver()
   //!-------------------------------------------------------------
   //! inatializing all according to *_INI values
   //!-------------------------------------------------------------
-  std::cout << inin_INI << inin  << icstr << std::endl;
+  std::cout << inin_INI << inin << icstr << std::endl;
   iniialize_HFBTHO_SOLVER();
   // If(ierror_flag.Ne.0) Return
   // If(lout.Lt.lfile) Open(lfile,file='thoout.dat',status='unknown')
-  std::cout << inin_INI << inin  << icstr << std::endl;
+  std::cout << inin_INI << inin << icstr << std::endl;
+  std::cout << "Inside solver" << std::endl;
   Constraint_or_not(inin_INI, inin, icstr);
-  std::cout << inin_INI << inin  << icstr << std::endl;
+  std::cout << inin_INI << inin << icstr << std::endl;
+  //-------------------------------------------------------------------------
+  // Loop recalculating eventually the even-even solution for an odd nucleus
+  //-------------------------------------------------------------------------
+  do
+  {
+    irestart = 0;
+    n00 = std::abs(n00_INI);
+    b0 = b0_INI;
+    q = q_INI;
+    iLST = iLST_INI;
+    maxi = MAX_ITER_INI;
+    npr[0] = npr_INI[0];
+    npr[1] = npr_INI[1];
+    npr[2] = npr[0] + npr[1];
+    strncpy(skyrme, skyrme_INI, 30);
+    kindhfb = kindhfb_INI;
+    cdef = cdef_INI;
+    cqad = cqad_INI;
+    keypj = keypj_INI;
+    iproj = iproj_INI;
+    npr1pj = npr1pj_INI;
+    npr2pj = npr2pj_INI;
+    // nkblo=nkblo_INI;
+    for (int i = 0; i < 2; i++)
+      for (int j = 0; j < 5; j++)
+        nkblo[i][j] = nkblo_INI[i][j];
+
+    // blocking
+    // Do .. end do loop drop for now. Dont care blocking case.
+
+    //-------------------------------------------------------------
+    // HFB+HO calculations
+    //-------------------------------------------------------------
+    if (iLST <= 0)
+    {
+      icacou = 0;
+      icahartree = 0;
+      preparer(true);
+      // inout(1);
+    }
+  } while (irestart != 0);
 }
 
 void HFBTHO_solver::iniialize_HFBTHO_SOLVER()
@@ -319,7 +363,7 @@ void HFBTHO_solver::t_from_C()
 
 void HFBTHO_solver::Constraint_or_not(int &inin_INI0, int &inin0, int &icstr0)
 {
-  if (std::abs(inin_INI0) > 100)
+  if (std::abs(inin_INI0) >= 100)
   {
     icstr0 = 1;
     inin0 = inin_INI0 / 100;
@@ -330,3 +374,142 @@ void HFBTHO_solver::Constraint_or_not(int &inin_INI0, int &inin0, int &icstr0)
     inin0 = inin_INI0;
   }
 };
+
+void HFBTHO_solver::preparer(bool lpr)
+{
+  // If n00 skip
+  // call nucleus skip
+  // If lpr skip
+
+  //-----------------------------------------
+  // pairing parameters (NB! modify later)
+  //-----------------------------------------
+  // rho_c=0.160; pwi=2000.0 !60.0;
+  rho_c = 0.160;
+  pwi = 60.0;
+  //-----------------------------------------
+  // particle number as real variable
+  //-----------------------------------------
+  tz[0] = static_cast<double>(npr[0]);
+  tz[1] = static_cast<double>(npr[1]);
+  amas = tz[0] + tz[1];
+  //-----------------------------------------
+  // default combinations
+  //-----------------------------------------
+  r00 = r0 * pow(amas, p13);
+  r02 = pow(r00, 2);
+  r04 = pow(r02, 2);
+  chargee2 = e2charg;
+  coex = -chargee2 * pow((3.0 / PI), p13);
+  cex = -0.750 * coex;
+  hom = 41.0 * pow(amas, (-p13)) * r0;
+  //-----------------------------------------
+  // hbzero from forces [hqc**2/(two*amu)]
+  //-----------------------------------------
+  hb0 = hbzero;
+  if (use_cm_cor)
+    hb0 = hb0 * (one - one / amas);
+  //-----------------------------------------
+  // basis parameter q
+  //-----------------------------------------
+  beta0 = q;
+  q = exp((3.0 * sqrt(5.0 / (16.0 * PI))) * beta0);
+  //-----------------------------------------
+  // basis parameters b0,bp,bz
+  //-----------------------------------------
+  if (b0 <= zero)
+    b0 = sqrt(two * hbzero / hom);
+  if (b0 <= zero)
+    b0 = sqrt(pow(hqc, 2) / (hom * amu));
+  bp = b0 * pow(q, (-one / 6.0));
+  bz = b0 * pow(q, (one / 3.0));
+  bpp = bp * bp;
+  //-----------------------------------------
+  // constraint in terms of beta
+  //-----------------------------------------
+  ty20 = sqrt(5.0 / PI) * hom / pow(b0, 2) / two;
+  //-----------------------------------------
+  // projection: number of grid points
+  //-----------------------------------------
+  keypj = std::max(1, keypj);
+  ilpj = keypj;
+  ilpj2 = pow(ilpj, 2);
+  //-----------------------------------------
+  // projecting on different nucleus
+  //-----------------------------------------
+  if (iproj == 0)
+  {
+    npr1pj = npr[0];
+    npr2pj = npr[1];
+  }
+  else
+  {
+    npr1pj = npr[0] + npr1pj;
+    npr2pj = npr[2] + npr2pj;
+  }
+  //-----------------------------------------
+  // blocking window
+  //-----------------------------------------
+  pwiblo = std::min(std::max(25.0 / sqrt(static_cast<float>(npr[0] + npr[1])), 2.0), 8.0);
+  //---------------------------------------------------------
+  // statistics to screen('lout')/file('lfile')
+  //---------------------------------------------------------
+  //-----------------------------------------
+  // BASIS, GAUSS POINTS, HOWF
+  //-----------------------------------------
+  gfv(); // factorials
+         // if lpr skip
+
+  // std::cout << "Outside gfv" << std::endl;
+  // for (int i = 0; i < iv.size() ; i++)
+  //{
+  //   std::cout << std::setw(4) << std::right << static_cast<double>(iv[i]) << " " << std::setw(15) << std::left << sq[i] << " " << std::setw(15) << std::left << fak[i] << " " << std::setw(15) << wf[i] << std::endl;
+  // }
+}
+
+void HFBTHO_solver::gfv()
+{
+  //---------------------------------------------------------------------
+  // Calculates sign, Sqrt, factorials, etc. of integers and half int.
+  // iv(n)=(-1)**n, sq(n)=Sqrt(n), sqi(n)=1/Sqrt(n)
+  // fak(n)=n!; wf(n)=Sqrt(n!); wfi(n)=1/Sqrt(n!)
+  //---------------------------------------------------------------------
+  // Use HFBTHO
+  // Implicit None
+  int igfv = 170; // maximal number for GFV
+  // If(Allocated(iv)) Deallocate(iv,fak,fi,sq,sqi,wf,wfi)
+  // Allocate(iv(-igfv:igfv),fak(0:igfv),fi(0:igfv),sq(0:igfv),sqi(0:igfv))
+  // Allocate(wf(0:igfv),wfi(0:igfv))
+  iv.resize(igfv + 1); // In Fortran version size of iv is iv(-igfv:igfv), in c++ we can't do this. We use the relation iv(-i) = iv(i) to get around.
+  fak.resize(igfv + 1);
+  fi.resize(igfv + 1);
+  sq.resize(igfv + 1);
+  sqi.resize(igfv + 1);
+  wf.resize(igfv + 1);
+  wfi.resize(igfv + 1);
+
+  iv[0] = 1;
+  sq[0] = zero;
+  sqi[0] = 1.0;
+  fak[0] = one;
+  fi[0] = one;
+  wf[0] = one;
+  wfi[0] = one;
+
+  for (int i = 1; i < igfv + 1; i++)
+  {
+    iv[i] = -iv[i - 1];
+    // iv(-i) = iv(i)
+    sq[i] = sqrt(static_cast<double>(i));
+    sqi[i] = one / sq[i];
+    fak[i] = static_cast<double>(i) * fak[i - 1];
+    fi[i] = one / fak[i];
+    wf[i] = sq[i] * wf[i - 1];
+    wfi[i] = one / wf[i];
+  }
+  std::cout << "Inside gfv" << std::endl;
+  // for (int i = 0; i < igfv + 1; i++)
+  //{
+  //   std::cout << std::setw(4) << std::right << static_cast<double>(iv[i]) << " " << std::setw(15) << std::left << sq[i] << " " << std::setw(15) << std::left << fak[i] << " " << std::setw(15) << wf[i] << std::endl;
+  // }
+}
