@@ -459,6 +459,13 @@ void HFBTHO_solver::preparer(bool lpr)
   //-----------------------------------------
   gfv(); // factorials
          // if lpr skip
+  base0(lpr);
+  // std::cout << "Outside base0: " << std::endl;
+  // std::cout << std::setw(8) << std::left << ndx
+  //           << std::setw(8) << std::left << nqp
+  //           << std::setw(8) << std::left << nuv
+  //           << std::setw(8) << std::left << nbx
+  //           << std::setw(8) << std::left << ntx;
 
   // std::cout << "Outside gfv" << std::endl;
   // for (int i = 0; i < iv.size() ; i++)
@@ -508,8 +515,254 @@ void HFBTHO_solver::gfv()
     wfi[i] = one / wf[i];
   }
   std::cout << "Inside gfv" << std::endl;
-  // for (int i = 0; i < igfv + 1; i++)
+  std::cout << "Inside gfv" << iv.size() << std::endl;
+  // for (int i = 0; i <= iv.size(); i++)
   //{
-  //   std::cout << std::setw(4) << std::right << static_cast<double>(iv[i]) << " " << std::setw(15) << std::left << sq[i] << " " << std::setw(15) << std::left << fak[i] << " " << std::setw(15) << wf[i] << std::endl;
+  //   std::cout << std::setw(4) << std::left <<  i << std::setw(4) << std::right << static_cast<double>(iv[i]) << " " << std::setw(15) << std::left << sq[i] << " " << std::setw(15) << std::left << fak[i] << " " << std::setw(15) << wf[i] << std::endl;
   // }
+}
+
+//=======================================================================
+void HFBTHO_solver::base0(bool lpr)
+{
+  //---------------------------------------------------------------------
+  // selects HO basis configurations in cylindrical coordinates
+  //---------------------------------------------------------------------
+  // Use HFBTHO
+  // Use HFBTHO_ord
+  // Implicit None
+  // Logical :: lpr
+  int iw, k, nre, nze, la, le, ip, ir, iz, il, is, Iall, ilauf, jlauf, ib, nd;
+  int NOSCIL;
+  std::vector<double> e;
+  double hbz, hbp, ee;
+  std::cout << "base0 start" << std::endl;
+  //
+  // if n00.Gt.n00max skip
+  //-----------------------------------------------
+  // MAXIMUM NUMBER OF THE HO SHELLS (n00,NOSCIL)
+  // (7,120),(8,165),(9,220),(10,286),(11,364)
+  // (12,455),(14,680),(16,969),(18,1330),(20,1771)
+  //-----------------------------------------------
+  NOSCIL = (n00 + 1) * (n00 + 2) * (n00 + 3) / 6;
+  //-----------------------------------------------
+  // count all states for n00max
+  //-----------------------------------------------
+  nze = n00max;
+  nre = n00max / 2;
+  Iall = 0;
+  for (int k = 1; k <= n00max + 1; k++)
+  {
+    la = k - 1;
+    le = std::min(n00max, k);
+    for (int ip = 1; ip <= 2; ip++)
+    {
+      for (int ir = 0; ir <= nre; ir++)
+      {
+        for (int iz = 0; iz <= nze; iz++)
+        {
+          for (int il = la; il <= le; il++)
+          {
+            for (int is = +1; is >= -1; is = is - 2)
+            {
+              if (iz + 2 * ir + il > n00max)
+                continue;
+              if (il + (is + 1) / 2 != k)
+                continue;
+              if ((iz + il) % 2 != (ip - 1))
+                continue;
+              Iall = Iall + 1;
+              // std::cout << std::setw(4) << std::left << k << std::setw(4) << std::left << ip << std::setw(4) << std::left << ir << std::setw(4) << std::left << iz << std::setw(4) << std::left << il << std::setw(4) << std::left << is << std::setw(4) << std::left << Iall << std::endl;
+            }
+          }
+        }
+      }
+    }
+  };
+  std::cout << "1qq" << std::endl;
+  //-----------------------------------------------
+  //  charge all energies for n00max
+  //-----------------------------------------------
+  //  Allocate(e(Iall))
+  e.resize(Iall);
+  std::cout << "hbzero: " << hbzero << "two: " << two << std::endl;
+  std::cout << "bz: " << bz << "bp: " << bp << std::endl;
+  hbz = two * hbzero / pow(bz, 2);
+  hbp = two * hbzero / pow(bp, 2);
+  std::cout << "hbz: " << hbz << "hbp: " << hbp << std::endl;
+  Iall = 0;
+  for (int k = 1; k <= n00max + 1; k++)
+  {
+    la = k - 1;
+    le = std::min(n00max, k);
+    for (int ip = 1; ip <= 2; ip++)
+    {
+      for (int ir = 0; ir <= nre; ir++)
+      {
+        for (int iz = 0; iz <= nze; iz++)
+        {
+          for (int il = la; il <= le; il++)
+          {
+            for (int is = +1; is >= -1; is = is - 2)
+            {
+              if (iz + 2 * ir + il > n00max)
+                continue;
+              if (il + (is + 1) / 2 != k)
+                continue;
+              if ((iz + il) % 2 != ip - 1)
+                continue;
+              Iall = Iall + 1;
+              // std::cout << std::setw(8) << std::left << Iall << std::endl;
+              // Iall -1 because e in c++ start from zero not one
+              e[Iall - 1] = hbz * (iz + half) + hbp * (two * ir + il + one);
+              // std::cout << std::setw(8) << std::left << Iall << std::setw(8) << std::left << e[Iall] << std::endl;
+            }
+          }
+        }
+      }
+    }
+  }
+  //-----------------------------------------------
+  // sort energies  and derive base cut-off energy
+  //-----------------------------------------------
+  // std::cout << "e before order" << std::endl;
+  // for (int i = 0; i < e.size(); i++)
+  //{
+  //  std::cout << std::setw(8) << std::left << i << e[i] << std::endl;
+  //}
+
+  ord(Iall, e);
+  // std::cout << "e after order" << std::endl;
+  // for (int i = 0; i < e.size(); i++)
+  //{
+  //   std::cout << std::setw(8) << std::left << i << std::setprecision(8) <<  e[i] << std::endl;
+  // }
+  EBASECUT = e[NOSCIL - 1] + 1.0 * exp(-5);
+  std::cout << "NOSCIL: " << NOSCIL << std::endl;
+  std::cout << "EBASECUT: " << EBASECUT << std::endl;
+  //-----------------------------------------------
+  // calculate the actual states
+  //-----------------------------------------------
+  nze = n00max;
+  nre = n00max / 2;
+  ib = 0;
+  ilauf = 0;
+  nzx = 0;
+  nrx = 0;
+  nlx = 0;
+  nqp = 0;
+  nuv = 0;
+  // loop over k-quantum number
+  for (int k = 1; k <= n00max + 1; k++)
+  {
+    la = k - 1;
+    le = std::min(n00max, k);
+    // std::cout << "Parity: " << Parity << std::endl;
+    //  loop over parity
+    if (!Parity)
+      jlauf = ilauf; // Nop
+    for (int ip = 1; ip <= 2; ip++)
+    {
+      if (Parity)
+        jlauf = ilauf; // Yesp
+      // std::cout << "jlauf: " << jlauf << std::endl;
+      for (int ir = 0; ir <= nre; ir++)
+      {
+        for (int iz = 0; iz <= nze; iz++)
+        {
+          for (int il = la; il <= le; il++)
+          {
+            for (int is = +1; is >= -1; is = is - 2)
+            {
+              if (iz + 2 * ir + il > n00max)
+                continue;
+              if (il + (is + 1) / 2 != k)
+                continue;
+              if ((iz + il) % 2 != ip - 1)
+                continue;
+              ee = hbz * (iz + half) + hbp * (two * ir + il + one);
+              // std::cout << "ee: " << ee << std::endl;
+              if (ee <= EBASECUT)
+              {
+                std::cout << "ee: " << ee << std::endl;
+                ilauf = ilauf + 1;
+                nzx = std::max(nzx, iz);
+                nrx = std::max(nrx, ir);
+                nlx = std::max(nlx, il);
+              }
+            }
+          }
+        }
+      }
+      if (Parity)
+      { // Yesp
+        if (ilauf > jlauf)
+        {
+          ib = ib + 1;
+          nd = ilauf - jlauf;
+          ndx = std::max(ndx, nd);
+          nqp = nqp + nd;
+          nuv = nuv + nd * nd;
+        }
+      }
+    }
+    if (!Parity)
+    {
+      if (ilauf >= jlauf)
+      {
+        ib = ib + 1;
+        nd = ilauf - jlauf;
+        ndx = std::max(ndx, nd);
+        nqp = nqp + nd;
+        nuv = nuv + nd * nd;
+      }
+    }
+  }
+  nbx = ib;
+  ntx = ilauf;
+  std::cout << std::setw(4) << std::left << ib
+            << std::setw(8) << std::left << nd
+            << std::setw(8) << std::left << ndx
+            << std::setw(8) << std::left << nqp
+            << std::setw(8) << std::left << nuv
+            << std::setw(8) << std::left << nbx
+            << std::setw(8) << std::left << ntx;
+  //-----------------------------------------------
+  // print statistics
+  //-----------------------------------------------
+  // if lpr  skip
+}
+
+void HFBTHO_solver::ord(int n, std::vector<double> &e)
+{
+  //---------------------------------------------------------------------
+  // orders a set of numbers according to their size
+  //---------------------------------------------------------------------
+  // Use HFBTHO
+  // Implicit None
+  // Integer(ipr) :: n,i,k,j
+  // Real(pr) :: e(n)
+  int k;
+  double p;
+  for (int i = 0; i < n; i++)
+  {
+    k = i;
+    p = e[i];
+    if (i < n)
+    {
+      for (int j = i + 1; j < n; j++)
+      {
+        if (e[j] <= p)
+        {
+          k = j;
+          p = e[j];
+        }
+      }
+      if (k != i)
+      {
+        e[k] = e[i];
+        e[i] = p;
+      }
+    }
+  }
 }

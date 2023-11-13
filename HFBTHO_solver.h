@@ -17,9 +17,15 @@ public:
   void Constraint_or_not(int &inin_INI, int &inin, int &icstr);
   void preparer(bool lpr);
   void gfv();
+  void base0(bool lpr);
+  void ord(int, std::vector<double> &);
 
 private:
-  int iw, ib, j, i, it;
+  int iw,
+      ib,
+      j,
+      i,
+      it;
   double epsi0;
 };
 
