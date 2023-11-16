@@ -11,7 +11,7 @@ public:
     void read_UNEDF_NAMELIST();
     void printUNEDF();
 
-protected:
+public:
     //!===================================================================================================================================
     // !Module UNEDF
     // !===================================================================
@@ -95,7 +95,8 @@ protected:
     //!
     //! === PRIVATE VARIABLES ===
     //!
-protected:
+    // protected:
+public:
     // static double nuCrho[2], nuCdrho[2], nuCtau[2], nuCrDr[2]; //! basic coupling constants in natural units
     static double nuCrho[2];
     static double nuCdrho[2];

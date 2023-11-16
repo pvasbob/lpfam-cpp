@@ -19,6 +19,7 @@ public:
   void gfv();
   void base0(bool lpr);
   void ord(int, std::vector<double> &);
+  void thoalloc();
 
 private:
   int iw,

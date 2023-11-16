@@ -3,7 +3,11 @@
 #include <cstring>
 #include <iomanip>
 
+#include <algorithm>
+#include <bits/stdc++.h>
+
 #include "HFBTHO_solver.h"
+#include "lapack.h"
 
 void HFBTHO_solver::solver()
 {
@@ -472,6 +476,7 @@ void HFBTHO_solver::preparer(bool lpr)
   //{
   //   std::cout << std::setw(4) << std::right << static_cast<double>(iv[i]) << " " << std::setw(15) << std::left << sq[i] << " " << std::setw(15) << std::left << fak[i] << " " << std::setw(15) << wf[i] << std::endl;
   // }
+  thoalloc();
 }
 
 void HFBTHO_solver::gfv()
@@ -765,4 +770,388 @@ void HFBTHO_solver::ord(int n, std::vector<double> &e)
       }
     }
   }
+}
+
+void HFBTHO_solver::thoalloc()
+{
+  //! Use HFBTHO
+  //  Implicit None
+  // int ier, ib, ND;
+  int ier;
+  //  !
+  //  ! number of int.points
+  if (Parity)
+  {
+    //!     ngh=30; ngl=30; nleg=30                                    !Yesp
+    //     !value from CPC(2013)
+    ngh = 40;
+    ngl = 40;
+    nleg = 80; //! Nop
+  }
+  else
+  {
+    //!     ngh=60; ngl=30; nleg=30                                    !Nop
+    //     !value from CPC(2013)
+    ngh = 80;
+    ngl = 40;
+    nleg = 80; //! Nop
+  }
+
+  std::cout << "ilpj" << std::endl;
+  std::cout << std::setw(8) << std::left << ilpj;
+
+  nzrlx = (nzx + 1) * (nrx + 1) * (nlx + 1); //! phy(:,:,nzrlx)
+  nghl = ngh * ngl;                          //! nghl=ngh*ngl
+  nqx = ndx * ndx;
+  nb2x = nbx + nbx;
+  ndx2 = ndx + ndx;
+  ilnqx = ilpj * nqx;
+  ilnghl = ilpj * nghl;
+  nhfbx = ndx + ndx;
+  nhfbqx = nhfbx * nhfbx;
+  nkx = ntx;
+  ndxs = ndx * (ndx + 1) / 2;
+  std::cout << "thoalloc" << std::endl;
+  std::cout << std::setw(8) << std::left << nzrlx
+            << std::setw(8) << std::left << nghl
+            << std::setw(8) << std::left << nqx
+            << std::setw(8) << std::left << nb2x
+            << std::setw(8) << std::left << ndx2
+            << std::setw(8) << std::left << ilnqx
+            << std::setw(8) << std::left << ilnghl
+            << std::setw(8) << std::left << nhfbx
+            << std::setw(8) << std::left << nhfbqx
+            << std::setw(8) << std::left << nkx
+            << std::setw(8) << std::left << ndxs;
+
+  //!-----------------------------------------
+  //! Arrays depending on gauss points
+  //!-----------------------------------------
+  // If(Allocated(xh)) Deallocate(xh,wh,xl,sxl,wl,xleg,wleg,vc &
+  //      ,vhbn,vn,vrn,vzn,vdn,vsn,dvn,vhbp,vp,vrp,vzp,vdp,vsp,dvp  &
+  //      ,vSZFIn,vSFIZn,vSRFIn,vSFIRn,vSZFIp,vSFIZp,vSRFIp,vSFIRp &
+  //      ,fl,fli,fh,fd,fp1,fp2,fp3,fp4,fp5,fp6  &
+  //      ,fs1,fs2,fs3,fs4,fs5,fs6,wdcor,wdcori,cou,vDHartree,vhart00,vhart01,vhart11)
+  // Allocate(xh(ngh),wh(ngh),xl(ngl),sxl(ngl),wl(ngl),xleg(nleg),wleg(nleg),vc(nghl,nghl))
+  xh.resize(ngh);
+  wh.resize(ngh);
+  xl.resize(ngl);
+  sxl.resize(ngl);
+  wl.resize(ngl);
+  xleg.resize(nleg);
+  wleg.resize(nleg);
+  vc.resize(nghl, std::vector<double>(nghl));
+
+  // Allocate(vhbn(nghl),vn(nghl),vrn(nghl),vzn(nghl),vdn(nghl),vsn(nghl),dvn(nghl)  &
+  //      ,vhbp(nghl),vp(nghl),vrp(nghl),vzp(nghl),vdp(nghl),vsp(nghl),dvp(nghl)  &
+  //      ,vSZFIn(nghl),vSFIZn(nghl),vSRFIn(nghl),vSFIRn(nghl)  &
+  //      ,vSZFIp(nghl),vSFIZp(nghl),vSRFIp(nghl),vSFIRp(nghl))
+
+  vhbn.resize(nghl);
+  vn.resize(nghl);
+  vrn.resize(nghl);
+  vzn.resize(nghl);
+  vdn.resize(nghl);
+  vsn.resize(nghl);
+  dvn.resize(nghl);
+  ;
+  vhbp.resize(nghl);
+  vp.resize(nghl);
+  vrp.resize(nghl);
+  vzp.resize(nghl);
+  vdp.resize(nghl);
+  vsp.resize(nghl);
+  dvp.resize(nghl);
+  ;
+  vSZFIn.resize(nghl);
+  vSFIZn.resize(nghl);
+  vSRFIn.resize(nghl);
+  vSFIRn.resize(nghl);
+  ;
+  vSZFIp.resize(nghl);
+  vSFIZp.resize(nghl);
+  vSRFIp.resize(nghl);
+  vSFIRp.resize(nghl);
+
+  // Allocate(fl(nghl),fli(nghl),fh(nghl),fd(nghl),fp1(nghl),fp2(nghl),fp3(nghl)  &
+  //      ,fp4(nghl),fp5(nghl),fp6(nghl),fs1(nghl),fs2(nghl),fs3(nghl),fs4(nghl)  &
+  //      ,fs5(nghl),fs6(nghl),wdcor(nghl),wdcori(nghl),cou(nghl),vDHartree(nghl,2) &
+  //      ,vhart00(nghl,nghl),vhart01(nghl,nghl),vhart11(nghl,nghl))
+
+  fl.resize(nghl);
+  fli.resize(nghl);
+  fh.resize(nghl);
+  fd.resize(nghl);
+  fp1.resize(nghl);
+  fp2.resize(nghl);
+  fp3.resize(nghl);
+  fp4.resize(nghl);
+  fp5.resize(nghl);
+  fp6.resize(nghl);
+  fs1.resize(nghl);
+  fs2.resize(nghl);
+  fs3.resize(nghl);
+  fs4.resize(nghl);
+  fs5.resize(nghl);
+  fs6.resize(nghl);
+  wdcor.resize(nghl);
+  wdcori.resize(nghl);
+  cou.resize(nghl);
+  vDHartree.resize(nghl, std::vector<double>(2));
+  vhart00.resize(nghl, std::vector<double>(nghl));
+  vhart01.resize(nghl, std::vector<double>(nghl));
+  vhart11.resize(nghl, std::vector<double>(nghl));
+
+  // If(Allocated(aka)) Deallocate(aka,ro,tau,dro,dj,NABLAR,NABLAZ,SZFI,SFIZ,SRFI,SFIR)
+  // Allocate(aka(nghl,2),ro(nghl,2),tau(nghl,2),dro(nghl,2),dj(nghl,2)  &
+  //      ,SZFI(nghl,2),SFIZ(nghl,2),SRFI(nghl,2),SFIR(nghl,2)  &
+  //      ,NABLAR(nghl,2),NABLAZ(nghl,2))
+
+  // If(Allocated(aka)) Deallocate(aka,ro,tau,dro,dj,NABLAR,NABLAZ,SZFI,SFIZ,SRFI,SFIR)
+  aka.resize(nghl, std::vector<double>(2));
+  ro.resize(nghl, std::vector<double>(2));
+  tau.resize(nghl, std::vector<double>(2));
+  dro.resize(nghl, std::vector<double>(2));
+  dj.resize(nghl, std::vector<double>(2));
+  SZFI.resize(nghl, std::vector<double>(2));
+  SFIZ.resize(nghl, std::vector<double>(2));
+  SRFI.resize(nghl, std::vector<double>(2));
+  SFIR.resize(nghl, std::vector<double>(2));
+  NABLAR.resize(nghl, std::vector<double>(2));
+  NABLAZ.resize(nghl, std::vector<double>(2));
+
+  //-----------------------------------------
+  // Arrays depending on configurations
+  //-----------------------------------------
+  // If(Allocated(rk)) Deallocate(rk,ak,qh,qh1,ql,ql1,nz,nr,nl,ns,npar,id  &
+  //     ,ia,ikb,ipb,ka,kd,tb,txb,numax,ek,dk,vk,vk1,uk,vkmax,ddc,ddc1,hfb1,lcanon)
+  // Allocate(rk(nqx,nb2x),ak(nqx,nb2x),qh(0:nzx,1:ngh+1)  &
+  //     ,qh1(0:nzx,1:ngh+1),ql(0:nrx,0:nlx,1:ngl+1),ql1(0:nrx,0:nlx,1:ngl+1)  &
+  //     ,nz(ntx),nr(ntx),nl(ntx),ns(ntx),npar(ntx),id(nbx),ia(nbx),ikb(nbx),lcanon(0:nbx,2)  &
+  //     ,ipb(nbx),ka(nbx,2),kd(nbx,2),tb(ntx),txb(nbx),numax(0:nkx,2)  &
+  //     ,ek(nkx,2),dk(nkx,2),vk(nkx,2),vk1(nkx,2),uk(nkx,2),vkmax(nkx,2)  &
+  //     ,ddc(ndx,nkx,2),ddc1(ndx,nkx,2),hfb1(nhfbx,2))
+
+  //-----------------------------------------
+  // Arrays depending on configurations
+  //-----------------------------------------
+  // If(Allocated(rk)) Deallocate(rk,ak,qh,qh1,ql,ql1,nz,nr,nl,ns,npar,id  &
+  //     ,ia,ikb,ipb,ka,kd,tb,txb,numax,ek,dk,vk,vk1,uk,vkmax,ddc,ddc1,hfb1,lcanon)
+  rk.resize(nqx, std::vector<double>(nb2x));
+  ak.resize(nqx, std::vector<double>(nb2x));
+  qh.resize(nzx + 1, std::vector<double>(ngh + 1));
+  qh1.resize(nzx + 1, std::vector<double>(ngh + 1));
+  ql.resize(nrx + 1, std::vector<std::vector<double>>(nlx + 1, std::vector<double>(ngl + 1)));
+  ql1.resize(nrx + 1, std::vector<std::vector<double>>(nlx + 1, std::vector<double>(ngl + 1)));
+  nz.resize(ntx);
+  nr.resize(ntx);
+  nl.resize(ntx);
+  ns.resize(ntx);
+  npar.resize(ntx);
+  id.resize(nbx);
+  ia.resize(nbx);
+  ikb.resize(nbx);
+  lcanon.resize(nbx + 1, std::vector<int>(2));
+  ipb.resize(nbx);
+  ka.resize(nbx, std::vector<int>(2));
+  kd.resize(nbx, std::vector<int>(2));
+  tb.resize(ntx);
+  txb.resize(nbx);
+  numax.resize(nkx + 1, std::vector<int>(2));
+  ek.resize(nkx, std::vector<double>(2));
+  dk.resize(nkx, std::vector<double>(2));
+  vk.resize(nkx, std::vector<double>(2));
+  vk1.resize(nkx, std::vector<double>(2));
+  uk.resize(nkx, std::vector<double>(2));
+  vkmax.resize(nkx, std::vector<double>(2));
+  ddc.resize(ndx, std::vector<std::vector<double>>(nkx, std::vector<double>(2)));
+  ddc1.resize(ndx, std::vector<std::vector<double>>(nkx, std::vector<double>(2)));
+  hfb1.resize(nhfbx, std::vector<double>(2));
+
+  //-----------------------------------------
+  // HFB Arrays
+  //-----------------------------------------
+  // If(Allocated(erhfb)) Deallocate(erhfb,drhfb,erhfb1,drhfb1)
+  // Allocate(erhfb(nkx),drhfb(nkx),erhfb1(nkx),drhfb1(nkx))
+  // If(Allocated(hfb)) Deallocate(hfb,zhfb,evvk,hfbcan,evvkcan)
+  // Allocate(hfb(ndx2,ndx2),zhfb(ndx2),evvk(ndx2),hfbcan(ndx,ndx),evvkcan(ndx))
+  // If(Allocated(AN)) Deallocate(AN,ANk,PFIU,PFID,FIU,FID,FIUR,FIDR,FIUD2N,FIDD2N,FIUZ,FIDZ)
+  // Allocate(AN(nqx),ANk(nqx),PFIU(ndx),PFID(ndx),FIU(ndx),FID(ndx)  &
+  //     ,FIUR(ndx),FIDR(ndx),FIUD2N(ndx),FIDD2N(ndx),FIUZ(ndx),FIDZ(ndx))
+
+  //-----------------------------------------
+  // HFB Arrays
+  //-----------------------------------------
+  // If(Allocated(erhfb)) Deallocate(erhfb,drhfb,erhfb1,drhfb1)
+  erhfb.resize(nkx);
+  drhfb.resize(nkx);
+  erhfb1.resize(nkx);
+  drhfb1.resize(nkx);
+  // If(Allocated(hfb)) Deallocate(hfb,zhfb,evvk,hfbcan,evvkcan)
+  // hfb.resize(ndx2, std::vector<double>(ndx2));
+  hfb.resize(ndx2 * ndx2);
+  zhfb.resize(ndx2);
+  evvk.resize(ndx2);
+  hfbcan.resize(ndx, std::vector<double>(ndx));
+  evvkcan.resize(ndx);
+  // If(Allocated(AN)) Deallocate(AN,ANk,PFIU,PFID,FIU,FID,FIUR,FIDR,FIUD2N,FIDD2N,FIUZ,FIDZ)
+  AN.resize(nqx);
+  ANK.resize(nqx);
+  PFIU.resize(ndx);
+  PFID.resize(ndx);
+  FIU.resize(ndx);
+  FID.resize(ndx);
+  FIUR.resize(ndx);
+  FIDR.resize(ndx);
+  FIUD2N.resize(ndx);
+  FIDD2N.resize(ndx);
+  FIUZ.resize(ndx);
+  FIDZ.resize(ndx);
+
+  //!-----------------------------------------
+  //! Optimal LAPACK storage
+  //!-----------------------------------------
+  // ialwork=1; ilwork=1;
+  // If(Allocated(alwork)) Deallocate(alwork,lwork)
+  // Allocate(alwork(ialwork),lwork(ilwork))
+  // ier=0; Call DSYEVD('V','L',ndx2,hfb,ndx2,evvk,ALWORK,-1,LWORK,-1,ier)
+  // If(ier.Ne.0) Then
+  //    ierror_flag=ierror_flag+1
+  //    ierror_info(ierror_flag)='STOP: FATAL ERROR CONDITION IN DSYEVD'
+  //    Return
+  // Endif
+  // ialwork=Int(alwork(1)); ilwork=lwork(1)
+  // If(Allocated(alwork)) Deallocate(alwork,lwork)
+  // Allocate(alwork(ialwork),lwork(ilwork))
+
+  //!-----------------------------------------
+  //! Optimal LAPACK storage
+  //!-----------------------------------------
+  ialwork = 1;
+  ilwork = 1;
+  // If(Allocated(alwork)) Deallocate(alwork,lwork)
+  alwork.resize(ialwork);
+  lwork.resize(ilwork);
+  ier = 0;
+
+  const int a = -1;
+  const int b = -1;
+  // LAPACK_dsyevd("V", "L", &ndx2, hfb, &ndx2, evvk, alwork, &a, lwork, &b, &ier);
+  LAPACK_dsyevd("V", "L", &ndx2, &hfb[0], &ndx2, &evvk[0], &alwork[0], &a, &lwork[0], &b, &ier);
+  // If(ier.Ne.0) Then
+  //    ierror_flag=ierror_flag+1
+  //    ierror_info(ierror_flag)='STOP: FATAL ERROR CONDITION IN DSYEVD'
+  //    Return
+  // Endif
+  ialwork = static_cast<int>(alwork[0]);
+  ilwork = lwork[0];
+  // If(Allocated(alwork)) Deallocate(alwork,lwork)
+  alwork.resize(ialwork);
+  lwork.resize(ilwork);
+
+  //!-----------------------------------------
+  //! Eqp, U,V
+  //!-----------------------------------------
+  // If(Allocated(RVqpN)) Deallocate(RVqpN,RVqpP,RUqpN,RUqpP,REqpN,REqpP)
+  // Allocate(RVqpN(nuv),RVqpP(nuv),RUqpN(nuv),RUqpP(nuv),REqpN(nqp),REqpP(nqp))
+  // If(Allocated(KpwiP)) Deallocate(KpwiP,KpwiN,KqpN,KqpP)
+  // Allocate(KpwiN(nqp),KpwiP(nqp),KqpN(nqp),KqpP(nqp))
+
+  //!-----------------------------------------
+  //! Eqp, U,V
+  //!-----------------------------------------
+  // If(Allocated(RVqpN)) Deallocate(RVqpN,RVqpP,RUqpN,RUqpP,REqpN,REqpP)
+  RVqpN.resize(nuv);
+  RVqpP.resize(nuv);
+  RUqpN.resize(nuv);
+  RUqpP.resize(nuv);
+  REqpN.resize(nqp);
+  REqpP.resize(nqp);
+  // If(Allocated(KpwiP)) Deallocate(KpwiP,KpwiN,KqpN,KqpP)
+  KpwiN.resize(nqp);
+  KpwiP.resize(nqp);
+  KqpN.resize(nqp);
+  KqpP.resize(nqp);
+
+  //!-----------------------------------------
+  //! PNP ARRAYS: CONF. AND GAUGE ANGLE
+  //!-----------------------------------------
+  // If(Allocated(exp1iphy))Deallocate(ropj,taupj,dropj,djpj,akapj,coupj,pjk  &
+  //      ,SZFIpj,SFIZpj,SRFIpj,SFIRpj,epj,cpj,ypj,rpj,ddepj,phypj,sinphy  &
+  //      ,exp1iphy,exp2iphy,exp1iphym,exp2iphym)
+  // ropj(nghl,ilpj,2);taupj(nghl,ilpj,2);dropj(nghl,ilpj,2)
+  //      ;djpj(nghl,ilpj,2);akapj(nghl,ilpj,2);coupj(nghl,ilpj);pjk(ilpj,2)
+  //      ;SZFIpj(nghl,ilpj,2);SFIZpj(nghl,ilpj,2);SRFIpj(nghl,ilpj,2)
+  //      ;SFIRpj(nghl,ilpj,2);epj(ilpj,2);cpj(nkx,ilpj,2);ypj(nkx,ilpj,2)
+  //      ;rpj(nkx,ilpj,2);ddepj(nqx,ilpj,nb2x);phypj(ilpj);sinphy(ilpj);
+  //      exp1iphy(ilpj);exp2iphy(ilpj);exp1iphym(ilpj);exp2iphym(ilpj);
+
+  //!-----------------------------------------
+  //! PNP ARRAYS: CONF. AND GAUGE ANGLE
+  //!-----------------------------------------
+  // If(Allocated(exp1iphy))Deallocate(ropj,taupj,dropj,djpj,akapj,coupj,pjk  &
+  //      ,SZFIpj,SFIZpj,SRFIpj,SFIRpj,epj,cpj,ypj,rpj,ddepj,phypj,sinphy  &
+  //      ,exp1iphy,exp2iphy,exp1iphym,exp2iphym)
+  ropj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  taupj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  dropj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  djpj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  akapj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  coupj.resize(nghl, std::vector<std::complex<double>>(ilpj));
+  pjk.resize(ilpj, std::vector<std::complex<double>>(2));
+  SZFIpj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  SFIZpj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  SRFIpj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  SFIRpj.resize(nghl, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  epj.resize(ilpj, std::vector<std::complex<double>>(2));
+  cpj.resize(nkx, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  ypj.resize(nkx, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  rpj.resize(nkx, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(2)));
+  ddepj.resize(nqx, std::vector<std::vector<std::complex<double>>>(ilpj, std::vector<std::complex<double>>(nb2x)));
+  phypj.resize(ilpj);
+  sinphy.resize(ilpj);
+  exp1iphy.resize(ilpj);
+  exp2iphy.resize(ilpj);
+  exp1iphym.resize(ilpj);
+  exp2iphym.resize(ilpj);
+
+  //!-----------------------------------------
+  //! FIELDS INITIALIZATION (NB! optimize)
+  //!-----------------------------------------
+  // ro=zero;     tau=zero;    dro=zero;    dj=zero;  aka=zero; rk=zero;
+  // vn=zero;     vsn=zero;    vhbn=zero;   vrn=zero; vzn=zero; vdn=zero;
+  // vp=zero;     vsp=zero;    vhbp=zero;   vrp=zero; vzp=zero; vdp=zero;
+  // vSFIZn=zero; vSZFIn=zero; vSFIRn=zero; vSRFIn=zero;  vDHartree=zero;
+  // vSFIZp=zero; vSZFIp=zero; vSFIRp=zero; vSRFIp=zero;
+
+  //!-----------------------------------------
+  //! FIELDS INITIALIZATION (NB! optimize)
+  //!-----------------------------------------
+  //  std::fill(ro.begin(), ro.end(), zero);
+  //  std::fill(tau.begin(), tau.end(), zero);
+  //  std::fill(dro.begin(), dro.end(), zero);
+  //  std::fill(dj.begin(), dj.end(), zero);
+  //  std::fill(aka.begin(), aka.end(), zero);
+  //  std::fill(rk.begin(), rk.end(), zero);
+  //  std::fill(rk.begin(), rk.end(), zero);
+  //  std::fill(vsn.begin(), vsn.end(), zero);
+  //  std::fill(vhbn.begin(), vhbn.end(), zero);
+  //  std::fill(vrn.begin(), vrn.end(), zero);
+  //  std::fill(vzn.begin(), vzn.end(), zero);
+  //  std::fill(vdn.begin(), vdn.end(), zero);
+  //  std::fill(vp.begin(), vp.end(), zero);
+  //  std::fill(vsp.begin(), vsp.end(), zero);
+  //  std::fill(vhbp.begin(), vhbp.end(), zero);
+  //  std::fill(vrp.begin(), vrp.end(), zero);
+  //  std::fill(vzp.begin(), vzp.end(), zero);
+  //  std::fill(vdp.begin(), vdp.end(), zero);
+  //  std::fill(vSFIZn.begin(), vSFIZn.end(), zero);
+  //  std::fill(vSZFIn.begin(), vSZFIn.end(), zero);
+  //  std::fill(vSFIRn.begin(), vSFIRn.end(), zero);
+  //  std::fill(vSRFIn.begin(), vSRFIn.end(), zero);
+  //  std::fill(vDHartree.begin(), vDHartree.end(), zero);
+  //  std::fill(vSFIZp.begin(), vSFIZp.end(), zero);
+  //  std::fill(vSZFIp.begin(), vSZFIp.end(), zero);
+  //  std::fill(vSFIRp.begin(), vSFIRp.end(), zero);
+  //  std::fill(vSRFIp.begin(), vSRFIp.end(), zero);
 }

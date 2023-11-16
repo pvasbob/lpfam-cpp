@@ -610,7 +610,8 @@ std::vector<double> HFBTHO::evvkcan;
 std::vector<double> HFBTHO::zhfb;
 
 // std::vector<std::vector<double>> hfb, hfbcan;
-std::vector<std::vector<double>> HFBTHO::hfb;
+// std::vector<std::vector<double>> HFBTHO::hfb;
+std::vector<double> HFBTHO::hfb;
 std::vector<std::vector<double>> HFBTHO::hfbcan;
 
 //! Broyden

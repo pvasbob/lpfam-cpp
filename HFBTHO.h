@@ -42,7 +42,17 @@ public:
     static bool Print_HFBTHO_Namelist_INI;
     static bool DO_FITT_INI;
 
-protected:
+    static int nkblo_INI[2][5];
+    static bool Parity_INI;
+
+    static int MAX_ITER_INI;
+    static int keypj_INI;
+    static int iproj_INI;
+    static int npr1pj_INI;
+    static int npr2pj_INI;
+
+    // protected:
+public:
     static char Version[6];
     static char pairing_Version[6];
 
@@ -326,7 +336,7 @@ protected:
     // int iparenti[2], keyblo[3], nkblo_INI[2][5], nkblo[2][5] = {0};
     static int iparenti[2];
     static int keyblo[3];
-    static int nkblo_INI[2][5];
+    // static int nkblo_INI[2][5];
     static int nkblo[2][5];
 
     // int blocross[2], blomax[2], blo123d[2], blok1k2d[2], blocanon[2];
@@ -621,7 +631,8 @@ protected:
     static std::vector<double> zhfb;
 
     // std::vector<std::vector<double>> hfb, hfbcan;
-    static std::vector<std::vector<double>> hfb;
+    // static std::vector<std::vector<double>> hfb;
+    static std::vector<double> hfb;
     static std::vector<std::vector<double>> hfbcan;
 
     //! Broyden
@@ -645,7 +656,7 @@ protected:
     //! new keys
     // bool Parity, Parity_INI;
     static bool Parity;
-    static bool Parity_INI;
+    // static bool Parity_INI;
 
     static bool Print_Screen;
     // bool Add_Pairing, Print_HFBTHO_Namelist;
@@ -653,11 +664,11 @@ protected:
     static bool Print_HFBTHO_Namelist;
 
     // int MAX_ITER_INI, keypj_INI, iproj_INI, npr1pj_INI, npr2pj_INI;
-    static int MAX_ITER_INI;
-    static int keypj_INI;
-    static int iproj_INI;
-    static int npr1pj_INI;
-    static int npr2pj_INI;
+    // static int MAX_ITER_INI;
+    // static int keypj_INI;
+    // static int iproj_INI;
+    // static int npr1pj_INI;
+    // static int npr2pj_INI;
 
     //! Eqp U,V
     // int nuv, nqp;
