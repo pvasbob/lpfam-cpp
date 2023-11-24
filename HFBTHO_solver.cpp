@@ -1155,3 +1155,400 @@ void HFBTHO_solver::thoalloc()
   //  std::fill(vSFIRp.begin(), vSFIRp.end(), zero);
   //  std::fill(vSRFIp.begin(), vSRFIp.end(), zero);
 }
+
+void HFBTHO_solver::gausspoints()
+{
+
+  //  !---------------------------------------------------------------------
+  //  !PROGRAM DETERMINES POINTS AND WEIGHTS FOR THE GAUSS INTEGRATION.
+  //  !GAUSS-LEGENDRE,LAGUERRE AND HERMITTE INTEGRATION.
+  //  !---------------------------------------------------------------------
+  //!  Use HFBTHO
+  //  Implicit None
+  double Work[1000], al, be, sparity;
+  int N, N1, N2, N3, i, j, j1, j2, KINDI, kpts, nparity;
+  //!
+  al = 0.0;
+  be = 0.0;
+  kpts = 0;
+  //!
+  //!--------------------------------------------------------------------
+  //!------------------>> Gauss-Hermite (positive nodes) <<--------------
+  //!--------------------------------------------------------------------
+  if (Parity)
+  {
+
+    KINDI = 4;
+    N = 2 * ngh;
+    N1 = 3;
+    N2 = N1 + N;
+    N3 = N2 + N; //! Yesp
+  }
+  else
+  {
+
+    KINDI = 4;
+    N = ngh;
+    N1 = 3;
+    N2 = N1 + N;
+    N3 = N2 + N; //! Nop
+  }
+  //
+  gaussq(KINDI, N, al, be, kpts, &Work[1 - 1], &Work[N1 - 1], &Work[N2 - 1], &Work[N3 - 1]);
+  // If(ierror_flag.Ne.0) Return
+  //! WRITE(11,*) ' !'
+  //! WRITE(11,*) ' !GAUSS-HERMITTE INTEGRATION POINTS AND WEIGHTS'
+  if (Parity)
+  {
+    nparity = ngh; //! Yesp
+    sparity = 2.0;
+  }
+  else
+  {
+    nparity = 0; //! Nop
+    sparity = 1.0;
+  }
+  //
+  for (int i = nparity + 1; i <= N; i++)
+  {
+
+    j = i - nparity;
+    j1 = N2 + i - 1;
+    j2 = N3 + i - 1;
+    xh[j - 1] = Work[j1 - 1];
+    wh[j - 1] = sparity * exp(Work[j1 - 1] * Work[j1 - 1] + log(Work[j2 - 1]));
+    //! write(11,'(a,i2,a,D24.18,a,I2,a,D24.18)')  '  xh(',J,')=',xh(J),';   wh(',J,')=',wh(J)
+  }
+}
+
+//!=======================================================================
+void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, const double &BETA, const int &KPTS, double *ENDPTS,
+                           double *B, double *T, double *W)
+{
+  //! Use HFBTHO, Only: pr,ipr
+  // Implicit None
+  // Integer(ipr) :: N,kindi
+  double MUZERO, GAM, T1;
+  int j1, J2, IERR;
+  // Real(pr):: B(N),T(N),W(N),ENDPTS(2)
+  // double GBSLVE;
+  // !
+  Class(kindi, N, ALPHA, BETA, B, T, MUZERO);
+  if (KPTS == 0)
+  {
+    // W = 0.0;
+    W[-1 + 1] = 1.0;
+    GBTQL2(N, T, B, W, IERR);
+    for (int i = 0; i < N; i++)
+      W[i] = MUZERO * W[i] * W[i];
+    return;
+  }
+  if (KPTS == 2)
+  {
+    GAM = GBSLVE(ENDPTS[1], N, T, B);
+    T1 = ((ENDPTS[1] - ENDPTS[2]) / (GBSLVE(ENDPTS[2], N, T, B) - GAM));
+    B[N - 1] = sqrt(T1);
+    T[N] = ENDPTS[1] + GAM * T1;
+    // W = 0.0;
+    W[1] = 1.0;
+    GBTQL2(N, T, B, W, IERR);
+    // W = MUZERO * W * W;
+    for (int i = 0; i < N; i++)
+      W[i] = MUZERO * W[i] * W[i];
+    return;
+  }
+  T[-1 + N] = GBSLVE(ENDPTS[1], N, T, B) * pow(B[N - 1], 2) + ENDPTS[1];
+  // W = 0.0;
+  W[1] = 1.0;
+  GBTQL2(N, T, B, W, IERR);
+  // W = MUZERO * W * W
+  for (int i = 0; i < N; i++)
+    W[i] = MUZERO * W[i] * W[i];
+  // End Subroutine GAUSSQ
+  //!=======================================================================
+  //!
+}
+
+//!=======================================================================
+void HFBTHO_solver::Class(const int &kindi, const int &N, const double &ALPHA, const double &BETA, double *B, double *A, double &MUZERO)
+{
+  //! Use HFBTHO, Only: pr,ipr
+  // Implicit None
+  int i, NM1;
+  // Real(pr) :: MUZERO,ALPHA,BETA,A(N),B(N)
+  double ABI, DI20, AB, A2B2, FI;
+  // double DGAMMA;
+  const double PI = 3.1415926535897930;
+  NM1 = N - 1;
+  switch (kindi)
+  {
+  case 1:
+    MUZERO = 2.0;
+    for (int I = 1 - 1; i <= NM1 - 1; i++)
+    // minus 1 here instead of block cause block depend on I.
+    {
+      A[I] = 0;
+      ABI = I;
+      B[I] = ABI / sqrt(4.0 * ABI * ABI - 1.0);
+    }
+    A[N - 1] = 0.0;
+  case 2:
+    MUZERO = PI;
+    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    {
+      A[I] = 0.0;
+      B[I] = 0.50;
+    };
+    B[1] = sqrt(0.50);
+    A[N] = 0.0;
+  case 3:
+    MUZERO = PI / 2.0;
+    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    {
+      A[I] = 0.0;
+      B[I] = 0.50;
+    };
+    A[N] = 0.0;
+  case 4:
+    MUZERO = sqrt(PI);
+    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    {
+      A[I] = 0.0;
+      DI20 = I / 2.0;
+      B[I] = sqrt(DI20);
+    }
+    A[N] = 0.0;
+  case 5:
+    AB = ALPHA + BETA;
+    ABI = 2.0 + AB;
+    MUZERO = pow(2.0, (AB + 1.0)) * DGAMMA(ALPHA + 1.0) * DGAMMA(BETA + 1.0) / DGAMMA(ABI);
+    A[1 - 1] = (BETA - ALPHA) / ABI;
+    B[1 - 1] = sqrt(4.0 * (1.0 + ALPHA) * (1.0 + BETA) / ((ABI + 1.0) * ABI * ABI));
+    A2B2 = BETA * BETA - ALPHA * ALPHA;
+    for (int I = 2 - 1; I <= NM1 - 1; I++)
+    {
+      ABI = 2.0 * I + AB;
+      A[I] = A2B2 / ((ABI - 2.0) * ABI);
+      FI = I;
+      B[I] = sqrt(4.0 * FI * (FI + ALPHA) * (FI + BETA) * (FI + AB) / ((ABI * ABI - 1.0) * ABI * ABI));
+    }
+    ABI = 2.0 * N + AB;
+    A[N - 1] = A2B2 / ((ABI - 2.0) * ABI);
+  case 6:
+    MUZERO = DGAMMA(ALPHA + 1.0);
+    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    {
+      FI = I;
+      A[I] = 2.0 * FI - 1.0 + ALPHA;
+      B[I] = sqrt(FI * (FI + ALPHA));
+    }
+    A[N - 1] = 2.0 * N - 1.0 + ALPHA;
+  default:
+    break;
+  }
+  // End Subroutine Class
+  //!=======================================================================
+}
+
+//!=======================================================================
+double HFBTHO_solver::DGAMMA(double Z)
+{
+  //! Use HFBTHO
+  //  Implicit None
+  // Real(pr)::Z
+  int K;
+  double A[18], T, P;
+  double DGAMMA;
+  A[-1 + 1] = 1.00;
+  A[-1 + 2] = .42278433509846780;
+  A[-1 + 3] = .41184033042636720;
+  A[-1 + 4] = .08157691925026090;
+  A[-1 + 5] = .07424901068009040;
+  A[-1 + 6] = -.00026698103334840;
+  A[-1 + 7] = .01115403602403440;
+  A[-1 + 8] = -.00285258214461970;
+  A[-1 + 9] = .00210362870245980;
+  A[-1 + 10] = -.00091848436909910;
+  A[-1 + 11] = .00048742279447680;
+  A[-1 + 12] = -.00023472040189190;
+  A[-1 + 13] = .00011153395196660;
+  A[-1 + 14] = -.00004787479838340;
+  A[-1 + 15] = .00001751027271790;
+  A[-1 + 16] = -.00000492037509040;
+  A[-1 + 17] = .00000091991564070;
+  A[-1 + 18] = -.00000008399404960;
+  if (Z <= 1.00)
+  {
+    T = Z;
+    P = A[-1 + 18];
+    for (int K1 = -1 + 1; K1 <= -1 + 17; K1++)
+    {
+      K = 18 - K1;
+      P = T * P + A[K];
+    };
+    DGAMMA = P / (Z * (Z + 1.00));
+    return DGAMMA;
+  }
+  else if (Z > 1.0)
+  {
+    DGAMMA = P / Z;
+    return DGAMMA;
+  };
+
+  if (Z <= 2.00)
+  {
+    T = Z - 1.00;
+    P = A[-1 + 18];
+    for (int K1 = -1 + 1; K1 <= -1 + 17; K1++)
+    {
+      K = 18 - K1;
+      P = T * P + A[K];
+    };
+    DGAMMA = P / (Z * (Z + 1.00));
+    return DGAMMA;
+  }
+  else if (Z > 2.0)
+  {
+    DGAMMA = P;
+    return DGAMMA;
+  }
+  T = Z - 2.00;
+  P = A[-1 + 18];
+  for (int K1 = -1 + 1; K1 <= -1 + 17; K1++)
+  {
+    K = 18 - K1;
+    P = T * P + A[K];
+  }
+  DGAMMA = P / (Z * (Z + 1.00));
+
+  return DGAMMA;
+  //!=======================================================================
+  //!====================END library gauss points=========================
+  //!=======================================================================
+}
+
+//!=======================================================================
+void HFBTHO_solver::GBTQL2(const int &N, double *D, double *E, double *Z, int &IERR)
+{
+  //! Use HFBTHO
+  // Implicit None
+  // Integer(ipr) :: N,IERR
+  // Real(pr) :: D(N),E(N),Z(N)
+  int I, J, K, L, M, II, MML;
+  double MACHEP, P, G, R, S, C, F, B;
+  MACHEP = pow(16.0, -14);
+  IERR = 0;
+  if (N == 1)
+    return;
+  E[N] = 0.0;
+  for (int L = 1; L <= N; L++)
+  {
+    J = 0;
+    while (true)
+    {
+      for (int M = L; M <= N; M++)
+      {
+        if (M == N)
+          exit;
+        if (abs(E[M]) <= MACHEP * (abs(D[M]) + abs(D[M + 1])))
+          exit;
+        continue;
+      }
+      P = D[L];
+      if (M == L)
+        exit;
+      if (J == 30)
+      {
+        IERR = L;
+        return;
+      }
+      J = J + 1;
+      G = (D[L + 1] - P) / (2.0 * E[L]);
+      R = sqrt(G * G + 1.0);
+      // G = D(M) - P + E(L) / (G + Sign(R, G));
+      G = D[M] - P + E[L] / (G + pow(-1, std::signbit(G)) * R);
+      S = 1.0;
+      C = 1.0;
+      P = 0.0;
+      MML = M - L;
+      for (int II = 1; II <= MML; II++)
+      {
+        I = M - II;
+        F = S * E[I];
+        B = C * E[I];
+        if (abs(F) >= abs(G))
+        {
+          C = G / F;
+          R = sqrt(C * C + 1.0);
+          E[I + 1] = F * R;
+          S = 1.0 / R;
+          C = C * S;
+        }
+        else
+        {
+          S = F / G;
+          R = sqrt(S * S + 1.0);
+          E[I + 1] = G * R;
+          C = 1.0 / R;
+          S = S * C;
+        };
+        G = D[I + 1] - P;
+        R = (D[I] - G) * S + 2.0 * C * B;
+        P = S * R;
+        D[I + 1] = G + P;
+        G = C * R - B;
+        F = Z[I + 1];
+        Z[I + 1] = S * Z[I] + C * F;
+        Z[I] = C * Z[I] - S * F;
+      };
+      D[L] = D[L] - P;
+      E[L] = G;
+      E[M] = 0.0;
+    }
+  }
+  for (int II = 2; II <= N; II++)
+  {
+    I = II - 1;
+    K = I;
+    P = D[I];
+    for (int J = II; J <= N; J++)
+    {
+      if (D[J] >= P)
+        continue;
+      K = J;
+      P = D[J];
+    }
+    if (K == I)
+      continue;
+    D[K] = D[I];
+    D[I] = P;
+    P = Z[I];
+    Z[I] = Z[K];
+    Z[K] = P;
+  }
+  // End Subroutine GBTQL2
+  //!=======================================================================
+  //!
+}
+
+//!=======================================================================
+double HFBTHO_solver::GBSLVE(const double &SHIFT, const int &N, double *A, double *B)
+{
+  //! Use HFBTHO
+  //  Implicit None
+  //double GBSLVE;
+  int NM1, i;
+  double ALPHA;
+  double GBSLVE;
+  ALPHA = A[1] - SHIFT;
+  NM1 = N - 1;
+  for (int I = 2; I <= NM1; I++)
+  {
+    ALPHA = A[I] - SHIFT - pow(B[I - 1], 2) / ALPHA;
+  };
+  GBSLVE = 1.0 / ALPHA;
+  // End Function GBSLVE
+  //!=======================================================================
+  //!
+  return GBSLVE;
+}

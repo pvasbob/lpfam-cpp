@@ -20,13 +20,15 @@ public:
   void base0(bool lpr);
   void ord(int, std::vector<double> &);
   void thoalloc();
+  void gausspoints();
+  double DGAMMA(double);
+  void gaussq(const int &KINDI, const int &N, const double &al, const double &be, const int &kpts, double *, double *, double *, double *);
+  void Class(const int &kindi, const int &N, const double &ALPHA, const double &BETA, double *B, double *A, double &MUZERO);
+  void GBTQL2(const int &, double *, double *, double *, int &);
+  double GBSLVE(const double &, const int &, double *, double *);
 
 private:
-  int iw,
-      ib,
-      j,
-      i,
-      it;
+  int iw, ib, j, i, it;
   double epsi0;
 };
 
