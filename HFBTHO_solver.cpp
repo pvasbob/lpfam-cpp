@@ -477,6 +477,7 @@ void HFBTHO_solver::preparer(bool lpr)
   //   std::cout << std::setw(4) << std::right << static_cast<double>(iv[i]) << " " << std::setw(15) << std::left << sq[i] << " " << std::setw(15) << std::left << fak[i] << " " << std::setw(15) << wf[i] << std::endl;
   // }
   thoalloc();
+  gausspoints();
 }
 
 void HFBTHO_solver::gfv()
@@ -1233,7 +1234,10 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
   // Real(pr):: B(N),T(N),W(N),ENDPTS(2)
   // double GBSLVE;
   // !
+  std::cout << "Inside gaussq, kindi: " << kindi << std::endl;
+  std::cout << "Before call Class: " << MUZERO << std::endl;
   Class(kindi, N, ALPHA, BETA, B, T, MUZERO);
+  std::cout << "After  call Class: " << MUZERO << std::endl;
   if (KPTS == 0)
   {
     // W = 0.0;
@@ -1536,7 +1540,7 @@ double HFBTHO_solver::GBSLVE(const double &SHIFT, const int &N, double *A, doubl
 {
   //! Use HFBTHO
   //  Implicit None
-  //double GBSLVE;
+  // double GBSLVE;
   int NM1, i;
   double ALPHA;
   double GBSLVE;

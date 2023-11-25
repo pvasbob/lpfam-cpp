@@ -1,0 +1,2906 @@
+
+  =======================================
+           FORTRAN 95 CODE (KIND= 8) 
+               Version: 133   
+  =======================================
+       AXIALLY DEFORMED CONFIGURATIONAL  
+     HARTREE-FOCK-BOGOLIUBOV CALCULATIONS
+                     WITH                
+            UNEDF AND DELTA PAIRING      
+                     USING               
+             HARMONIC-OSCILLATOR         
+                   AND/OR                
+       TRANSFORMED HARMONIC-OSCILLATOR   
+                    BASIS                
+                     ---                 
+   Stoitsov,Dobaczewski,Nazarewicz,Ring  
+  =======================================
+    Nucleus: BE (A=   8, N=  4, Z=  4)
+       Reflection Symmetry Imposed       
+            (11/24/2023, 10:10)                               
+  =======================================
+
+  Preprocessing: hide_tho
+  Preprocessing: hide_dme
+
+  ---------------------------------------
+           UNEDF Module Version:17
+         M.Kortelainen & M.Stoitsov 
+  ---------------------------------------
+
+  ORIGINAL_SKMS functional
+  ----------------------------------
+  Crho(0)=   -991.875000000000000    ; Crho(1)=    390.137499999999989    
+  CDrho(0)=   974.687500000000000    ; CDrho(1)=  -324.895833333333314    
+  Ctau(0)=    34.6875000000000000    ; Ctau(1)=   -34.0625000000000000    
+  CrDr(0)=   -68.2031250000000000    ; CrDr(1)=    17.1093750000000000    
+  CrdJ(0)=   -97.5000000000000000    ; CrdJ(1)=   -32.5000000000000000    
+  CJ(0)=      0.00000000000000000    ; CJ(1)=      0.00000000000000000    
+  CpV0(0)=   -160.000000000000000    ; CpV0(1)=   -180.000000000000000    
+  CpV1(0)=    0.00000000000000000    ; CpV1(1)=    0.00000000000000000    
+  sigma=     0.166666666666666713    ; hbzero=     20.7339829999999985    
+  e^2 chrg=   1.43997839999999999    ; CExPar=     1.00000000000000000    
+  c.m. correction: T, chr. density in direct Coul: F
+  use tensor terms: T
+  use TMR pairing:  0
+
+  Coupling constants in natural units
+  -----------------------------------
+  Crho_nu(0)=   -1.11697019706649536    ; Crho_nu(1)=   0.439341610846154806    
+  CDrho_nu(0)=   1.05494661920042931    ; CDrho_nu(1)= -0.351648873066809697    
+  Ctau_nu(0)=   0.491699256216479808    ; Ctau_nu(1)=  -0.482839810158525229    
+  CrDr_nu(0)=  -0.966787051074294745    ; CrDr_nu(1)=   0.242527335836506930    
+  CrdJ_nu(0)=   -1.38207358504091626    ; CrdJ_nu(1)=  -0.460691195013638755    
+  CJ_nu(0)=      0.00000000000000000    ; CJ_nu(1)=      0.00000000000000000    
+  CpV0_nu(0)=  -0.180179187428495785    ; CpV0_nu(1)=  -0.202701585857057748    
+  CpV1_nu(0)=    0.00000000000000000    ; CpV1_nu(1)=    0.00000000000000000    
+  fpi_nu=        93.0000000000000000    ; Lambda_nu=     700.000000000000000    
+
+  Nuclear matter properties
+  ----------------------------------
+      E_NM=     -15.7719839513786795      K_NM=     216.6131723750050071
+      P_NM=       0.0000000000000000    RHO_NM=       0.1602996371672980
+    ASS_NM=      30.0329519061278205   LASS_NM=      45.7758444289829285
+  SMASS_NM=       1.2681777864021910  VMASS_NM=       1.5315235406169541
+
+  Associated (t,x)-coupling constants
+  -----------------------------------
+  t0=      -2645.00000000000000    ; x0=       0.899999999999999689E-01
+  t1=       410.000000000000000    ; x1=        0.00000000000000000    
+  t2=      -135.000000000000000    ; x2=        0.00000000000000000    
+  t3=       15595.0000000000000    ; x3=       -0.00000000000000000    
+  b4=       65.0000000000000000    ; b4p=       65.0000000000000000    
+  te=       54.5000000000000000    ; to=       -54.5000000000000000    
+  sigma=   0.166666666666666713    ; hbzero=    20.7339829999999985    
+
+  NAMELIST CONTENT (copy/past to UNEDF_NAMELIST.DAT and modify)
+  -------------------------------------------------------------
+&HFBTHO_NAMELIST
+ MAX_ITER_INI=201        ,
+ EPSI_INI=  1.0000000000000000E-008,
+ ADD_PAIRING_INI=T,
+ ICOU_INI=2          ,
+ ILST_INI=0          ,
+ KEYPJ_INI=11         ,
+ IPROJ_INI=1          ,
+ NPR1PJ_INI=0          ,
+ NPR2PJ_INI=0          ,
+ DO_FITT_INI=F,
+ IDEBUG_INI=0          ,
+ PARITY_INI=T,
+ PRINT_HFBTHO_NAMELIST_INI=T,
+ /
+
+  output file device for lfile:     7
+  number of oscillator shells :     2
+  ho  length b0 (fm)          :      1.298
+  basis deformation           :  beta0=   0.000 q=   1.000
+  tho basis is                :  off
+  maximal number of iterations:   201
+  initial mixing parameter    :      0.300
+  initial wave functions from :  tape
+  nucleus:                    :   BE   8
+  skyrme forces               :    ORIGINAL_SKMS                 
+  Lipkin-Nogami procedure is  :  OFF
+  PAV(ON) #gauge-points, lpj  :    11
+  constraint calculation is   :  OFF
+                       ILST   :    0
+                       ININ   :   -1
+               Broyden mixing :    7
+
+  nucleus: BE   8     4   4
+  b0,1/b0,bp,bz,q= 0.12983411E+01 0.77021361E+00 0.12983411E+01 0.12983411E+01 0.10000000E+01
+  hb0=h**2/(2m)  & cmc  & e**2= 0.20733983E+02 0.18142235E+02 0.14399784E+01
+  hom=r0*41.0_pr*A^{-1/3}= 0.24600000E+02
+  with coulomb force with exchange
+
+  NUV, NQP:                          26      10
+  Comparison with bookkeeping spherical basis:
+  n00:                                2       2  maximal number of shells
+  nbx, 2*n00+1:                       5       5  maximal number of k-blocks
+  ntx, (n00+1)*(n00+2)*(n00+3)/6     10      10  max.num. p/n levels
+  nzx, n00:                           2       2  maximal nz-quantum number
+  nrx, n00/2  :                       1       1  maximal nr-quantum number
+  nlx, n00:                           2       2  maximal ml-quantum number
+  ndx, (n00+2)*(n00+2)/4:             4       4  maximal dim. of one k-block
+
+ before ngh, al, be, kpts:           40   0.0000000000000000        0.0000000000000000                0
+ ngh, N, N1:           40           0           0
+ ngh, N, N1, N2, N3:           40          80           3          83         163
+ +++++++++++
+           4          80   0.0000000000000000        0.0000000000000000                0 *   1.2731974809032037E-313   5.6012222269022121E-320   6.9525597030995726E-310   6.9164965897019296E-310
+ gaussq before class call, muzero:    0.0000000000000000     
+ B before call class:    5.6012222269022121E-320   0.0000000000000000        0.0000000000000000        0.0000000000000000        3.6035492217091391E-042   7.9050503334599447E-323   0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        6.9164965106877401E-310   2.1219957909652723E-314   6.9525597030861340E-310   2.1644357067845778E-312   2.1219957909652723E-314   6.9525597028632116E-310   1.0609978949885705E-314   6.9525597028916698E-310   6.9525597028940413E-310   0.0000000000000000        6.9164965209910345E-310   6.9525597028829742E-310   6.9164965209910345E-310   6.9525597028837647E-310   0.0000000000000000        6.9525597029153849E-310   6.9164966003777001E-310   0.0000000000000000        4.6790098168988791E-310   2.1219957914593380E-314   0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        1.5810100666919889E-322   0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000       -1.4916681462400413E-154   0.0000000000000000        6.9525597029588627E-310   6.9164965155311151E-310   0.0000000000000000        6.9525597030817368E-310   2.5593465836246676E-313   6.6312368467664760E-316   0.0000000000000000        6.9164969419887191E-310   4.2439915819305446E-314   6.9525597030323797E-310   0.0000000000000000       -1.2181028547087274E+213   0.0000000000000000        6.9525597030817862E-310   0.0000000000000000        9.8813129168249309E-324   6.9164966003777001E-310   0.0000000000000000        6.9164965897019296E-310   6.9525597030995726E-310
+ Inside class, kindi, NM1, muzero:            4          79   1.7724538509055159     
+ B after  call class:   0.70710678118654757        1.0000000000000000        1.2247448713915889        1.4142135623730951        1.5811388300841898        1.7320508075688772        1.8708286933869707        2.0000000000000000        2.1213203435596424        2.2360679774997898        2.3452078799117149        2.4494897427831779        2.5495097567963922        2.6457513110645907        2.7386127875258306        2.8284271247461903        2.9154759474226504        3.0000000000000000        3.0822070014844880        3.1622776601683795        3.2403703492039302        3.3166247903553998        3.3911649915626341        3.4641016151377544        3.5355339059327378        3.6055512754639891        3.6742346141747673        3.7416573867739413        3.8078865529319543        3.8729833462074170        3.9370039370059056        4.0000000000000000        4.0620192023179804        4.1231056256176606        4.1833001326703778        4.2426406871192848        4.3011626335213133        4.3588989435406740        4.4158804331639239        4.4721359549995796        4.5276925690687087        4.5825756949558398        4.6368092477478520        4.6904157598234297        4.7434164902525691        4.7958315233127191        4.8476798574163293        4.8989794855663558        4.9497474683058327        5.0000000000000000        5.0497524691810387        5.0990195135927845        5.1478150704935004        5.1961524227066320        5.2440442408507577        5.2915026221291814        5.3385391260156556        5.3851648071345037        5.4313902456001077        5.4772255750516612        5.5226805085936306        5.5677643628300215        5.6124860801609122        5.6568542494923806        5.7008771254956896        5.7445626465380286        5.7879184513951127        5.8309518948453007        5.8736700622353650        5.9160797830996161        5.9581876439064922        6.0000000000000000        6.0415229867972862        6.0827625302982193        6.1237243569579451        6.1644140029689760        6.2048368229954285        6.2449979983983983        6.2849025449882676        6.9525597030995726E-310
+ gaussq after class call, muzero:    1.7724538509055159     
+ kpts:            0
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            1          80
+ GBTQL2 after  if M.eq.L: L, M:            1          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            1          80
+ GBTQL2 after  if M.eq.L: L, M:            1          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            1          80
+ GBTQL2 after  if M.eq.L: L, M:            1          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            1          80
+ GBTQL2 after  if M.eq.L: L, M:            1          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            1          80
+ GBTQL2 after  if M.eq.L: L, M:            1          80
+ M, N:            1          80
+ GBTQL2 before if M.eq.L: L, M:            1           1
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            2          80
+ GBTQL2 after  if M.eq.L: L, M:            2          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            2          80
+ GBTQL2 after  if M.eq.L: L, M:            2          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            2          80
+ GBTQL2 after  if M.eq.L: L, M:            2          80
+ M, N:            2          80
+ GBTQL2 before if M.eq.L: L, M:            2           2
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            3          80
+ GBTQL2 after  if M.eq.L: L, M:            3          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            3          80
+ GBTQL2 after  if M.eq.L: L, M:            3          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            3          80
+ GBTQL2 after  if M.eq.L: L, M:            3          80
+ M, N:            3          80
+ GBTQL2 before if M.eq.L: L, M:            3           3
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            4          80
+ GBTQL2 after  if M.eq.L: L, M:            4          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            4          80
+ GBTQL2 after  if M.eq.L: L, M:            4          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            4          80
+ GBTQL2 after  if M.eq.L: L, M:            4          80
+ M, N:            4          80
+ GBTQL2 before if M.eq.L: L, M:            4           4
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            5          80
+ GBTQL2 after  if M.eq.L: L, M:            5          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            5          80
+ GBTQL2 after  if M.eq.L: L, M:            5          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            5          80
+ GBTQL2 after  if M.eq.L: L, M:            5          80
+ M, N:            5          80
+ GBTQL2 before if M.eq.L: L, M:            5           5
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            6          80
+ GBTQL2 after  if M.eq.L: L, M:            6          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            6          80
+ GBTQL2 after  if M.eq.L: L, M:            6          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            6          80
+ GBTQL2 after  if M.eq.L: L, M:            6          80
+ M, N:            6          80
+ GBTQL2 before if M.eq.L: L, M:            6           6
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            7          80
+ GBTQL2 after  if M.eq.L: L, M:            7          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            7          80
+ GBTQL2 after  if M.eq.L: L, M:            7          80
+ M, N:            7          80
+ GBTQL2 before if M.eq.L: L, M:            7           7
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            8          80
+ GBTQL2 after  if M.eq.L: L, M:            8          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            8          80
+ GBTQL2 after  if M.eq.L: L, M:            8          80
+ M, N:            8          80
+ GBTQL2 before if M.eq.L: L, M:            8           8
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            9          80
+ GBTQL2 after  if M.eq.L: L, M:            9          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            9          80
+ GBTQL2 after  if M.eq.L: L, M:            9          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:            9          80
+ GBTQL2 after  if M.eq.L: L, M:            9          80
+ M, N:            9          80
+ GBTQL2 before if M.eq.L: L, M:            9           9
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           10          80
+ GBTQL2 after  if M.eq.L: L, M:           10          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           10          80
+ GBTQL2 after  if M.eq.L: L, M:           10          80
+ M, N:           10          80
+ GBTQL2 before if M.eq.L: L, M:           10          10
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           11          80
+ GBTQL2 after  if M.eq.L: L, M:           11          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           11          80
+ GBTQL2 after  if M.eq.L: L, M:           11          80
+ M, N:           11          80
+ GBTQL2 before if M.eq.L: L, M:           11          11
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           12          80
+ GBTQL2 after  if M.eq.L: L, M:           12          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           12          80
+ GBTQL2 after  if M.eq.L: L, M:           12          80
+ M, N:           12          80
+ GBTQL2 before if M.eq.L: L, M:           12          12
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           13          80
+ GBTQL2 after  if M.eq.L: L, M:           13          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           13          80
+ GBTQL2 after  if M.eq.L: L, M:           13          80
+ M, N:           13          80
+ GBTQL2 before if M.eq.L: L, M:           13          13
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           14          80
+ GBTQL2 after  if M.eq.L: L, M:           14          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           14          80
+ GBTQL2 after  if M.eq.L: L, M:           14          80
+ M, N:           14          80
+ GBTQL2 before if M.eq.L: L, M:           14          14
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           15          80
+ GBTQL2 after  if M.eq.L: L, M:           15          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           15          80
+ GBTQL2 after  if M.eq.L: L, M:           15          80
+ M, N:           15          80
+ GBTQL2 before if M.eq.L: L, M:           15          15
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           16          80
+ GBTQL2 after  if M.eq.L: L, M:           16          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           16          80
+ GBTQL2 after  if M.eq.L: L, M:           16          80
+ M, N:           16          80
+ GBTQL2 before if M.eq.L: L, M:           16          16
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           17          80
+ GBTQL2 after  if M.eq.L: L, M:           17          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           17          80
+ GBTQL2 after  if M.eq.L: L, M:           17          80
+ M, N:           17          80
+ GBTQL2 before if M.eq.L: L, M:           17          17
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           18          80
+ GBTQL2 after  if M.eq.L: L, M:           18          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           18          80
+ GBTQL2 after  if M.eq.L: L, M:           18          80
+ M, N:           18          80
+ GBTQL2 before if M.eq.L: L, M:           18          18
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           19          80
+ GBTQL2 after  if M.eq.L: L, M:           19          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           19          80
+ GBTQL2 after  if M.eq.L: L, M:           19          80
+ M, N:           19          80
+ GBTQL2 before if M.eq.L: L, M:           19          19
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           20          80
+ GBTQL2 after  if M.eq.L: L, M:           20          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           20          80
+ GBTQL2 after  if M.eq.L: L, M:           20          80
+ M, N:           20          80
+ GBTQL2 before if M.eq.L: L, M:           20          20
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           21          80
+ GBTQL2 after  if M.eq.L: L, M:           21          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           21          80
+ GBTQL2 after  if M.eq.L: L, M:           21          80
+ M, N:           21          80
+ GBTQL2 before if M.eq.L: L, M:           21          21
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           22          80
+ GBTQL2 after  if M.eq.L: L, M:           22          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           22          80
+ GBTQL2 after  if M.eq.L: L, M:           22          80
+ M, N:           22          80
+ GBTQL2 before if M.eq.L: L, M:           22          22
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           23          80
+ GBTQL2 after  if M.eq.L: L, M:           23          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           23          80
+ GBTQL2 after  if M.eq.L: L, M:           23          80
+ M, N:           23          80
+ GBTQL2 before if M.eq.L: L, M:           23          23
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           24          80
+ GBTQL2 after  if M.eq.L: L, M:           24          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           24          80
+ GBTQL2 after  if M.eq.L: L, M:           24          80
+ M, N:           24          80
+ GBTQL2 before if M.eq.L: L, M:           24          24
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           25          80
+ GBTQL2 after  if M.eq.L: L, M:           25          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           25          80
+ GBTQL2 after  if M.eq.L: L, M:           25          80
+ M, N:           25          80
+ GBTQL2 before if M.eq.L: L, M:           25          25
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           26          80
+ GBTQL2 after  if M.eq.L: L, M:           26          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           26          80
+ GBTQL2 after  if M.eq.L: L, M:           26          80
+ M, N:           26          80
+ GBTQL2 before if M.eq.L: L, M:           26          26
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           27          80
+ GBTQL2 after  if M.eq.L: L, M:           27          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           27          80
+ GBTQL2 after  if M.eq.L: L, M:           27          80
+ M, N:           27          80
+ GBTQL2 before if M.eq.L: L, M:           27          27
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           28          80
+ GBTQL2 after  if M.eq.L: L, M:           28          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           28          80
+ GBTQL2 after  if M.eq.L: L, M:           28          80
+ M, N:           28          80
+ GBTQL2 before if M.eq.L: L, M:           28          28
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           29          80
+ GBTQL2 after  if M.eq.L: L, M:           29          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           29          80
+ GBTQL2 after  if M.eq.L: L, M:           29          80
+ M, N:           29          80
+ GBTQL2 before if M.eq.L: L, M:           29          29
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           30          80
+ GBTQL2 after  if M.eq.L: L, M:           30          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           30          80
+ GBTQL2 after  if M.eq.L: L, M:           30          80
+ M, N:           30          80
+ GBTQL2 before if M.eq.L: L, M:           30          30
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           31          80
+ GBTQL2 after  if M.eq.L: L, M:           31          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           31          80
+ GBTQL2 after  if M.eq.L: L, M:           31          80
+ M, N:           31          80
+ GBTQL2 before if M.eq.L: L, M:           31          31
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           32          80
+ GBTQL2 after  if M.eq.L: L, M:           32          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           32          80
+ GBTQL2 after  if M.eq.L: L, M:           32          80
+ M, N:           32          80
+ GBTQL2 before if M.eq.L: L, M:           32          32
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           33          80
+ GBTQL2 after  if M.eq.L: L, M:           33          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           33          80
+ GBTQL2 after  if M.eq.L: L, M:           33          80
+ M, N:           33          80
+ GBTQL2 before if M.eq.L: L, M:           33          33
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           34          80
+ GBTQL2 after  if M.eq.L: L, M:           34          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           34          80
+ GBTQL2 after  if M.eq.L: L, M:           34          80
+ M, N:           34          80
+ GBTQL2 before if M.eq.L: L, M:           34          34
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           35          80
+ GBTQL2 after  if M.eq.L: L, M:           35          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           35          80
+ GBTQL2 after  if M.eq.L: L, M:           35          80
+ M, N:           35          80
+ GBTQL2 before if M.eq.L: L, M:           35          35
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           36          80
+ GBTQL2 after  if M.eq.L: L, M:           36          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           36          80
+ GBTQL2 after  if M.eq.L: L, M:           36          80
+ M, N:           36          80
+ GBTQL2 before if M.eq.L: L, M:           36          36
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           37          80
+ GBTQL2 after  if M.eq.L: L, M:           37          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           37          80
+ GBTQL2 after  if M.eq.L: L, M:           37          80
+ M, N:           37          80
+ GBTQL2 before if M.eq.L: L, M:           37          37
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           38          80
+ GBTQL2 after  if M.eq.L: L, M:           38          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           38          80
+ GBTQL2 after  if M.eq.L: L, M:           38          80
+ M, N:           38          80
+ GBTQL2 before if M.eq.L: L, M:           38          38
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           39          80
+ GBTQL2 after  if M.eq.L: L, M:           39          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           39          80
+ GBTQL2 after  if M.eq.L: L, M:           39          80
+ M, N:           39          80
+ GBTQL2 before if M.eq.L: L, M:           39          39
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           40          80
+ GBTQL2 after  if M.eq.L: L, M:           40          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           40          80
+ GBTQL2 after  if M.eq.L: L, M:           40          80
+ M, N:           40          80
+ GBTQL2 before if M.eq.L: L, M:           40          40
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           41          80
+ GBTQL2 after  if M.eq.L: L, M:           41          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           41          80
+ GBTQL2 after  if M.eq.L: L, M:           41          80
+ M, N:           41          80
+ GBTQL2 before if M.eq.L: L, M:           41          41
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           42          80
+ GBTQL2 after  if M.eq.L: L, M:           42          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           42          80
+ GBTQL2 after  if M.eq.L: L, M:           42          80
+ M, N:           42          80
+ GBTQL2 before if M.eq.L: L, M:           42          42
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           43          80
+ GBTQL2 after  if M.eq.L: L, M:           43          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           43          80
+ GBTQL2 after  if M.eq.L: L, M:           43          80
+ M, N:           43          80
+ GBTQL2 before if M.eq.L: L, M:           43          43
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           44          80
+ GBTQL2 after  if M.eq.L: L, M:           44          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           44          80
+ GBTQL2 after  if M.eq.L: L, M:           44          80
+ M, N:           44          80
+ GBTQL2 before if M.eq.L: L, M:           44          44
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           45          80
+ GBTQL2 after  if M.eq.L: L, M:           45          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           45          80
+ GBTQL2 after  if M.eq.L: L, M:           45          80
+ M, N:           45          80
+ GBTQL2 before if M.eq.L: L, M:           45          45
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           46          80
+ GBTQL2 after  if M.eq.L: L, M:           46          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           46          80
+ GBTQL2 after  if M.eq.L: L, M:           46          80
+ M, N:           46          80
+ GBTQL2 before if M.eq.L: L, M:           46          46
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           47          80
+ GBTQL2 after  if M.eq.L: L, M:           47          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           47          80
+ GBTQL2 after  if M.eq.L: L, M:           47          80
+ M, N:           47          80
+ GBTQL2 before if M.eq.L: L, M:           47          47
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           48          80
+ GBTQL2 after  if M.eq.L: L, M:           48          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           48          80
+ GBTQL2 after  if M.eq.L: L, M:           48          80
+ M, N:           48          80
+ GBTQL2 before if M.eq.L: L, M:           48          48
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           49          80
+ GBTQL2 after  if M.eq.L: L, M:           49          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           49          80
+ GBTQL2 after  if M.eq.L: L, M:           49          80
+ M, N:           49          80
+ GBTQL2 before if M.eq.L: L, M:           49          49
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           50          80
+ GBTQL2 after  if M.eq.L: L, M:           50          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           50          80
+ GBTQL2 after  if M.eq.L: L, M:           50          80
+ M, N:           50          80
+ GBTQL2 before if M.eq.L: L, M:           50          50
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           51          80
+ GBTQL2 after  if M.eq.L: L, M:           51          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           51          80
+ GBTQL2 after  if M.eq.L: L, M:           51          80
+ M, N:           51          80
+ GBTQL2 before if M.eq.L: L, M:           51          51
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           52          80
+ GBTQL2 after  if M.eq.L: L, M:           52          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           52          80
+ GBTQL2 after  if M.eq.L: L, M:           52          80
+ M, N:           52          80
+ GBTQL2 before if M.eq.L: L, M:           52          52
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           53          80
+ GBTQL2 after  if M.eq.L: L, M:           53          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           53          80
+ GBTQL2 after  if M.eq.L: L, M:           53          80
+ M, N:           53          80
+ GBTQL2 before if M.eq.L: L, M:           53          53
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           54          80
+ GBTQL2 after  if M.eq.L: L, M:           54          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           54          80
+ GBTQL2 after  if M.eq.L: L, M:           54          80
+ M, N:           54          80
+ GBTQL2 before if M.eq.L: L, M:           54          54
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           55          80
+ GBTQL2 after  if M.eq.L: L, M:           55          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           55          80
+ GBTQL2 after  if M.eq.L: L, M:           55          80
+ M, N:           55          80
+ GBTQL2 before if M.eq.L: L, M:           55          55
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           56          80
+ GBTQL2 after  if M.eq.L: L, M:           56          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           56          80
+ GBTQL2 after  if M.eq.L: L, M:           56          80
+ M, N:           56          80
+ GBTQL2 before if M.eq.L: L, M:           56          56
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           57          80
+ GBTQL2 after  if M.eq.L: L, M:           57          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           57          80
+ GBTQL2 after  if M.eq.L: L, M:           57          80
+ M, N:           57          80
+ GBTQL2 before if M.eq.L: L, M:           57          57
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           58          80
+ GBTQL2 after  if M.eq.L: L, M:           58          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           58          80
+ GBTQL2 after  if M.eq.L: L, M:           58          80
+ M, N:           58          80
+ GBTQL2 before if M.eq.L: L, M:           58          58
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           59          80
+ GBTQL2 after  if M.eq.L: L, M:           59          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           59          80
+ GBTQL2 after  if M.eq.L: L, M:           59          80
+ M, N:           59          80
+ GBTQL2 before if M.eq.L: L, M:           59          59
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           60          80
+ GBTQL2 after  if M.eq.L: L, M:           60          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           60          80
+ GBTQL2 after  if M.eq.L: L, M:           60          80
+ M, N:           60          80
+ GBTQL2 before if M.eq.L: L, M:           60          60
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           61          80
+ GBTQL2 after  if M.eq.L: L, M:           61          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           61          80
+ GBTQL2 after  if M.eq.L: L, M:           61          80
+ M, N:           61          80
+ GBTQL2 before if M.eq.L: L, M:           61          61
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           62          80
+ GBTQL2 after  if M.eq.L: L, M:           62          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           62          80
+ GBTQL2 after  if M.eq.L: L, M:           62          80
+ M, N:           62          80
+ GBTQL2 before if M.eq.L: L, M:           62          62
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           63          80
+ GBTQL2 after  if M.eq.L: L, M:           63          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           63          80
+ GBTQL2 after  if M.eq.L: L, M:           63          80
+ M, N:           63          80
+ GBTQL2 before if M.eq.L: L, M:           63          63
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           64          80
+ GBTQL2 after  if M.eq.L: L, M:           64          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           64          80
+ GBTQL2 after  if M.eq.L: L, M:           64          80
+ M, N:           64          80
+ GBTQL2 before if M.eq.L: L, M:           64          64
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           65          80
+ GBTQL2 after  if M.eq.L: L, M:           65          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           65          80
+ GBTQL2 after  if M.eq.L: L, M:           65          80
+ M, N:           65          80
+ GBTQL2 before if M.eq.L: L, M:           65          65
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           66          80
+ GBTQL2 after  if M.eq.L: L, M:           66          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           66          80
+ GBTQL2 after  if M.eq.L: L, M:           66          80
+ M, N:           66          80
+ GBTQL2 before if M.eq.L: L, M:           66          66
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           67          80
+ GBTQL2 after  if M.eq.L: L, M:           67          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           67          80
+ GBTQL2 after  if M.eq.L: L, M:           67          80
+ M, N:           67          80
+ GBTQL2 before if M.eq.L: L, M:           67          67
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           68          80
+ GBTQL2 after  if M.eq.L: L, M:           68          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           68          80
+ GBTQL2 after  if M.eq.L: L, M:           68          80
+ M, N:           68          80
+ GBTQL2 before if M.eq.L: L, M:           68          68
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           69          80
+ GBTQL2 after  if M.eq.L: L, M:           69          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           69          80
+ GBTQL2 after  if M.eq.L: L, M:           69          80
+ M, N:           69          80
+ GBTQL2 before if M.eq.L: L, M:           69          69
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           70          80
+ GBTQL2 after  if M.eq.L: L, M:           70          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           70          80
+ GBTQL2 after  if M.eq.L: L, M:           70          80
+ M, N:           70          80
+ GBTQL2 before if M.eq.L: L, M:           70          70
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           71          80
+ GBTQL2 after  if M.eq.L: L, M:           71          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           71          80
+ GBTQL2 after  if M.eq.L: L, M:           71          80
+ M, N:           71          80
+ GBTQL2 before if M.eq.L: L, M:           71          71
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           72          80
+ GBTQL2 after  if M.eq.L: L, M:           72          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           72          80
+ GBTQL2 after  if M.eq.L: L, M:           72          80
+ M, N:           72          80
+ GBTQL2 before if M.eq.L: L, M:           72          72
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           73          80
+ GBTQL2 after  if M.eq.L: L, M:           73          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           73          80
+ GBTQL2 after  if M.eq.L: L, M:           73          80
+ M, N:           73          80
+ GBTQL2 before if M.eq.L: L, M:           73          73
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           74          80
+ GBTQL2 after  if M.eq.L: L, M:           74          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           74          80
+ GBTQL2 after  if M.eq.L: L, M:           74          80
+ M, N:           74          80
+ GBTQL2 before if M.eq.L: L, M:           74          74
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           75          80
+ GBTQL2 after  if M.eq.L: L, M:           75          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           75          80
+ GBTQL2 after  if M.eq.L: L, M:           75          80
+ M, N:           75          80
+ GBTQL2 before if M.eq.L: L, M:           75          75
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           76          80
+ GBTQL2 after  if M.eq.L: L, M:           76          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           76          80
+ GBTQL2 after  if M.eq.L: L, M:           76          80
+ M, N:           76          80
+ GBTQL2 before if M.eq.L: L, M:           76          76
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           77          80
+ GBTQL2 after  if M.eq.L: L, M:           77          80
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           77          80
+ GBTQL2 after  if M.eq.L: L, M:           77          80
+ M, N:           77          80
+ GBTQL2 before if M.eq.L: L, M:           77          77
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           78          80
+ GBTQL2 after  if M.eq.L: L, M:           78          80
+ M, N:           78          80
+ GBTQL2 before if M.eq.L: L, M:           78          78
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           79          80
+ GBTQL2 after  if M.eq.L: L, M:           79          80
+ M, N:           79          80
+ GBTQL2 before if M.eq.L: L, M:           79          79
+ M, N:           80          80
+ GBTQL2 before if M.eq.L: L, M:           80          80
+ gaussq after  call, muzero, kpts = 0:    1.7724538509055159                0
+           4          80   0.0000000000000000        0.0000000000000000                0 *   1.2731974809032037E-313   8.0738121741095840E-019  -11.887863560471146        2.9557746032982350E-062
+ +++++++++++
+ nparity, N, N1, N2, N3, *,  i, J, J1, J2: 
+          40          80           3          83         163 *          41           1         123         203
+ xh(J), wh(J):   0.12379686317313182       0.49520316489837862     
+          40          80           3          83         163 *          42           2         124         204
+ xh(J), wh(J):   0.37143774948304448       0.49539188262148176     
+          40          80           3          83         163 *          43           3         125         205
+ xh(J), wh(J):   0.61922034962756567       0.49577025497085458     
+          40          80           3          83         163 *          44           4         126         206
+ xh(J), wh(J):   0.86723992270397499       0.49634016936688047     
+          40          80           3          83         163 *          45           5         127         207
+ xh(J), wh(J):    1.1155929146033485       0.49710449137252638     
+          40          80           3          83         163 *          46           6         128         208
+ xh(J), wh(J):    1.3643774570540068       0.49806710714391977     
+          40          80           3          83         163 *          47           7         129         209
+ xh(J), wh(J):    1.6136938918510604       0.49923298197716864     
+          40          80           3          83         163 *          48           8         130         210
+ xh(J), wh(J):    1.8636453287449271       0.50060823674401644     
+          40          80           3          83         163 *          49           9         131         211
+ xh(J), wh(J):    2.1143382465070095       0.50220024462350199     
+          40          80           3          83         163 *          50          10         132         212
+ xh(J), wh(J):    2.3658831480742228       0.50401775128155002     
+          40          80           3          83         163 *          51          11         133         213
+ xh(J), wh(J):    2.6183952824717824       0.50607102257149106     
+          40          80           3          83         163 *          52          12         134         214
+ xh(J), wh(J):    2.8719954485287329       0.50837202498910639     
+          40          80           3          83         163 *          53          13         135         215
+ xh(J), wh(J):    3.1268108983731269       0.51093464560061153     
+          40          80           3          83         163 *          54          14         136         216
+ xh(J), wh(J):    3.3829763625124025       0.51377496008473900     
+          40          80           3          83         163 *          55          15         137         217
+ xh(J), wh(J):    3.6406352232272101       0.51691156005532579     
+          40          80           3          83         163 *          56          16         138         218
+ xh(J), wh(J):    3.8999408693873896       0.52036595418042730     
+          40          80           3          83         163 *          57          17         139         219
+ xh(J), wh(J):    4.1610582741258382       0.52416306211623098     
+          40          80           3          83         163 *          58          18         140         220
+ xh(J), wh(J):    4.4241658477651802       0.52833182639257525     
+          40          80           3          83         163 *          59          19         141         221
+ xh(J), wh(J):    4.6894576329528093       0.53290597581260490     
+          40          80           3          83         163 *          60          20         142         222
+ xh(J), wh(J):    4.9571459285134276       0.53792498568337621     
+          40          80           3          83         163 *          61          21         143         223
+ xh(J), wh(J):    5.2274644551006730       0.54343529683064340     
+          40          80           3          83         163 *          62          22         144         224
+ xh(J), wh(J):    5.5006722123151484       0.54949187926127963     
+          40          80           3          83         163 *          63          23         145         225
+ xh(J), wh(J):    5.7770582280615610       0.55616026128640006     
+          40          80           3          83         163 *          64          24         146         226
+ xh(J), wh(J):    6.0569474734510296       0.56351919694745722     
+          40          80           3          83         163 *          65          25         147         227
+ xh(J), wh(J):    6.3407083213299913       0.57166422363209413     
+          40          80           3          83         163 *          66          26         148         228
+ xh(J), wh(J):    6.6287620808575989       0.58071248457659119     
+          40          80           3          83         163 *          67          27         149         229
+ xh(J), wh(J):    6.9215953729258217       0.59080938658717141     
+          40          80           3          83         163 *          68          28         150         230
+ xh(J), wh(J):    7.2197764697589184       0.60213798384204142     
+          40          80           3          83         163 *          69          29         151         231
+ xh(J), wh(J):    7.5239772908068732       0.61493252072927795     
+          40          80           3          83         163 *          70          30         152         232
+ xh(J), wh(J):    7.8350036783292971       0.62949851732539730     
+          40          80           3          83         163 *          71          31         153         233
+ xh(J), wh(J):    8.1538381574634542       0.64624351938016333     
+          40          80           3          83         163 *          72          32         154         234
+ xh(J), wh(J):    8.4817021873215825       0.66572597182423621     
+          40          80           3          83         163 *          73          33         155         235
+ xh(J), wh(J):    8.8201501286610426       0.68873646197133254     
+          40          80           3          83         163 *          74          34         156         236
+ xh(J), wh(J):    9.1712174787264811       0.71644037529503435     
+          40          80           3          83         163 *          75          35         157         237
+ xh(J), wh(J):    9.5376679163020555       0.75064614418981901     
+          40          80           3          83         163 *          76          36         158         238
+ xh(J), wh(J):    9.9234351145692390       0.79435625277564337     
+          40          80           3          83         163 *          77          37         159         239
+ xh(J), wh(J):    10.334491039538369       0.85304192670717438     
+          40          80           3          83         163 *          78          38         160         240
+ xh(J), wh(J):    10.780796472469135       0.93813899884650986     
+          40          80           3          83         163 *          79          39         161         241
+ xh(J), wh(J):    11.281694164989258        1.0795997597924580     
+          40          80           3          83         163 *          80          40         162         242
+ xh(J), wh(J):    11.887863560471157        1.4020454371694264     
+ xh: 
+  0.12379686317313182       0.37143774948304448       0.61922034962756567       0.86723992270397499        1.1155929146033485        1.3643774570540068        1.6136938918510604        1.8636453287449271        2.1143382465070095        2.3658831480742228        2.6183952824717824        2.8719954485287329        3.1268108983731269        3.3829763625124025        3.6406352232272101        3.8999408693873896        4.1610582741258382        4.4241658477651802        4.6894576329528093        4.9571459285134276        5.2274644551006730        5.5006722123151484        5.7770582280615610        6.0569474734510296        6.3407083213299913        6.6287620808575989        6.9215953729258217        7.2197764697589184        7.5239772908068732        7.8350036783292971        8.1538381574634542        8.4817021873215825        8.8201501286610426        9.1712174787264811        9.5376679163020555        9.9234351145692390        10.334491039538369        10.780796472469135        11.281694164989258        11.887863560471157     
+ after ngh, al, be, kpts:           40   0.0000000000000000        0.0000000000000000                0
+ before ngl, al, be, kpts:           40   0.0000000000000000        0.0000000000000000                0
+ ngl, N, N1, N2, N3:           40          40           3          43          83
+ gaussq before class call, muzero:    1.7724538509055159     
+ B before call class:    8.0738121741095840E-019  -1.2116903504194741E-027  -8.3808582570680294E-027   1.0097419586828951E-027  -1.1709654061874394E-031  -1.4544622940012405E-030   3.7777669447541795E-019   1.0736142606448257E-018   2.4158865222393487E-030  -1.8245089683857629E-018   1.6390087529370712E-019  -1.0825081065909958E-017   7.1997800516615529E-019   1.1370570283941728E-017   1.1062250291141162E-018   7.0761132413624250E-018   1.1180834903756764E-018  -3.5338214559449410E-018  -7.5894152073985310E-019  -1.5958100726271018E-018  -2.9781678425461200E-018  -1.1604351377383915E-019  -9.5375909860834218E-019   5.4210108624275222E-020  -3.1509625637859973E-019   2.0328790734103208E-020  -9.6561755986990239E-020   8.4703294725430034E-021  -1.7787691892340307E-020  -1.9481757786848908E-020   1.3129010682441655E-020   1.6940658945086007E-021   1.2705494208814505E-021  -2.3716922523120409E-020  -1.7999450129153882E-021   8.4703294725430034E-022  -2.3293406049493259E-021  -8.8938459461701536E-021   3.1763735522036263E-022   4.2351647362715017E-021
+ Inside class, kindi, NM1, muzero:            6          39   1.0000000000000000     
+ B after  call class:    1.0000000000000000        2.0000000000000000        3.0000000000000000        4.0000000000000000        5.0000000000000000        6.0000000000000000        7.0000000000000000        8.0000000000000000        9.0000000000000000        10.000000000000000        11.000000000000000        12.000000000000000        13.000000000000000        14.000000000000000        15.000000000000000        16.000000000000000        17.000000000000000        18.000000000000000        19.000000000000000        20.000000000000000        21.000000000000000        22.000000000000000        23.000000000000000        24.000000000000000        25.000000000000000        26.000000000000000        27.000000000000000        28.000000000000000        29.000000000000000        30.000000000000000        31.000000000000000        32.000000000000000        33.000000000000000        34.000000000000000        35.000000000000000        36.000000000000000        37.000000000000000        38.000000000000000        39.000000000000000        4.2351647362715017E-021
+ gaussq after class call, muzero:    1.0000000000000000     
+ kpts:            0
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            1          40
+ GBTQL2 after  if M.eq.L: L, M:            1          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            1          40
+ GBTQL2 after  if M.eq.L: L, M:            1          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            1          40
+ GBTQL2 after  if M.eq.L: L, M:            1          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            1          40
+ GBTQL2 after  if M.eq.L: L, M:            1          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            1          40
+ GBTQL2 after  if M.eq.L: L, M:            1          40
+ M, N:            1          40
+ GBTQL2 before if M.eq.L: L, M:            1           1
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            2          40
+ GBTQL2 after  if M.eq.L: L, M:            2          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            2          40
+ GBTQL2 after  if M.eq.L: L, M:            2          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            2          40
+ GBTQL2 after  if M.eq.L: L, M:            2          40
+ M, N:            2          40
+ GBTQL2 before if M.eq.L: L, M:            2           2
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            3          40
+ GBTQL2 after  if M.eq.L: L, M:            3          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            3          40
+ GBTQL2 after  if M.eq.L: L, M:            3          40
+ M, N:            3          40
+ GBTQL2 before if M.eq.L: L, M:            3           3
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            4          40
+ GBTQL2 after  if M.eq.L: L, M:            4          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            4          40
+ GBTQL2 after  if M.eq.L: L, M:            4          40
+ M, N:            4          40
+ GBTQL2 before if M.eq.L: L, M:            4           4
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            5          40
+ GBTQL2 after  if M.eq.L: L, M:            5          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            5          40
+ GBTQL2 after  if M.eq.L: L, M:            5          40
+ M, N:            5          40
+ GBTQL2 before if M.eq.L: L, M:            5           5
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            6          40
+ GBTQL2 after  if M.eq.L: L, M:            6          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            6          40
+ GBTQL2 after  if M.eq.L: L, M:            6          40
+ M, N:            6          40
+ GBTQL2 before if M.eq.L: L, M:            6           6
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            7          40
+ GBTQL2 after  if M.eq.L: L, M:            7          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            7          40
+ GBTQL2 after  if M.eq.L: L, M:            7          40
+ M, N:            7          40
+ GBTQL2 before if M.eq.L: L, M:            7           7
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            8          40
+ GBTQL2 after  if M.eq.L: L, M:            8          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            8          40
+ GBTQL2 after  if M.eq.L: L, M:            8          40
+ M, N:            8          40
+ GBTQL2 before if M.eq.L: L, M:            8           8
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            9          40
+ GBTQL2 after  if M.eq.L: L, M:            9          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:            9          40
+ GBTQL2 after  if M.eq.L: L, M:            9          40
+ M, N:            9          40
+ GBTQL2 before if M.eq.L: L, M:            9           9
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           10          40
+ GBTQL2 after  if M.eq.L: L, M:           10          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           10          40
+ GBTQL2 after  if M.eq.L: L, M:           10          40
+ M, N:           10          40
+ GBTQL2 before if M.eq.L: L, M:           10          10
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           11          40
+ GBTQL2 after  if M.eq.L: L, M:           11          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           11          40
+ GBTQL2 after  if M.eq.L: L, M:           11          40
+ M, N:           11          40
+ GBTQL2 before if M.eq.L: L, M:           11          11
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           12          40
+ GBTQL2 after  if M.eq.L: L, M:           12          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           12          40
+ GBTQL2 after  if M.eq.L: L, M:           12          40
+ M, N:           12          40
+ GBTQL2 before if M.eq.L: L, M:           12          12
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           13          40
+ GBTQL2 after  if M.eq.L: L, M:           13          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           13          40
+ GBTQL2 after  if M.eq.L: L, M:           13          40
+ M, N:           13          40
+ GBTQL2 before if M.eq.L: L, M:           13          13
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           14          40
+ GBTQL2 after  if M.eq.L: L, M:           14          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           14          40
+ GBTQL2 after  if M.eq.L: L, M:           14          40
+ M, N:           14          40
+ GBTQL2 before if M.eq.L: L, M:           14          14
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           15          40
+ GBTQL2 after  if M.eq.L: L, M:           15          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           15          40
+ GBTQL2 after  if M.eq.L: L, M:           15          40
+ M, N:           15          40
+ GBTQL2 before if M.eq.L: L, M:           15          15
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           16          40
+ GBTQL2 after  if M.eq.L: L, M:           16          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           16          40
+ GBTQL2 after  if M.eq.L: L, M:           16          40
+ M, N:           16          40
+ GBTQL2 before if M.eq.L: L, M:           16          16
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           17          40
+ GBTQL2 after  if M.eq.L: L, M:           17          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           17          40
+ GBTQL2 after  if M.eq.L: L, M:           17          40
+ M, N:           17          40
+ GBTQL2 before if M.eq.L: L, M:           17          17
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           18          40
+ GBTQL2 after  if M.eq.L: L, M:           18          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           18          40
+ GBTQL2 after  if M.eq.L: L, M:           18          40
+ M, N:           18          40
+ GBTQL2 before if M.eq.L: L, M:           18          18
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           19          40
+ GBTQL2 after  if M.eq.L: L, M:           19          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           19          40
+ GBTQL2 after  if M.eq.L: L, M:           19          40
+ M, N:           19          40
+ GBTQL2 before if M.eq.L: L, M:           19          19
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           20          40
+ GBTQL2 after  if M.eq.L: L, M:           20          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           20          40
+ GBTQL2 after  if M.eq.L: L, M:           20          40
+ M, N:           20          40
+ GBTQL2 before if M.eq.L: L, M:           20          20
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           21          40
+ GBTQL2 after  if M.eq.L: L, M:           21          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           21          40
+ GBTQL2 after  if M.eq.L: L, M:           21          40
+ M, N:           21          40
+ GBTQL2 before if M.eq.L: L, M:           21          21
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           22          40
+ GBTQL2 after  if M.eq.L: L, M:           22          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           22          40
+ GBTQL2 after  if M.eq.L: L, M:           22          40
+ M, N:           22          40
+ GBTQL2 before if M.eq.L: L, M:           22          22
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           23          40
+ GBTQL2 after  if M.eq.L: L, M:           23          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           23          40
+ GBTQL2 after  if M.eq.L: L, M:           23          40
+ M, N:           23          40
+ GBTQL2 before if M.eq.L: L, M:           23          23
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           24          40
+ GBTQL2 after  if M.eq.L: L, M:           24          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           24          40
+ GBTQL2 after  if M.eq.L: L, M:           24          40
+ M, N:           24          40
+ GBTQL2 before if M.eq.L: L, M:           24          24
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           25          40
+ GBTQL2 after  if M.eq.L: L, M:           25          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           25          40
+ GBTQL2 after  if M.eq.L: L, M:           25          40
+ M, N:           25          40
+ GBTQL2 before if M.eq.L: L, M:           25          25
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           26          40
+ GBTQL2 after  if M.eq.L: L, M:           26          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           26          40
+ GBTQL2 after  if M.eq.L: L, M:           26          40
+ M, N:           26          40
+ GBTQL2 before if M.eq.L: L, M:           26          26
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           27          40
+ GBTQL2 after  if M.eq.L: L, M:           27          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           27          40
+ GBTQL2 after  if M.eq.L: L, M:           27          40
+ M, N:           27          40
+ GBTQL2 before if M.eq.L: L, M:           27          27
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           28          40
+ GBTQL2 after  if M.eq.L: L, M:           28          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           28          40
+ GBTQL2 after  if M.eq.L: L, M:           28          40
+ M, N:           28          40
+ GBTQL2 before if M.eq.L: L, M:           28          28
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           29          40
+ GBTQL2 after  if M.eq.L: L, M:           29          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           29          40
+ GBTQL2 after  if M.eq.L: L, M:           29          40
+ M, N:           29          40
+ GBTQL2 before if M.eq.L: L, M:           29          29
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           30          40
+ GBTQL2 after  if M.eq.L: L, M:           30          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           30          40
+ GBTQL2 after  if M.eq.L: L, M:           30          40
+ M, N:           30          40
+ GBTQL2 before if M.eq.L: L, M:           30          30
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           31          40
+ GBTQL2 after  if M.eq.L: L, M:           31          40
+ M, N:           31          40
+ GBTQL2 before if M.eq.L: L, M:           31          31
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           32          40
+ GBTQL2 after  if M.eq.L: L, M:           32          40
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           32          40
+ GBTQL2 after  if M.eq.L: L, M:           32          40
+ M, N:           32          40
+ GBTQL2 before if M.eq.L: L, M:           32          32
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           33          40
+ GBTQL2 after  if M.eq.L: L, M:           33          40
+ M, N:           33          40
+ GBTQL2 before if M.eq.L: L, M:           33          33
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           34          40
+ GBTQL2 after  if M.eq.L: L, M:           34          40
+ M, N:           34          40
+ GBTQL2 before if M.eq.L: L, M:           34          34
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           35          40
+ GBTQL2 after  if M.eq.L: L, M:           35          40
+ M, N:           35          40
+ GBTQL2 before if M.eq.L: L, M:           35          35
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           36          40
+ GBTQL2 after  if M.eq.L: L, M:           36          40
+ M, N:           36          40
+ GBTQL2 before if M.eq.L: L, M:           36          36
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           37          40
+ GBTQL2 after  if M.eq.L: L, M:           37          40
+ M, N:           37          40
+ GBTQL2 before if M.eq.L: L, M:           37          37
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           38          40
+ GBTQL2 after  if M.eq.L: L, M:           38          40
+ M, N:           38          40
+ GBTQL2 before if M.eq.L: L, M:           38          38
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           39          40
+ GBTQL2 after  if M.eq.L: L, M:           39          40
+ M, N:           39          40
+ GBTQL2 before if M.eq.L: L, M:           39          39
+ M, N:           40          40
+ GBTQL2 before if M.eq.L: L, M:           40          40
+ gaussq after  call, muzero, kpts = 0:    1.0000000000000000                0
+          40           3          43          83 *           1          43          83
+          40           3          43          83 *           2          44          84
+          40           3          43          83 *           3          45          85
+          40           3          43          83 *           4          46          86
+          40           3          43          83 *           5          47          87
+          40           3          43          83 *           6          48          88
+          40           3          43          83 *           7          49          89
+          40           3          43          83 *           8          50          90
+          40           3          43          83 *           9          51          91
+          40           3          43          83 *          10          52          92
+          40           3          43          83 *          11          53          93
+          40           3          43          83 *          12          54          94
+          40           3          43          83 *          13          55          95
+          40           3          43          83 *          14          56          96
+          40           3          43          83 *          15          57          97
+          40           3          43          83 *          16          58          98
+          40           3          43          83 *          17          59          99
+          40           3          43          83 *          18          60         100
+          40           3          43          83 *          19          61         101
+          40           3          43          83 *          20          62         102
+          40           3          43          83 *          21          63         103
+          40           3          43          83 *          22          64         104
+          40           3          43          83 *          23          65         105
+          40           3          43          83 *          24          66         106
+          40           3          43          83 *          25          67         107
+          40           3          43          83 *          26          68         108
+          40           3          43          83 *          27          69         109
+          40           3          43          83 *          28          70         110
+          40           3          43          83 *          29          71         111
+          40           3          43          83 *          30          72         112
+          40           3          43          83 *          31          73         113
+          40           3          43          83 *          32          74         114
+          40           3          43          83 *          33          75         115
+          40           3          43          83 *          34          76         116
+          40           3          43          83 *          35          77         117
+          40           3          43          83 *          36          78         118
+          40           3          43          83 *          37          79         119
+          40           3          43          83 *          38          80         120
+          40           3          43          83 *          39          81         121
+          40           3          43          83 *          40          82         122
+ after ngl, al, be, kpts:           40   0.0000000000000000        0.0000000000000000                0
+ before nleg, al, be, kpts:           80   0.0000000000000000        0.0000000000000000                0
+ nleg, N, N1, N2, N3:           80         160           3         163         323
+ gaussq before class call, muzero:    1.0000000000000000     
+ B before call class:    5.1080321334870956E-026   8.6026783705514878E-021  -2.2499312661442353E-020   1.2433558582437697E-023   3.4989739910993071E-022   2.0265925007549178E-022  -1.8181429863915548E-021  -1.6543612251060553E-023  -7.8582158192537629E-022  -2.2416594600187050E-022   3.3459455777769969E-022  -1.0484514264109626E-022   1.2635183856747498E-022  -3.8257103330577530E-023   1.5871528003361219E-023  -7.4963243012618133E-024  -1.2123365852730312E-023   1.4217166778255163E-025   8.5949235523088032E-025   2.5526276715503588E-025   2.8272774843121063E-025  -3.7481621506309067E-025   1.0945602832122583E-025   1.8579252039765270E-026  -4.6448130099413175E-027   3.2816613657194091E-027  -7.9517179246277990E-028  -2.7767903863779616E-028   2.3665827156630354E-029  -6.7842037849007015E-029  -1.0386656812411132E-015  -1.5777218104420236E-029  -2.9577035265404561E-016  -5.6898930012039273E-016  -2.5587171270657905E-016  -3.7296554733501353E-017  -2.6020852139652106E-018   1.0842021724855044E-018   5.4210108624275222E-020   0.0000000000000000        3.5700394308883408E-002  0.18816228315869207       0.46269428131457335       0.85977296397293190        1.3800108205273303        2.0242091359228325        2.7933693535068169        3.6887026779082674        4.7116411465549737        5.8638508783437242        7.1472479081023010        8.5640170175861687        10.116634048451942        11.807892294004585        13.640933712537093        15.619285893339068        17.746905950095663        20.028232834574897        22.468249983498406        25.072560772426215        27.847480009168855        30.800145739445458        33.938657084913736        37.272245880475992        40.811492823886894        44.568603175334424        48.557763533059990        52.795611187216970        57.301863323393640        62.100179072775127        67.219370927127002        72.695158847612433        78.572802911571301        84.911231135705023        91.789874671236362        99.320808717446837        107.67244063938824        117.12230951269066        128.20184198825572        142.28004446915998        8.8412106190333170E-002  0.17681473909573051       0.21136311701596119       0.19408119531860246       0.14643428242412723        9.3326798435770977E-002   5.0932204361043773E-002   2.3976193015684950E-002   9.7746252467145224E-003   3.4579399930184814E-003   1.0622468938968547E-003   2.8327168532432250E-004   6.5509405003245390E-005   1.3116069073267774E-005   2.2684528787793346E-006   3.3796264822006510E-007   4.3228213222820778E-008   4.7284937709906730E-009   4.4031741042328468E-010   3.4724414848037538E-011   2.3053815449167927E-012   1.2797725976766233E-013   5.8941771723509826E-015   2.2322175799046355E-016   6.8803364842844088E-018   1.7056037368181005E-019   3.3537119406661667E-021   5.1461995601365211E-023   6.0447625115874478E-025   5.3105847773212286E-027   3.3925280532805767E-029   1.5217354931814311E-031   4.5852916145026869E-034   8.7621586574860053E-037   9.8274157251479458E-040   5.8011520191697484E-043   1.5309086846067340E-046   1.3819863056493107E-050   2.5666336050123806E-055   2.7003609402170124E-061  0.12379686317313182       0.37143774948304448       0.61922034962756567       0.86723992270397499        1.1155929146033485        1.3643774570540068        1.6136938918510604        1.8636453287449271        2.1143382465070095        2.3658831480742228        2.6183952824717824        2.8719954485287329        3.1268108983731269        3.3829763625124025        3.6406352232272101        3.8999408693873896        4.1610582741258382        4.4241658477651802        4.6894576329528093        4.9571459285134276        5.2274644551006730        5.5006722123151484        5.7770582280615610        6.0569474734510296        6.3407083213299913        6.6287620808575989        6.9215953729258217        7.2197764697589184        7.5239772908068732        7.8350036783292971        8.1538381574634542        8.4817021873215825        8.8201501286610426        9.1712174787264811        9.5376679163020555        9.9234351145692390        10.334491039538369        10.780796472469135        11.281694164989258        11.887863560471157     
+ Inside class, kindi, NM1, muzero:            1         159   2.0000000000000000     
+ B after  call class:   0.57735026918962584       0.51639777949432220       0.50709255283710997       0.50395263067896956       0.50251890762960605       0.50174520600425443       0.50128041182760308       0.50097943286811963       0.50077339566719148       0.50062617432175893       0.50051733071261906       0.50043459373697941       0.50037023329767560       0.50031918292430433       0.50027800947380252       0.50024431958457793       0.50021640338602469       0.50019301293905560       0.50017322016802357       0.50015632328035531       0.50014178364101802       0.50012918227834724       0.50011818934097241       0.50010854227849566       0.50010003001000347       0.50009248127333317       0.50008575593922933       0.50007973845836518       0.50007433286296921       0.50006945891538690       0.50006504911235483       0.50006104633439508       0.50005740198629789       0.50005407451483941       0.50005102821873781       0.50004823228680484       0.50004566001561968       0.50004328816942445       0.50004109645344552       0.50003906707823287       0.50003718439747824       0.50003543460548017       0.50003380548328802       0.50003228618477524       0.50003086705562094       0.50002953947954021       0.50002829574717189       0.50002712894389023       0.50002603285347869       0.50002500187515631       0.50002403095187986       0.50002311550820677       0.50002225139628609       0.50002143484878692       0.50002066243776322       0.50001993103861431       0.50001923779843349       0.50001858010814271       0.50001795557790607       0.50001736201538804       0.50001679740648519       0.50001625989821730       0.50001574778350333       0.50001525948758996       0.50001479355593026       0.50001434864333871       0.50001392350427021       0.50001351698409302       0.50001312801123976       0.50001275559013947       0.50001239879483905       0.50001205676324312       0.50001172869190058       0.50001141383128223       0.50001111148149524       0.50001082098839034       0.50001054174002080       0.50001027316341629       0.50001001472164186       0.50000976591111157       0.50000952625913420       0.50000929532166549       0.50000907268125028       0.50000885794513461       0.50000865074353207       0.50000845072803080       0.50000825757012790       0.50000807095987976       0.50000789060465756       0.50000771622799955       0.50000754756855126       0.50000738437908487       0.50000722642559348       0.50000707348645113       0.50000692535163505       0.50000678182200464       0.50000664270863115       0.50000650783217637       0.50000637702231343       0.50000625011718991       0.50000612696292601       0.50000600741314805       0.50000589132855366       0.50000577857650563       0.50000566903065258       0.50000556257057527       0.50000545908145511       0.50000535845376470       0.50000526058297801       0.50000516536929818       0.50000507271740413       0.50000498253621073       0.50000489473864551       0.50000480924143842       0.50000472596492396       0.50000464483285578       0.50000456577223196       0.50000448871313097       0.50000441358855652       0.50000434033429264       0.50000426888876559       0.50000419919291517       0.50000413119007192       0.50000406482584259       0.50000400004800061       0.50000393680638400       0.50000387505279764       0.50000381474092193       0.50000375582622547       0.50000369826588320       0.50000364201869818       0.50000358704502823       0.50000353330671587       0.50000348076702184       0.50000342939056297       0.50000337914325210       0.50000332999224117       0.50000328190586840       0.50000323485360665       0.50000318880601535       0.50000314373469390       0.50000309961223854       0.50000305641220000       0.50000301410904446       0.50000297267811544       0.50000293209559799       0.50000289233848461       0.50000285338454209       0.50000281521228107       0.50000277780092617       0.50000274113038734       0.50000270518123358       0.50000266993466669       0.50000263537249667       0.50000260147711872       0.50000256823149014       0.50000253561910946       0.50000250362399579       0.50000247223066907        11.887863560471157     
+ gaussq after class call, muzero:    2.0000000000000000     
+ kpts:            0
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            1         160
+ GBTQL2 after  if M.eq.L: L, M:            1         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            1         160
+ GBTQL2 after  if M.eq.L: L, M:            1         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            1         160
+ GBTQL2 after  if M.eq.L: L, M:            1         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            1         160
+ GBTQL2 after  if M.eq.L: L, M:            1         160
+ M, N:            1         160
+ GBTQL2 before if M.eq.L: L, M:            1           1
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            2         160
+ GBTQL2 after  if M.eq.L: L, M:            2         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            2         160
+ GBTQL2 after  if M.eq.L: L, M:            2         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            2         160
+ GBTQL2 after  if M.eq.L: L, M:            2         160
+ M, N:            2         160
+ GBTQL2 before if M.eq.L: L, M:            2           2
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            3         160
+ GBTQL2 after  if M.eq.L: L, M:            3         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            3         160
+ GBTQL2 after  if M.eq.L: L, M:            3         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            3         160
+ GBTQL2 after  if M.eq.L: L, M:            3         160
+ M, N:            3         160
+ GBTQL2 before if M.eq.L: L, M:            3           3
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            4         160
+ GBTQL2 after  if M.eq.L: L, M:            4         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            4         160
+ GBTQL2 after  if M.eq.L: L, M:            4         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            4         160
+ GBTQL2 after  if M.eq.L: L, M:            4         160
+ M, N:            4         160
+ GBTQL2 before if M.eq.L: L, M:            4           4
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            5         160
+ GBTQL2 after  if M.eq.L: L, M:            5         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            5         160
+ GBTQL2 after  if M.eq.L: L, M:            5         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            5         160
+ GBTQL2 after  if M.eq.L: L, M:            5         160
+ M, N:            5         160
+ GBTQL2 before if M.eq.L: L, M:            5           5
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            6         160
+ GBTQL2 after  if M.eq.L: L, M:            6         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            6         160
+ GBTQL2 after  if M.eq.L: L, M:            6         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            6         160
+ GBTQL2 after  if M.eq.L: L, M:            6         160
+ M, N:            6         160
+ GBTQL2 before if M.eq.L: L, M:            6           6
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            7         160
+ GBTQL2 after  if M.eq.L: L, M:            7         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            7         160
+ GBTQL2 after  if M.eq.L: L, M:            7         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            7         160
+ GBTQL2 after  if M.eq.L: L, M:            7         160
+ M, N:            7         160
+ GBTQL2 before if M.eq.L: L, M:            7           7
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            8         160
+ GBTQL2 after  if M.eq.L: L, M:            8         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            8         160
+ GBTQL2 after  if M.eq.L: L, M:            8         160
+ M, N:            8         160
+ GBTQL2 before if M.eq.L: L, M:            8           8
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            9         160
+ GBTQL2 after  if M.eq.L: L, M:            9         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:            9         160
+ GBTQL2 after  if M.eq.L: L, M:            9         160
+ M, N:            9         160
+ GBTQL2 before if M.eq.L: L, M:            9           9
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           10         160
+ GBTQL2 after  if M.eq.L: L, M:           10         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           10         160
+ GBTQL2 after  if M.eq.L: L, M:           10         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           10         160
+ GBTQL2 after  if M.eq.L: L, M:           10         160
+ M, N:           10         160
+ GBTQL2 before if M.eq.L: L, M:           10          10
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           11         160
+ GBTQL2 after  if M.eq.L: L, M:           11         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           11         160
+ GBTQL2 after  if M.eq.L: L, M:           11         160
+ M, N:           11         160
+ GBTQL2 before if M.eq.L: L, M:           11          11
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           12         160
+ GBTQL2 after  if M.eq.L: L, M:           12         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           12         160
+ GBTQL2 after  if M.eq.L: L, M:           12         160
+ M, N:           12         160
+ GBTQL2 before if M.eq.L: L, M:           12          12
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           13         160
+ GBTQL2 after  if M.eq.L: L, M:           13         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           13         160
+ GBTQL2 after  if M.eq.L: L, M:           13         160
+ M, N:           13         160
+ GBTQL2 before if M.eq.L: L, M:           13          13
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           14         160
+ GBTQL2 after  if M.eq.L: L, M:           14         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           14         160
+ GBTQL2 after  if M.eq.L: L, M:           14         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           14         160
+ GBTQL2 after  if M.eq.L: L, M:           14         160
+ M, N:           14         160
+ GBTQL2 before if M.eq.L: L, M:           14          14
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           15         160
+ GBTQL2 after  if M.eq.L: L, M:           15         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           15         160
+ GBTQL2 after  if M.eq.L: L, M:           15         160
+ M, N:           15         160
+ GBTQL2 before if M.eq.L: L, M:           15          15
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           16         160
+ GBTQL2 after  if M.eq.L: L, M:           16         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           16         160
+ GBTQL2 after  if M.eq.L: L, M:           16         160
+ M, N:           16         160
+ GBTQL2 before if M.eq.L: L, M:           16          16
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           17         160
+ GBTQL2 after  if M.eq.L: L, M:           17         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           17         160
+ GBTQL2 after  if M.eq.L: L, M:           17         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           17         160
+ GBTQL2 after  if M.eq.L: L, M:           17         160
+ M, N:           17         160
+ GBTQL2 before if M.eq.L: L, M:           17          17
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           18         160
+ GBTQL2 after  if M.eq.L: L, M:           18         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           18         160
+ GBTQL2 after  if M.eq.L: L, M:           18         160
+ M, N:           18         160
+ GBTQL2 before if M.eq.L: L, M:           18          18
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           19         160
+ GBTQL2 after  if M.eq.L: L, M:           19         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           19         160
+ GBTQL2 after  if M.eq.L: L, M:           19         160
+ M, N:           19         160
+ GBTQL2 before if M.eq.L: L, M:           19          19
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           20         160
+ GBTQL2 after  if M.eq.L: L, M:           20         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           20         160
+ GBTQL2 after  if M.eq.L: L, M:           20         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           20         160
+ GBTQL2 after  if M.eq.L: L, M:           20         160
+ M, N:           20         160
+ GBTQL2 before if M.eq.L: L, M:           20          20
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           21         160
+ GBTQL2 after  if M.eq.L: L, M:           21         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           21         160
+ GBTQL2 after  if M.eq.L: L, M:           21         160
+ M, N:           21         160
+ GBTQL2 before if M.eq.L: L, M:           21          21
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           22         160
+ GBTQL2 after  if M.eq.L: L, M:           22         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           22         160
+ GBTQL2 after  if M.eq.L: L, M:           22         160
+ M, N:           22         160
+ GBTQL2 before if M.eq.L: L, M:           22          22
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           23         160
+ GBTQL2 after  if M.eq.L: L, M:           23         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           23         160
+ GBTQL2 after  if M.eq.L: L, M:           23         160
+ M, N:           23         160
+ GBTQL2 before if M.eq.L: L, M:           23          23
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           24         160
+ GBTQL2 after  if M.eq.L: L, M:           24         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           24         160
+ GBTQL2 after  if M.eq.L: L, M:           24         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           24         160
+ GBTQL2 after  if M.eq.L: L, M:           24         160
+ M, N:           24         160
+ GBTQL2 before if M.eq.L: L, M:           24          24
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           25         160
+ GBTQL2 after  if M.eq.L: L, M:           25         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           25         160
+ GBTQL2 after  if M.eq.L: L, M:           25         160
+ M, N:           25         160
+ GBTQL2 before if M.eq.L: L, M:           25          25
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           26         160
+ GBTQL2 after  if M.eq.L: L, M:           26         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           26         160
+ GBTQL2 after  if M.eq.L: L, M:           26         160
+ M, N:           26         160
+ GBTQL2 before if M.eq.L: L, M:           26          26
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           27         160
+ GBTQL2 after  if M.eq.L: L, M:           27         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           27         160
+ GBTQL2 after  if M.eq.L: L, M:           27         160
+ M, N:           27         160
+ GBTQL2 before if M.eq.L: L, M:           27          27
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           28         160
+ GBTQL2 after  if M.eq.L: L, M:           28         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           28         160
+ GBTQL2 after  if M.eq.L: L, M:           28         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           28         160
+ GBTQL2 after  if M.eq.L: L, M:           28         160
+ M, N:           28         160
+ GBTQL2 before if M.eq.L: L, M:           28          28
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           29         160
+ GBTQL2 after  if M.eq.L: L, M:           29         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           29         160
+ GBTQL2 after  if M.eq.L: L, M:           29         160
+ M, N:           29         160
+ GBTQL2 before if M.eq.L: L, M:           29          29
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           30         160
+ GBTQL2 after  if M.eq.L: L, M:           30         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           30         160
+ GBTQL2 after  if M.eq.L: L, M:           30         160
+ M, N:           30         160
+ GBTQL2 before if M.eq.L: L, M:           30          30
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           31         160
+ GBTQL2 after  if M.eq.L: L, M:           31         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           31         160
+ GBTQL2 after  if M.eq.L: L, M:           31         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           31         160
+ GBTQL2 after  if M.eq.L: L, M:           31         160
+ M, N:           31         160
+ GBTQL2 before if M.eq.L: L, M:           31          31
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           32         160
+ GBTQL2 after  if M.eq.L: L, M:           32         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           32         160
+ GBTQL2 after  if M.eq.L: L, M:           32         160
+ M, N:           32         160
+ GBTQL2 before if M.eq.L: L, M:           32          32
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           33         160
+ GBTQL2 after  if M.eq.L: L, M:           33         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           33         160
+ GBTQL2 after  if M.eq.L: L, M:           33         160
+ M, N:           33         160
+ GBTQL2 before if M.eq.L: L, M:           33          33
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           34         160
+ GBTQL2 after  if M.eq.L: L, M:           34         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           34         160
+ GBTQL2 after  if M.eq.L: L, M:           34         160
+ M, N:           34         160
+ GBTQL2 before if M.eq.L: L, M:           34          34
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           35         160
+ GBTQL2 after  if M.eq.L: L, M:           35         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           35         160
+ GBTQL2 after  if M.eq.L: L, M:           35         160
+ M, N:           35         160
+ GBTQL2 before if M.eq.L: L, M:           35          35
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           36         160
+ GBTQL2 after  if M.eq.L: L, M:           36         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           36         160
+ GBTQL2 after  if M.eq.L: L, M:           36         160
+ M, N:           36         160
+ GBTQL2 before if M.eq.L: L, M:           36          36
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           37         160
+ GBTQL2 after  if M.eq.L: L, M:           37         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           37         160
+ GBTQL2 after  if M.eq.L: L, M:           37         160
+ M, N:           37         160
+ GBTQL2 before if M.eq.L: L, M:           37          37
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           38         160
+ GBTQL2 after  if M.eq.L: L, M:           38         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           38         160
+ GBTQL2 after  if M.eq.L: L, M:           38         160
+ M, N:           38         160
+ GBTQL2 before if M.eq.L: L, M:           38          38
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           39         160
+ GBTQL2 after  if M.eq.L: L, M:           39         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           39         160
+ GBTQL2 after  if M.eq.L: L, M:           39         160
+ M, N:           39         160
+ GBTQL2 before if M.eq.L: L, M:           39          39
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           40         160
+ GBTQL2 after  if M.eq.L: L, M:           40         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           40         160
+ GBTQL2 after  if M.eq.L: L, M:           40         160
+ M, N:           40         160
+ GBTQL2 before if M.eq.L: L, M:           40          40
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           41         160
+ GBTQL2 after  if M.eq.L: L, M:           41         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           41         160
+ GBTQL2 after  if M.eq.L: L, M:           41         160
+ M, N:           41         160
+ GBTQL2 before if M.eq.L: L, M:           41          41
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           42         160
+ GBTQL2 after  if M.eq.L: L, M:           42         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           42         160
+ GBTQL2 after  if M.eq.L: L, M:           42         160
+ M, N:           42         160
+ GBTQL2 before if M.eq.L: L, M:           42          42
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           43         160
+ GBTQL2 after  if M.eq.L: L, M:           43         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           43         160
+ GBTQL2 after  if M.eq.L: L, M:           43         160
+ M, N:           43         160
+ GBTQL2 before if M.eq.L: L, M:           43          43
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           44         160
+ GBTQL2 after  if M.eq.L: L, M:           44         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           44         160
+ GBTQL2 after  if M.eq.L: L, M:           44         160
+ M, N:           44         160
+ GBTQL2 before if M.eq.L: L, M:           44          44
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           45         160
+ GBTQL2 after  if M.eq.L: L, M:           45         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           45         160
+ GBTQL2 after  if M.eq.L: L, M:           45         160
+ M, N:           45         160
+ GBTQL2 before if M.eq.L: L, M:           45          45
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           46         160
+ GBTQL2 after  if M.eq.L: L, M:           46         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           46         160
+ GBTQL2 after  if M.eq.L: L, M:           46         160
+ M, N:           46         160
+ GBTQL2 before if M.eq.L: L, M:           46          46
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           47         160
+ GBTQL2 after  if M.eq.L: L, M:           47         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           47         160
+ GBTQL2 after  if M.eq.L: L, M:           47         160
+ M, N:           47         160
+ GBTQL2 before if M.eq.L: L, M:           47          47
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           48         160
+ GBTQL2 after  if M.eq.L: L, M:           48         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           48         160
+ GBTQL2 after  if M.eq.L: L, M:           48         160
+ M, N:           48         160
+ GBTQL2 before if M.eq.L: L, M:           48          48
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           49         160
+ GBTQL2 after  if M.eq.L: L, M:           49         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           49         160
+ GBTQL2 after  if M.eq.L: L, M:           49         160
+ M, N:           49         160
+ GBTQL2 before if M.eq.L: L, M:           49          49
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           50         160
+ GBTQL2 after  if M.eq.L: L, M:           50         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           50         160
+ GBTQL2 after  if M.eq.L: L, M:           50         160
+ M, N:           50         160
+ GBTQL2 before if M.eq.L: L, M:           50          50
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           51         160
+ GBTQL2 after  if M.eq.L: L, M:           51         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           51         160
+ GBTQL2 after  if M.eq.L: L, M:           51         160
+ M, N:           51         160
+ GBTQL2 before if M.eq.L: L, M:           51          51
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           52         160
+ GBTQL2 after  if M.eq.L: L, M:           52         160
+ M, N:           53         160
+ GBTQL2 before if M.eq.L: L, M:           52          53
+ GBTQL2 after  if M.eq.L: L, M:           52          53
+ M, N:           52         160
+ GBTQL2 before if M.eq.L: L, M:           52          52
+ M, N:           53         160
+ GBTQL2 before if M.eq.L: L, M:           53          53
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           54         160
+ GBTQL2 after  if M.eq.L: L, M:           54         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           54         160
+ GBTQL2 after  if M.eq.L: L, M:           54         160
+ M, N:           54         160
+ GBTQL2 before if M.eq.L: L, M:           54          54
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           55         160
+ GBTQL2 after  if M.eq.L: L, M:           55         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           55         160
+ GBTQL2 after  if M.eq.L: L, M:           55         160
+ M, N:           55         160
+ GBTQL2 before if M.eq.L: L, M:           55          55
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           56         160
+ GBTQL2 after  if M.eq.L: L, M:           56         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           56         160
+ GBTQL2 after  if M.eq.L: L, M:           56         160
+ M, N:           56         160
+ GBTQL2 before if M.eq.L: L, M:           56          56
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           57         160
+ GBTQL2 after  if M.eq.L: L, M:           57         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           57         160
+ GBTQL2 after  if M.eq.L: L, M:           57         160
+ M, N:           57         160
+ GBTQL2 before if M.eq.L: L, M:           57          57
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           58         160
+ GBTQL2 after  if M.eq.L: L, M:           58         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           58         160
+ GBTQL2 after  if M.eq.L: L, M:           58         160
+ M, N:           58         160
+ GBTQL2 before if M.eq.L: L, M:           58          58
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           59         160
+ GBTQL2 after  if M.eq.L: L, M:           59         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           59         160
+ GBTQL2 after  if M.eq.L: L, M:           59         160
+ M, N:           59         160
+ GBTQL2 before if M.eq.L: L, M:           59          59
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           60         160
+ GBTQL2 after  if M.eq.L: L, M:           60         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           60         160
+ GBTQL2 after  if M.eq.L: L, M:           60         160
+ M, N:           60         160
+ GBTQL2 before if M.eq.L: L, M:           60          60
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           61         160
+ GBTQL2 after  if M.eq.L: L, M:           61         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           61         160
+ GBTQL2 after  if M.eq.L: L, M:           61         160
+ M, N:           61         160
+ GBTQL2 before if M.eq.L: L, M:           61          61
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           62         160
+ GBTQL2 after  if M.eq.L: L, M:           62         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           62         160
+ GBTQL2 after  if M.eq.L: L, M:           62         160
+ M, N:           62         160
+ GBTQL2 before if M.eq.L: L, M:           62          62
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           63         160
+ GBTQL2 after  if M.eq.L: L, M:           63         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           63         160
+ GBTQL2 after  if M.eq.L: L, M:           63         160
+ M, N:           63         160
+ GBTQL2 before if M.eq.L: L, M:           63          63
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           64         160
+ GBTQL2 after  if M.eq.L: L, M:           64         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           64         160
+ GBTQL2 after  if M.eq.L: L, M:           64         160
+ M, N:           64         160
+ GBTQL2 before if M.eq.L: L, M:           64          64
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           65         160
+ GBTQL2 after  if M.eq.L: L, M:           65         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           65         160
+ GBTQL2 after  if M.eq.L: L, M:           65         160
+ M, N:           65         160
+ GBTQL2 before if M.eq.L: L, M:           65          65
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           66         160
+ GBTQL2 after  if M.eq.L: L, M:           66         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           66         160
+ GBTQL2 after  if M.eq.L: L, M:           66         160
+ M, N:           66         160
+ GBTQL2 before if M.eq.L: L, M:           66          66
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           67         160
+ GBTQL2 after  if M.eq.L: L, M:           67         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           67         160
+ GBTQL2 after  if M.eq.L: L, M:           67         160
+ M, N:           67         160
+ GBTQL2 before if M.eq.L: L, M:           67          67
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           68         160
+ GBTQL2 after  if M.eq.L: L, M:           68         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           68         160
+ GBTQL2 after  if M.eq.L: L, M:           68         160
+ M, N:           68         160
+ GBTQL2 before if M.eq.L: L, M:           68          68
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           69         160
+ GBTQL2 after  if M.eq.L: L, M:           69         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           69         160
+ GBTQL2 after  if M.eq.L: L, M:           69         160
+ M, N:           69         160
+ GBTQL2 before if M.eq.L: L, M:           69          69
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           70         160
+ GBTQL2 after  if M.eq.L: L, M:           70         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           70         160
+ GBTQL2 after  if M.eq.L: L, M:           70         160
+ M, N:           70         160
+ GBTQL2 before if M.eq.L: L, M:           70          70
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           71         160
+ GBTQL2 after  if M.eq.L: L, M:           71         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           71         160
+ GBTQL2 after  if M.eq.L: L, M:           71         160
+ M, N:           71         160
+ GBTQL2 before if M.eq.L: L, M:           71          71
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           72         160
+ GBTQL2 after  if M.eq.L: L, M:           72         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           72         160
+ GBTQL2 after  if M.eq.L: L, M:           72         160
+ M, N:           72         160
+ GBTQL2 before if M.eq.L: L, M:           72          72
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           73         160
+ GBTQL2 after  if M.eq.L: L, M:           73         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           73         160
+ GBTQL2 after  if M.eq.L: L, M:           73         160
+ M, N:           73         160
+ GBTQL2 before if M.eq.L: L, M:           73          73
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           74         160
+ GBTQL2 after  if M.eq.L: L, M:           74         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           74         160
+ GBTQL2 after  if M.eq.L: L, M:           74         160
+ M, N:           74         160
+ GBTQL2 before if M.eq.L: L, M:           74          74
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           75         160
+ GBTQL2 after  if M.eq.L: L, M:           75         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           75         160
+ GBTQL2 after  if M.eq.L: L, M:           75         160
+ M, N:           75         160
+ GBTQL2 before if M.eq.L: L, M:           75          75
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           76         160
+ GBTQL2 after  if M.eq.L: L, M:           76         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           76         160
+ GBTQL2 after  if M.eq.L: L, M:           76         160
+ M, N:           76         160
+ GBTQL2 before if M.eq.L: L, M:           76          76
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           77         160
+ GBTQL2 after  if M.eq.L: L, M:           77         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           77         160
+ GBTQL2 after  if M.eq.L: L, M:           77         160
+ M, N:           77         160
+ GBTQL2 before if M.eq.L: L, M:           77          77
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           78         160
+ GBTQL2 after  if M.eq.L: L, M:           78         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           78         160
+ GBTQL2 after  if M.eq.L: L, M:           78         160
+ M, N:           78         160
+ GBTQL2 before if M.eq.L: L, M:           78          78
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           79         160
+ GBTQL2 after  if M.eq.L: L, M:           79         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           79         160
+ GBTQL2 after  if M.eq.L: L, M:           79         160
+ M, N:           79         160
+ GBTQL2 before if M.eq.L: L, M:           79          79
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           80         160
+ GBTQL2 after  if M.eq.L: L, M:           80         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           80         160
+ GBTQL2 after  if M.eq.L: L, M:           80         160
+ M, N:           80         160
+ GBTQL2 before if M.eq.L: L, M:           80          80
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           81         160
+ GBTQL2 after  if M.eq.L: L, M:           81         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           81         160
+ GBTQL2 after  if M.eq.L: L, M:           81         160
+ M, N:           81         160
+ GBTQL2 before if M.eq.L: L, M:           81          81
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           82         160
+ GBTQL2 after  if M.eq.L: L, M:           82         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           82         160
+ GBTQL2 after  if M.eq.L: L, M:           82         160
+ M, N:           82         160
+ GBTQL2 before if M.eq.L: L, M:           82          82
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           83         160
+ GBTQL2 after  if M.eq.L: L, M:           83         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           83         160
+ GBTQL2 after  if M.eq.L: L, M:           83         160
+ M, N:           83         160
+ GBTQL2 before if M.eq.L: L, M:           83          83
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           84         160
+ GBTQL2 after  if M.eq.L: L, M:           84         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           84         160
+ GBTQL2 after  if M.eq.L: L, M:           84         160
+ M, N:           84         160
+ GBTQL2 before if M.eq.L: L, M:           84          84
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           85         160
+ GBTQL2 after  if M.eq.L: L, M:           85         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           85         160
+ GBTQL2 after  if M.eq.L: L, M:           85         160
+ M, N:           85         160
+ GBTQL2 before if M.eq.L: L, M:           85          85
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           86         160
+ GBTQL2 after  if M.eq.L: L, M:           86         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           86         160
+ GBTQL2 after  if M.eq.L: L, M:           86         160
+ M, N:           86         160
+ GBTQL2 before if M.eq.L: L, M:           86          86
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           87         160
+ GBTQL2 after  if M.eq.L: L, M:           87         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           87         160
+ GBTQL2 after  if M.eq.L: L, M:           87         160
+ M, N:           87         160
+ GBTQL2 before if M.eq.L: L, M:           87          87
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           88         160
+ GBTQL2 after  if M.eq.L: L, M:           88         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           88         160
+ GBTQL2 after  if M.eq.L: L, M:           88         160
+ M, N:           88         160
+ GBTQL2 before if M.eq.L: L, M:           88          88
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           89         160
+ GBTQL2 after  if M.eq.L: L, M:           89         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           89         160
+ GBTQL2 after  if M.eq.L: L, M:           89         160
+ M, N:           89         160
+ GBTQL2 before if M.eq.L: L, M:           89          89
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           90         160
+ GBTQL2 after  if M.eq.L: L, M:           90         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           90         160
+ GBTQL2 after  if M.eq.L: L, M:           90         160
+ M, N:           90         160
+ GBTQL2 before if M.eq.L: L, M:           90          90
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           91         160
+ GBTQL2 after  if M.eq.L: L, M:           91         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           91         160
+ GBTQL2 after  if M.eq.L: L, M:           91         160
+ M, N:           91         160
+ GBTQL2 before if M.eq.L: L, M:           91          91
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           92         160
+ GBTQL2 after  if M.eq.L: L, M:           92         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           92         160
+ GBTQL2 after  if M.eq.L: L, M:           92         160
+ M, N:           92         160
+ GBTQL2 before if M.eq.L: L, M:           92          92
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           93         160
+ GBTQL2 after  if M.eq.L: L, M:           93         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           93         160
+ GBTQL2 after  if M.eq.L: L, M:           93         160
+ M, N:           93         160
+ GBTQL2 before if M.eq.L: L, M:           93          93
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           94         160
+ GBTQL2 after  if M.eq.L: L, M:           94         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           94         160
+ GBTQL2 after  if M.eq.L: L, M:           94         160
+ M, N:           94         160
+ GBTQL2 before if M.eq.L: L, M:           94          94
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           95         160
+ GBTQL2 after  if M.eq.L: L, M:           95         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           95         160
+ GBTQL2 after  if M.eq.L: L, M:           95         160
+ M, N:           95         160
+ GBTQL2 before if M.eq.L: L, M:           95          95
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           96         160
+ GBTQL2 after  if M.eq.L: L, M:           96         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           96         160
+ GBTQL2 after  if M.eq.L: L, M:           96         160
+ M, N:           96         160
+ GBTQL2 before if M.eq.L: L, M:           96          96
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           97         160
+ GBTQL2 after  if M.eq.L: L, M:           97         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           97         160
+ GBTQL2 after  if M.eq.L: L, M:           97         160
+ M, N:           97         160
+ GBTQL2 before if M.eq.L: L, M:           97          97
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           98         160
+ GBTQL2 after  if M.eq.L: L, M:           98         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           98         160
+ GBTQL2 after  if M.eq.L: L, M:           98         160
+ M, N:           98         160
+ GBTQL2 before if M.eq.L: L, M:           98          98
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           99         160
+ GBTQL2 after  if M.eq.L: L, M:           99         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:           99         160
+ GBTQL2 after  if M.eq.L: L, M:           99         160
+ M, N:           99         160
+ GBTQL2 before if M.eq.L: L, M:           99          99
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          100         160
+ GBTQL2 after  if M.eq.L: L, M:          100         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          100         160
+ GBTQL2 after  if M.eq.L: L, M:          100         160
+ M, N:          100         160
+ GBTQL2 before if M.eq.L: L, M:          100         100
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          101         160
+ GBTQL2 after  if M.eq.L: L, M:          101         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          101         160
+ GBTQL2 after  if M.eq.L: L, M:          101         160
+ M, N:          101         160
+ GBTQL2 before if M.eq.L: L, M:          101         101
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          102         160
+ GBTQL2 after  if M.eq.L: L, M:          102         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          102         160
+ GBTQL2 after  if M.eq.L: L, M:          102         160
+ M, N:          102         160
+ GBTQL2 before if M.eq.L: L, M:          102         102
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          103         160
+ GBTQL2 after  if M.eq.L: L, M:          103         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          103         160
+ GBTQL2 after  if M.eq.L: L, M:          103         160
+ M, N:          103         160
+ GBTQL2 before if M.eq.L: L, M:          103         103
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          104         160
+ GBTQL2 after  if M.eq.L: L, M:          104         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          104         160
+ GBTQL2 after  if M.eq.L: L, M:          104         160
+ M, N:          104         160
+ GBTQL2 before if M.eq.L: L, M:          104         104
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          105         160
+ GBTQL2 after  if M.eq.L: L, M:          105         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          105         160
+ GBTQL2 after  if M.eq.L: L, M:          105         160
+ M, N:          105         160
+ GBTQL2 before if M.eq.L: L, M:          105         105
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          106         160
+ GBTQL2 after  if M.eq.L: L, M:          106         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          106         160
+ GBTQL2 after  if M.eq.L: L, M:          106         160
+ M, N:          106         160
+ GBTQL2 before if M.eq.L: L, M:          106         106
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          107         160
+ GBTQL2 after  if M.eq.L: L, M:          107         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          107         160
+ GBTQL2 after  if M.eq.L: L, M:          107         160
+ M, N:          107         160
+ GBTQL2 before if M.eq.L: L, M:          107         107
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          108         160
+ GBTQL2 after  if M.eq.L: L, M:          108         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          108         160
+ GBTQL2 after  if M.eq.L: L, M:          108         160
+ M, N:          108         160
+ GBTQL2 before if M.eq.L: L, M:          108         108
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          109         160
+ GBTQL2 after  if M.eq.L: L, M:          109         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          109         160
+ GBTQL2 after  if M.eq.L: L, M:          109         160
+ M, N:          109         160
+ GBTQL2 before if M.eq.L: L, M:          109         109
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          110         160
+ GBTQL2 after  if M.eq.L: L, M:          110         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          110         160
+ GBTQL2 after  if M.eq.L: L, M:          110         160
+ M, N:          110         160
+ GBTQL2 before if M.eq.L: L, M:          110         110
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          111         160
+ GBTQL2 after  if M.eq.L: L, M:          111         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          111         160
+ GBTQL2 after  if M.eq.L: L, M:          111         160
+ M, N:          111         160
+ GBTQL2 before if M.eq.L: L, M:          111         111
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          112         160
+ GBTQL2 after  if M.eq.L: L, M:          112         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          112         160
+ GBTQL2 after  if M.eq.L: L, M:          112         160
+ M, N:          112         160
+ GBTQL2 before if M.eq.L: L, M:          112         112
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          113         160
+ GBTQL2 after  if M.eq.L: L, M:          113         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          113         160
+ GBTQL2 after  if M.eq.L: L, M:          113         160
+ M, N:          113         160
+ GBTQL2 before if M.eq.L: L, M:          113         113
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          114         160
+ GBTQL2 after  if M.eq.L: L, M:          114         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          114         160
+ GBTQL2 after  if M.eq.L: L, M:          114         160
+ M, N:          114         160
+ GBTQL2 before if M.eq.L: L, M:          114         114
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          115         160
+ GBTQL2 after  if M.eq.L: L, M:          115         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          115         160
+ GBTQL2 after  if M.eq.L: L, M:          115         160
+ M, N:          115         160
+ GBTQL2 before if M.eq.L: L, M:          115         115
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          116         160
+ GBTQL2 after  if M.eq.L: L, M:          116         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          116         160
+ GBTQL2 after  if M.eq.L: L, M:          116         160
+ M, N:          116         160
+ GBTQL2 before if M.eq.L: L, M:          116         116
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          117         160
+ GBTQL2 after  if M.eq.L: L, M:          117         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          117         160
+ GBTQL2 after  if M.eq.L: L, M:          117         160
+ M, N:          117         160
+ GBTQL2 before if M.eq.L: L, M:          117         117
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          118         160
+ GBTQL2 after  if M.eq.L: L, M:          118         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          118         160
+ GBTQL2 after  if M.eq.L: L, M:          118         160
+ M, N:          118         160
+ GBTQL2 before if M.eq.L: L, M:          118         118
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          119         160
+ GBTQL2 after  if M.eq.L: L, M:          119         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          119         160
+ GBTQL2 after  if M.eq.L: L, M:          119         160
+ M, N:          119         160
+ GBTQL2 before if M.eq.L: L, M:          119         119
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          120         160
+ GBTQL2 after  if M.eq.L: L, M:          120         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          120         160
+ GBTQL2 after  if M.eq.L: L, M:          120         160
+ M, N:          120         160
+ GBTQL2 before if M.eq.L: L, M:          120         120
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          121         160
+ GBTQL2 after  if M.eq.L: L, M:          121         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          121         160
+ GBTQL2 after  if M.eq.L: L, M:          121         160
+ M, N:          121         160
+ GBTQL2 before if M.eq.L: L, M:          121         121
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          122         160
+ GBTQL2 after  if M.eq.L: L, M:          122         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          122         160
+ GBTQL2 after  if M.eq.L: L, M:          122         160
+ M, N:          122         160
+ GBTQL2 before if M.eq.L: L, M:          122         122
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          123         160
+ GBTQL2 after  if M.eq.L: L, M:          123         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          123         160
+ GBTQL2 after  if M.eq.L: L, M:          123         160
+ M, N:          123         160
+ GBTQL2 before if M.eq.L: L, M:          123         123
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          124         160
+ GBTQL2 after  if M.eq.L: L, M:          124         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          124         160
+ GBTQL2 after  if M.eq.L: L, M:          124         160
+ M, N:          124         160
+ GBTQL2 before if M.eq.L: L, M:          124         124
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          125         160
+ GBTQL2 after  if M.eq.L: L, M:          125         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          125         160
+ GBTQL2 after  if M.eq.L: L, M:          125         160
+ M, N:          125         160
+ GBTQL2 before if M.eq.L: L, M:          125         125
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          126         160
+ GBTQL2 after  if M.eq.L: L, M:          126         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          126         160
+ GBTQL2 after  if M.eq.L: L, M:          126         160
+ M, N:          126         160
+ GBTQL2 before if M.eq.L: L, M:          126         126
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          127         160
+ GBTQL2 after  if M.eq.L: L, M:          127         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          127         160
+ GBTQL2 after  if M.eq.L: L, M:          127         160
+ M, N:          127         160
+ GBTQL2 before if M.eq.L: L, M:          127         127
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          128         160
+ GBTQL2 after  if M.eq.L: L, M:          128         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          128         160
+ GBTQL2 after  if M.eq.L: L, M:          128         160
+ M, N:          128         160
+ GBTQL2 before if M.eq.L: L, M:          128         128
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          129         160
+ GBTQL2 after  if M.eq.L: L, M:          129         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          129         160
+ GBTQL2 after  if M.eq.L: L, M:          129         160
+ M, N:          129         160
+ GBTQL2 before if M.eq.L: L, M:          129         129
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          130         160
+ GBTQL2 after  if M.eq.L: L, M:          130         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          130         160
+ GBTQL2 after  if M.eq.L: L, M:          130         160
+ M, N:          130         160
+ GBTQL2 before if M.eq.L: L, M:          130         130
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          131         160
+ GBTQL2 after  if M.eq.L: L, M:          131         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          131         160
+ GBTQL2 after  if M.eq.L: L, M:          131         160
+ M, N:          131         160
+ GBTQL2 before if M.eq.L: L, M:          131         131
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          132         160
+ GBTQL2 after  if M.eq.L: L, M:          132         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          132         160
+ GBTQL2 after  if M.eq.L: L, M:          132         160
+ M, N:          132         160
+ GBTQL2 before if M.eq.L: L, M:          132         132
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          133         160
+ GBTQL2 after  if M.eq.L: L, M:          133         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          133         160
+ GBTQL2 after  if M.eq.L: L, M:          133         160
+ M, N:          133         160
+ GBTQL2 before if M.eq.L: L, M:          133         133
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          134         160
+ GBTQL2 after  if M.eq.L: L, M:          134         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          134         160
+ GBTQL2 after  if M.eq.L: L, M:          134         160
+ M, N:          134         160
+ GBTQL2 before if M.eq.L: L, M:          134         134
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          135         160
+ GBTQL2 after  if M.eq.L: L, M:          135         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          135         160
+ GBTQL2 after  if M.eq.L: L, M:          135         160
+ M, N:          135         160
+ GBTQL2 before if M.eq.L: L, M:          135         135
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          136         160
+ GBTQL2 after  if M.eq.L: L, M:          136         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          136         160
+ GBTQL2 after  if M.eq.L: L, M:          136         160
+ M, N:          136         160
+ GBTQL2 before if M.eq.L: L, M:          136         136
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          137         160
+ GBTQL2 after  if M.eq.L: L, M:          137         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          137         160
+ GBTQL2 after  if M.eq.L: L, M:          137         160
+ M, N:          137         160
+ GBTQL2 before if M.eq.L: L, M:          137         137
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          138         160
+ GBTQL2 after  if M.eq.L: L, M:          138         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          138         160
+ GBTQL2 after  if M.eq.L: L, M:          138         160
+ M, N:          138         160
+ GBTQL2 before if M.eq.L: L, M:          138         138
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          139         160
+ GBTQL2 after  if M.eq.L: L, M:          139         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          139         160
+ GBTQL2 after  if M.eq.L: L, M:          139         160
+ M, N:          139         160
+ GBTQL2 before if M.eq.L: L, M:          139         139
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          140         160
+ GBTQL2 after  if M.eq.L: L, M:          140         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          140         160
+ GBTQL2 after  if M.eq.L: L, M:          140         160
+ M, N:          140         160
+ GBTQL2 before if M.eq.L: L, M:          140         140
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          141         160
+ GBTQL2 after  if M.eq.L: L, M:          141         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          141         160
+ GBTQL2 after  if M.eq.L: L, M:          141         160
+ M, N:          141         160
+ GBTQL2 before if M.eq.L: L, M:          141         141
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          142         160
+ GBTQL2 after  if M.eq.L: L, M:          142         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          142         160
+ GBTQL2 after  if M.eq.L: L, M:          142         160
+ M, N:          142         160
+ GBTQL2 before if M.eq.L: L, M:          142         142
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          143         160
+ GBTQL2 after  if M.eq.L: L, M:          143         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          143         160
+ GBTQL2 after  if M.eq.L: L, M:          143         160
+ M, N:          143         160
+ GBTQL2 before if M.eq.L: L, M:          143         143
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          144         160
+ GBTQL2 after  if M.eq.L: L, M:          144         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          144         160
+ GBTQL2 after  if M.eq.L: L, M:          144         160
+ M, N:          144         160
+ GBTQL2 before if M.eq.L: L, M:          144         144
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          145         160
+ GBTQL2 after  if M.eq.L: L, M:          145         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          145         160
+ GBTQL2 after  if M.eq.L: L, M:          145         160
+ M, N:          145         160
+ GBTQL2 before if M.eq.L: L, M:          145         145
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          146         160
+ GBTQL2 after  if M.eq.L: L, M:          146         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          146         160
+ GBTQL2 after  if M.eq.L: L, M:          146         160
+ M, N:          146         160
+ GBTQL2 before if M.eq.L: L, M:          146         146
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          147         160
+ GBTQL2 after  if M.eq.L: L, M:          147         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          147         160
+ GBTQL2 after  if M.eq.L: L, M:          147         160
+ M, N:          147         160
+ GBTQL2 before if M.eq.L: L, M:          147         147
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          148         160
+ GBTQL2 after  if M.eq.L: L, M:          148         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          148         160
+ GBTQL2 after  if M.eq.L: L, M:          148         160
+ M, N:          148         160
+ GBTQL2 before if M.eq.L: L, M:          148         148
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          149         160
+ GBTQL2 after  if M.eq.L: L, M:          149         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          149         160
+ GBTQL2 after  if M.eq.L: L, M:          149         160
+ M, N:          149         160
+ GBTQL2 before if M.eq.L: L, M:          149         149
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          150         160
+ GBTQL2 after  if M.eq.L: L, M:          150         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          150         160
+ GBTQL2 after  if M.eq.L: L, M:          150         160
+ M, N:          150         160
+ GBTQL2 before if M.eq.L: L, M:          150         150
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          151         160
+ GBTQL2 after  if M.eq.L: L, M:          151         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          151         160
+ GBTQL2 after  if M.eq.L: L, M:          151         160
+ M, N:          151         160
+ GBTQL2 before if M.eq.L: L, M:          151         151
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          152         160
+ GBTQL2 after  if M.eq.L: L, M:          152         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          152         160
+ GBTQL2 after  if M.eq.L: L, M:          152         160
+ M, N:          152         160
+ GBTQL2 before if M.eq.L: L, M:          152         152
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          153         160
+ GBTQL2 after  if M.eq.L: L, M:          153         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          153         160
+ GBTQL2 after  if M.eq.L: L, M:          153         160
+ M, N:          153         160
+ GBTQL2 before if M.eq.L: L, M:          153         153
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          154         160
+ GBTQL2 after  if M.eq.L: L, M:          154         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          154         160
+ GBTQL2 after  if M.eq.L: L, M:          154         160
+ M, N:          154         160
+ GBTQL2 before if M.eq.L: L, M:          154         154
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          155         160
+ GBTQL2 after  if M.eq.L: L, M:          155         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          155         160
+ GBTQL2 after  if M.eq.L: L, M:          155         160
+ M, N:          155         160
+ GBTQL2 before if M.eq.L: L, M:          155         155
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          156         160
+ GBTQL2 after  if M.eq.L: L, M:          156         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          156         160
+ GBTQL2 after  if M.eq.L: L, M:          156         160
+ M, N:          156         160
+ GBTQL2 before if M.eq.L: L, M:          156         156
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          157         160
+ GBTQL2 after  if M.eq.L: L, M:          157         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          157         160
+ GBTQL2 after  if M.eq.L: L, M:          157         160
+ M, N:          157         160
+ GBTQL2 before if M.eq.L: L, M:          157         157
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          158         160
+ GBTQL2 after  if M.eq.L: L, M:          158         160
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          158         160
+ GBTQL2 after  if M.eq.L: L, M:          158         160
+ M, N:          158         160
+ GBTQL2 before if M.eq.L: L, M:          158         158
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          159         160
+ GBTQL2 after  if M.eq.L: L, M:          159         160
+ M, N:          159         160
+ GBTQL2 before if M.eq.L: L, M:          159         159
+ M, N:          160         160
+ GBTQL2 before if M.eq.L: L, M:          160         160
+ gaussq after  call, muzero, kpts = 0:    2.0000000000000000                0
+         160           3         163         323 *           1         243         403
+         160           3         163         323 *           2         244         404
+         160           3         163         323 *           3         245         405
+         160           3         163         323 *           4         246         406
+         160           3         163         323 *           5         247         407
+         160           3         163         323 *           6         248         408
+         160           3         163         323 *           7         249         409
+         160           3         163         323 *           8         250         410
+         160           3         163         323 *           9         251         411
+         160           3         163         323 *          10         252         412
+         160           3         163         323 *          11         253         413
+         160           3         163         323 *          12         254         414
+         160           3         163         323 *          13         255         415
+         160           3         163         323 *          14         256         416
+         160           3         163         323 *          15         257         417
+         160           3         163         323 *          16         258         418
+         160           3         163         323 *          17         259         419
+         160           3         163         323 *          18         260         420
+         160           3         163         323 *          19         261         421
+         160           3         163         323 *          20         262         422
+         160           3         163         323 *          21         263         423
+         160           3         163         323 *          22         264         424
+         160           3         163         323 *          23         265         425
+         160           3         163         323 *          24         266         426
+         160           3         163         323 *          25         267         427
+         160           3         163         323 *          26         268         428
+         160           3         163         323 *          27         269         429
+         160           3         163         323 *          28         270         430
+         160           3         163         323 *          29         271         431
+         160           3         163         323 *          30         272         432
+         160           3         163         323 *          31         273         433
+         160           3         163         323 *          32         274         434
+         160           3         163         323 *          33         275         435
+         160           3         163         323 *          34         276         436
+         160           3         163         323 *          35         277         437
+         160           3         163         323 *          36         278         438
+         160           3         163         323 *          37         279         439
+         160           3         163         323 *          38         280         440
+         160           3         163         323 *          39         281         441
+         160           3         163         323 *          40         282         442
+         160           3         163         323 *          41         283         443
+         160           3         163         323 *          42         284         444
+         160           3         163         323 *          43         285         445
+         160           3         163         323 *          44         286         446
+         160           3         163         323 *          45         287         447
+         160           3         163         323 *          46         288         448
+         160           3         163         323 *          47         289         449
+         160           3         163         323 *          48         290         450
+         160           3         163         323 *          49         291         451
+         160           3         163         323 *          50         292         452
+         160           3         163         323 *          51         293         453
+         160           3         163         323 *          52         294         454
+         160           3         163         323 *          53         295         455
+         160           3         163         323 *          54         296         456
+         160           3         163         323 *          55         297         457
+         160           3         163         323 *          56         298         458
+         160           3         163         323 *          57         299         459
+         160           3         163         323 *          58         300         460
+         160           3         163         323 *          59         301         461
+         160           3         163         323 *          60         302         462
+         160           3         163         323 *          61         303         463
+         160           3         163         323 *          62         304         464
+         160           3         163         323 *          63         305         465
+         160           3         163         323 *          64         306         466
+         160           3         163         323 *          65         307         467
+         160           3         163         323 *          66         308         468
+         160           3         163         323 *          67         309         469
+         160           3         163         323 *          68         310         470
+         160           3         163         323 *          69         311         471
+         160           3         163         323 *          70         312         472
+         160           3         163         323 *          71         313         473
+         160           3         163         323 *          72         314         474
+         160           3         163         323 *          73         315         475
+         160           3         163         323 *          74         316         476
+         160           3         163         323 *          75         317         477
+         160           3         163         323 *          76         318         478
+         160           3         163         323 *          77         319         479
+         160           3         163         323 *          78         320         480
+         160           3         163         323 *          79         321         481
+         160           3         163         323 *          80         322         482
+ after  nleg, al, be, kpts:           80   0.0000000000000000        0.0000000000000000                0
+  actual basis used:
+  number of blocks: nb=   5
+  number of levels: nt=  10
+  maximal 2*omega : nom=   5
+  maximal nz:       nzm=   2
+  maximal nr:       nrm=   1
+  maximal ml:       nlm=   2
+  maximal nn=nz+2*nr+nl=   2
+  2 x bigest block dim.=   8
+  Nonzero elemets of HH=      18
+  Number Broyden elemens=      72
+
+  number of gauss-hermite  meshpoints ngh= 40
+  from xh(1)=  0.12379686 to xh(ngh)= 11.88786356
+  number of gauss-laguerre meshpoints ngl= 40
+  from xl(1)=  0.03570039 to xl(ngl)=142.28004447
+  max.dev.in:    orthogonality           normalization
+  hermit      2.7313041615070089E-016   1.7763568394002505E-015
+  laguerre    1.5560737552501847E-016   5.5511151231257827E-016
+
+  Reading from wel_file: s004_004.hel
+
+
+  ### REGULAR STAGE (reflection symmetry imposed)
+  |HFB+HO> iterations(b0=  1.298, Nsh=  2, inin= -1, N=  4, Z=  4)...
+  ----------------------------------------------------------------------------------------------------------------------------------
+  i          si     mix   beta    Etot     A       rn      rp         En       Dn      Ep      Dp        Ln     Lp        time
+  ----------------------------------------------------------------------------------------------------------------------------------
+   1L   1.00000000 0.49  0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.000
+   2B   0.10203613 0.10 -0.000    -35.093    8.0   1.957   1.963 |   -3.843   2.853  -4.851   3.387 |   -5.605  -3.440   7.138
+   3B   0.03713210 0.11  0.000    -35.083    8.0   1.956   1.963 |   -3.889   2.870  -4.902   3.405 |   -5.610  -3.445   0.003
+   4B   0.05346832 0.10 -0.001    -35.084    8.0   1.957   1.964 |   -3.921   2.880  -4.939   3.416 |   -5.613  -3.448   0.003
+   5B   0.01295699 0.11  0.000    -35.086    8.0   1.957   1.963 |   -3.929   2.884  -4.950   3.420 |   -5.611  -3.447   0.004
+   6B   0.00754004 0.13 -0.000    -35.086    8.0   1.957   1.963 |   -3.934   2.885  -4.955   3.422 |   -5.611  -3.447   0.004
+   7B   0.00075413 0.14 -0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+   8B   0.00028656 0.16 -0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+   9B   0.00004001 0.18  0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  10B   0.00001776 0.21  0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  11B   0.00000380 0.24  0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  12B   0.00000156 0.27 -0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  13B   0.00000072 0.30 -0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  14B   0.00000010 0.34 -0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  15B   0.00000003 0.38  0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  16B   0.00000002 0.43 -0.000    -35.085    8.0   1.957   1.964 |   -3.938   2.887  -4.962   3.424 |   -5.611  -3.448   0.003
+  ----------------------------------------------------------------------------------------------------------------------------------
+  *   iteration converged   after  16 steps   si=     0.0000000027 ho=  0 tho=  0
+  ----------------------------------------------------------------------------------------------------------------------------------
+  Total CPU time=   0.120 minutes
+
+  Writing to wel_file: s004_004.hel
+ __________________________________  
+  The tape s004_004.hel recorded:     
+  nucname,npr,ngh,ngl,n00,nb,nt      
+  b0,beta0,si,etot,rms,bet,xmix      
+  pairing:     CpV0,CpV1,pwi         
+  delta:       del,ept               
+  lambda:      ala,ala2,alast,tz     
+  asymptotic:  varmas,ass,skass      
+  ntx,nb,nhhdim,id,N_rz,n_r,n_z      
+  Omega2,Sigma2,Parirty,Lambda       
+  matrices(inbro):    hh,de          
+  *all blocking candidates           
+ __________________________________  
+
+
+  NB! From expect (UNPROJECTED RESULTS)
+
+  pairing: CpV0,CpV1,...        -160.000000    -180.000000       0.000000       0.000000
+  forces:   ORIGINAL_SKMS                 
+
+
+                             neutrons         protons         total
+  Requested part.numbs.       4.000000       4.000000       8.000000
+  UnPj(av) part.numbs .       4.000000       4.000000       8.000000
+  b0, bz, bp ..........       1.298341       1.298341       1.298341
+
+  lambda (ala) ........      -5.611280      -3.448493
+  Lambda (alast) ......      -5.611280      -3.448493
+  delta(n,p), pwi .....       2.886813       3.423977      60.000000
+  pairing energy ......      -3.937955      -4.962045      -8.900000
+
+  rms-radius ..........       1.956861       1.963538       1.960202
+  charge-radius, r0 ...                      2.120255       2.400000
+  deformation ......bet       0.000000
+  q2 defformation, beta       0.000000       0.000000       0.000000
+  q4 defformation, heta       0.000000       0.000000       0.000000
+  deformation .........       0.000000       0.000000       0.000000
+  quadrupole moment[b]        0.000000       0.000000       0.000000
+  hexadecapole moment .       0.000000       0.000000       0.000000
+  <q20> ...............       0.000000       0.000000       0.000000
+  <q40> ...............       0.000000       0.000000       0.000000
+
+  kinetic energy ......      78.681460      78.783142     157.464602
+  volume energy .......                                  -231.105165
+        rho_tau .......                                    27.087221
+        rho_rho .......                                  -258.192386
+  surface energy ......                                    63.787594
+   rho_DELTA_rho ......                                    63.787594
+   (NABLA_rho)^2 ......                                     0.000000
+  spin-orbit energy ...                                   -20.412304
+        rho_NABLA_J ...                                   -20.412304
+        NABLA_rho_J ...                                     0.000000
+  coulomb energy ......                                     4.079780
+          direct ......                                     5.604448
+          exchange ....                                    -1.524668
+  tensor energy .......                                     0.000000
+  direct Hartree E  ...                                     0.000000
+  Extra E .............                                     0.000000
+  External field E ....                                     0.000000
+
+  tEnergy: ehfb (qp)...                                   -35.085493
+
+  Calculated but not added corrections 
+====================================
+  cmc-diagonal part ...      11.240209      11.254735      22.494943
+  cmc-hfb .............       0.000000       0.000000       0.000000
+  cranking rot corr ...       0.000000       0.000000       0.000000
+
+  SQUJ ................       0.000000       0.000000       0.000000
+  CRAN x 4 ............       0.000000       0.000000       0.000000
+  Rigit Body ..........       0.000000       0.000000       0.000000
+
+
+   Blocking candidates are:
+   neutron eqpmin=   2.7481663422435716       pwiblo=   8.0000000000000000     
+    num=   1 block=   4 state=   1     9 Eqp=   2.74816634  (1-2N)E=   0.06637001  Ovlp=   0.71559439  3-[ 1, 0, 1]
+    num=   2 block=   2 state=   1     5 Eqp=   2.74816634  (1-2N)E=   0.06637001  Ovlp=   0.58428037  1-[ 1, 1, 0]
+
+   Blocking candidates are:
+   proton  eqpmin=   3.2687417357999848       pwiblo=   8.0000000000000000     
+    num=   1 block=   4 state=   1     9 Eqp=   3.26874174  (1-2N)E=   0.11384644  Ovlp=   0.71931524  3-[ 1, 0, 1]
+    num=   2 block=   2 state=   1     5 Eqp=   3.26874174  (1-2N)E=   0.11384644  Ovlp=   0.58731843  1-[ 1, 1, 0]
+
+
+
+ HFBTHO_SOLVER ended without errors
+
+   NEUTRON HFB UV SOLUTION IS OK
+   PROTON  HFB UV SOLUTION IS OK
+           < Starting FAM calculation >
+   FAM QRPA version: 18    
+   
+   Time-odd coupling constants:
+   -----------------------------------
+   Css(0)=     271.112500000000011    ; Css(1)=     330.625000000000000    
+   CDss(0)=   -324.895833333333314    ; CDss(1)=   -324.895833333333314    
+   Cjj(0)=    -34.6875000000000000    ; Cjj(1)=     34.0625000000000000    
+   CsNj(0)=   -97.5000000000000000    ; CsNj(1)=   -32.5000000000000000    
+   CsDs(0)=    17.1093750000000000    ; CsDs(1)=    17.1093750000000000    
+   CsT(0)=    -0.00000000000000000    ; CsT(1)=    -0.00000000000000000    
+   
+   Electric transition operator used
+   
+   QRPA CALCULATIONS 
+   DIMENSION OF U,V iHFB_LEN:          26
+   DIMENSION OF Eqp iHFB_NQP:          10
+   MAX ITERATIONS           :         200
+   BROYDEN HISTORY          :          40
+   MIXING PARAMETER         :  0.33000000000000002     
+   QRPA STOP CRITERIA       :   9.9999999999999995E-008
+
+   OMEGA               :              (1.0000000000000000,0.50000000000000000)
+   NEUTRON POLE(-)     :             (4.4963326844871432,-0.50000000000000000)
+   PROTON  POLE(-)     :             (5.5374834715999697,-0.50000000000000000)
+   T,L,K RESP.OPERATOR :           0           2           0
+   Transition strength in units of [e^2 MeV^{-1} fm^{2L}]
+  |QRPA> iterations... b0=  1.298, Nsh=  2, N=  4, Z=  4, Eta= 0.0000000    , Omega= 1.0000000    0.50000000    
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+    i        si    mix        reSn         reSp         reSt         imSn         imSp         imSt           TrStrn       TrStrp       TrStrt          Time
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+   0L   1.00000000 0.33 |   0.00000      0.00000      0.00000      0.00000      0.00000      0.00000     |  -0.00000     -0.00000     -0.00000     |    0.03
+   1B   0.05838148 0.33 |  -.363952E-01 -.339571E-01 -.703523E-01 -.618035E-03 -.373112E-03 -.991147E-03 |  0.196727E-03 0.118765E-03 0.315492E-03 |    0.02
+   2B   0.01895411 0.33 |  -.337820E-01 -.334835E-01 -.672655E-01 -.388292E-04 -.957583E-05 -.484050E-04 |  0.123597E-04 0.304808E-05 0.154078E-04 |    0.02
+   3B   0.00639517 0.33 |  -.391156E-01 -.403619E-01 -.794775E-01 -.243864E-03 -.176768E-03 -.420631E-03 |  0.776243E-04 0.562669E-04 0.133891E-03 |    0.02
+   4B   0.00147829 0.33 |  -.407746E-01 -.417696E-01 -.825442E-01 -.495346E-04 -.245083E-04 -.740429E-04 |  0.157673E-04 0.780124E-05 0.235686E-04 |    0.02
+   5B   0.00033436 0.33 |  -.409511E-01 -.417867E-01 -.827379E-01 -.866266E-04 -.558616E-04 -.142488E-03 |  0.275741E-04 0.177813E-04 0.453554E-04 |    0.02
+   6B   0.00017826 0.33 |  -.409311E-01 -.417771E-01 -.827082E-01 -.853055E-04 -.607380E-04 -.146044E-03 |  0.271536E-04 0.193335E-04 0.464871E-04 |    0.02
+   7B   0.00000684 0.33 |  -.409299E-01 -.417766E-01 -.827066E-01 -.871822E-04 -.597194E-04 -.146902E-03 |  0.277510E-04 0.190093E-04 0.467602E-04 |    0.02
+   8B   0.00000421 0.33 |  -.409288E-01 -.417757E-01 -.827045E-01 -.883767E-04 -.596995E-04 -.148076E-03 |  0.281312E-04 0.190029E-04 0.471341E-04 |    0.02
+   9B   0.00000159 0.33 |  -.409285E-01 -.417754E-01 -.827040E-01 -.882090E-04 -.603817E-04 -.148591E-03 |  0.280778E-04 0.192201E-04 0.472979E-04 |    0.02
+  10B   0.00000076 0.33 |  -.409287E-01 -.417756E-01 -.827043E-01 -.882621E-04 -.603910E-04 -.148653E-03 |  0.280947E-04 0.192230E-04 0.473178E-04 |    0.02
+  11B   0.00000008 0.33 |  -.409287E-01 -.417756E-01 -.827043E-01 -.882593E-04 -.603857E-04 -.148645E-03 |  0.280938E-04 0.192214E-04 0.473152E-04 |    0.02
+
+   OMEGA               :              (1.5000000000000000,0.50000000000000000)
+   NEUTRON POLE(-)     :             (3.9963326844871427,-0.50000000000000000)
+   PROTON  POLE(-)     :             (5.0374834715999697,-0.50000000000000011)
+   T,L,K RESP.OPERATOR :           0           2           0
+   Transition strength in units of [e^2 MeV^{-1} fm^{2L}]
+  |QRPA> iterations... b0=  1.298, Nsh=  2, N=  4, Z=  4, Eta= 0.0000000    , Omega= 1.5000000    0.50000000    
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+    i        si    mix        reSn         reSp         reSt         imSn         imSp         imSt           TrStrn       TrStrp       TrStrt          Time
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+   0L   1.00000000 0.33 |   0.00000      0.00000      0.00000      0.00000      0.00000      0.00000     |  -0.00000     -0.00000     -0.00000     |    0.02
+   1B   0.06547322 0.33 |  -.371701E-01 -.344250E-01 -.715952E-01 -.100579E-02 -.591708E-03 -.159750E-02 |  0.320154E-03 0.188347E-03 0.508500E-03 |    0.02
+   2B   0.02243230 0.33 |  -.338938E-01 -.335128E-01 -.674066E-01 -.458938E-04 -.426554E-05 -.501594E-04 |  0.146085E-04 0.135776E-05 0.159662E-04 |    0.02
+   3B   0.00710410 0.33 |  -.383844E-01 -.393918E-01 -.777762E-01 -.373606E-03 -.259630E-03 -.633236E-03 |  0.118922E-03 0.826428E-04 0.201565E-03 |    0.02
+   4B   0.00215105 0.33 |  -.408075E-01 -.418105E-01 -.826179E-01 -.952696E-04 -.491629E-04 -.144432E-03 |  0.303252E-04 0.156490E-04 0.459743E-04 |    0.02
+   5B   0.00039331 0.33 |  -.410619E-01 -.418662E-01 -.829281E-01 -.131697E-03 -.818322E-04 -.213530E-03 |  0.419206E-04 0.260480E-04 0.679686E-04 |    0.02
+   6B   0.00019813 0.33 |  -.410421E-01 -.418530E-01 -.828951E-01 -.131354E-03 -.916342E-04 -.222988E-03 |  0.418112E-04 0.291681E-04 0.709793E-04 |    0.02
+   7B   0.00001058 0.33 |  -.410405E-01 -.418523E-01 -.828928E-01 -.134569E-03 -.897405E-04 -.224310E-03 |  0.428348E-04 0.285653E-04 0.714001E-04 |    0.02
+   8B   0.00000652 0.33 |  -.410395E-01 -.418513E-01 -.828908E-01 -.136153E-03 -.897598E-04 -.225913E-03 |  0.433389E-04 0.285714E-04 0.719104E-04 |    0.02
+   9B   0.00000292 0.33 |  -.410390E-01 -.418509E-01 -.828899E-01 -.136147E-03 -.908026E-04 -.226949E-03 |  0.433369E-04 0.289034E-04 0.722402E-04 |    0.02
+  10B   0.00000124 0.33 |  -.410392E-01 -.418511E-01 -.828903E-01 -.136186E-03 -.908030E-04 -.226989E-03 |  0.433492E-04 0.289035E-04 0.722527E-04 |    0.02
+  11B   0.00000011 0.33 |  -.410392E-01 -.418511E-01 -.828903E-01 -.136181E-03 -.907960E-04 -.226977E-03 |  0.433479E-04 0.289013E-04 0.722491E-04 |    0.02
+  12B   0.00000006 0.33 |  -.410392E-01 -.418511E-01 -.828903E-01 -.136171E-03 -.907854E-04 -.226957E-03 |  0.433447E-04 0.288979E-04 0.722426E-04 |    0.02
+
+   OMEGA               :              (2.0000000000000000,0.50000000000000000)
+   NEUTRON POLE(-)     :             (3.4963326844871432,-0.50000000000000000)
+   PROTON  POLE(-)     :             (4.5374834715999697,-0.50000000000000000)
+   T,L,K RESP.OPERATOR :           0           2           0
+   Transition strength in units of [e^2 MeV^{-1} fm^{2L}]
+  |QRPA> iterations... b0=  1.298, Nsh=  2, N=  4, Z=  4, Eta= 0.0000000    , Omega= 2.0000000    0.50000000    
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+    i        si    mix        reSn         reSp         reSt         imSn         imSp         imSt           TrStrn       TrStrp       TrStrt          Time
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+   0L   1.00000000 0.33 |   0.00000      0.00000      0.00000      0.00000      0.00000      0.00000     |  -0.00000     -0.00000     -0.00000     |    0.02
+   1B   0.07448454 0.33 |  -.383625E-01 -.351244E-01 -.734869E-01 -.151276E-02 -.855587E-03 -.236835E-02 |  0.481527E-03 0.272342E-03 0.753869E-03 |    0.02
+   2B   0.02772450 0.33 |  -.340669E-01 -.335586E-01 -.676255E-01 -.310100E-04 0.169837E-04 -.140263E-04 |  0.987079E-05 -.540609E-05 0.446470E-05 |    0.02
+   3B   0.00808423 0.33 |  -.374887E-01 -.381555E-01 -.756442E-01 -.494365E-03 -.323098E-03 -.817462E-03 |  0.157361E-03 0.102845E-03 0.260206E-03 |    0.02
+   4B   0.00310280 0.33 |  -.408651E-01 -.418388E-01 -.827038E-01 -.146385E-03 -.704270E-04 -.216812E-03 |  0.465958E-04 0.224176E-04 0.690134E-04 |    0.02
+   5B   0.00046724 0.33 |  -.412224E-01 -.419773E-01 -.831997E-01 -.182630E-03 -.107560E-03 -.290190E-03 |  0.581330E-04 0.342373E-04 0.923704E-04 |    0.02
+   6B   0.00022112 0.33 |  -.412029E-01 -.419601E-01 -.831630E-01 -.181895E-03 -.122822E-03 -.304716E-03 |  0.578988E-04 0.390953E-04 0.969941E-04 |    0.02
+   7B   0.00001694 0.33 |  -.412005E-01 -.419587E-01 -.831592E-01 -.187205E-03 -.119790E-03 -.306995E-03 |  0.595893E-04 0.381302E-04 0.977196E-04 |    0.02
+   8B   0.00000894 0.33 |  -.411996E-01 -.419575E-01 -.831571E-01 -.189037E-03 -.119906E-03 -.308943E-03 |  0.601723E-04 0.381672E-04 0.983395E-04 |    0.02
+   9B   0.00000468 0.33 |  -.411989E-01 -.419569E-01 -.831558E-01 -.189348E-03 -.121314E-03 -.310662E-03 |  0.602712E-04 0.386155E-04 0.988867E-04 |    0.02
+  10B   0.00000185 0.33 |  -.411992E-01 -.419571E-01 -.831563E-01 -.189380E-03 -.121313E-03 -.310692E-03 |  0.602814E-04 0.386151E-04 0.988965E-04 |    0.02
+  11B   0.00000016 0.33 |  -.411992E-01 -.419571E-01 -.831563E-01 -.189375E-03 -.121304E-03 -.310679E-03 |  0.602798E-04 0.386123E-04 0.988922E-04 |    0.02
+  12B   0.00000007 0.33 |  -.411992E-01 -.419571E-01 -.831563E-01 -.189363E-03 -.121291E-03 -.310654E-03 |  0.602761E-04 0.386081E-04 0.988843E-04 |    0.02
+
+   OMEGA               :              (2.5000000000000000,0.50000000000000000)
+   NEUTRON POLE(-)     :             (2.9963326844871432,-0.50000000000000000)
+   PROTON  POLE(-)     :             (4.0374834715999697,-0.49999999999999994)
+   T,L,K RESP.OPERATOR :           0           2           0
+   Transition strength in units of [e^2 MeV^{-1} fm^{2L}]
+  |QRPA> iterations... b0=  1.298, Nsh=  2, N=  4, Z=  4, Eta= 0.0000000    , Omega= 2.5000000    0.50000000    
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+    i        si    mix        reSn         reSp         reSt         imSn         imSp         imSt           TrStrn       TrStrp       TrStrt          Time
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+   0L   1.00000000 0.33 |   0.00000      0.00000      0.00000      0.00000      0.00000      0.00000     |  -0.00000     -0.00000     -0.00000     |    0.02
+   1B   0.08628852 0.33 |  -.401137E-01 -.361092E-01 -.762229E-01 -.223486E-02 -.119399E-02 -.342885E-02 |  0.711379E-03 0.380059E-03 0.109144E-02 |    0.02
+   2B   0.03593446 0.33 |  -.343261E-01 -.336290E-01 -.679551E-01 0.305340E-04 0.679308E-04 0.984649E-04 |  -.971929E-05 -.216231E-04 -.313423E-04 |    0.02
+   3B   0.00953142 0.33 |  -.366779E-01 -.369408E-01 -.736186E-01 -.588440E-03 -.354072E-03 -.942512E-03 |  0.187306E-03 0.112705E-03 0.300011E-03 |    0.02
+   4B   0.00485358 0.33 |  -.408988E-01 -.417972E-01 -.826959E-01 -.208002E-03 -.852341E-04 -.293236E-03 |  0.662092E-04 0.271309E-04 0.933400E-04 |    0.02
+   5B   0.00073038 0.33 |  -.414394E-01 -.421194E-01 -.835588E-01 -.242917E-03 -.132176E-03 -.375092E-03 |  0.773228E-04 0.420729E-04 0.119396E-03 |    0.02
+   6B   0.00024853 0.33 |  -.414205E-01 -.420996E-01 -.835200E-01 -.239596E-03 -.153534E-03 -.393130E-03 |  0.762657E-04 0.488715E-04 0.125137E-03 |    0.02
+   7B   0.00003075 0.33 |  -.414163E-01 -.420957E-01 -.835120E-01 -.248364E-03 -.149425E-03 -.397789E-03 |  0.790567E-04 0.475635E-04 0.126620E-03 |    0.02
+   8B   0.00001149 0.33 |  -.414155E-01 -.420944E-01 -.835099E-01 -.250270E-03 -.149793E-03 -.400064E-03 |  0.796635E-04 0.476807E-04 0.127344E-03 |    0.02
+   9B   0.00000679 0.33 |  -.414146E-01 -.420936E-01 -.835081E-01 -.251034E-03 -.151564E-03 -.402598E-03 |  0.799067E-04 0.482443E-04 0.128151E-03 |    0.02
+  10B   0.00000268 0.33 |  -.414149E-01 -.420938E-01 -.835087E-01 -.251078E-03 -.151577E-03 -.402655E-03 |  0.799205E-04 0.482484E-04 0.128169E-03 |    0.02
+  11B   0.00000023 0.33 |  -.414149E-01 -.420938E-01 -.835087E-01 -.251072E-03 -.151567E-03 -.402639E-03 |  0.799188E-04 0.482452E-04 0.128164E-03 |    0.02
+  12B   0.00000010 0.33 |  -.414149E-01 -.420938E-01 -.835087E-01 -.251059E-03 -.151551E-03 -.402610E-03 |  0.799147E-04 0.482401E-04 0.128155E-03 |    0.02
+
+   OMEGA               :              (3.0000000000000000,0.50000000000000000)
+   NEUTRON POLE(-)     :             (2.4963326844871432,-0.50000000000000011)
+   PROTON  POLE(-)     :             (3.5374834715999697,-0.50000000000000000)
+   T,L,K RESP.OPERATOR :           0           2           0
+   Transition strength in units of [e^2 MeV^{-1} fm^{2L}]
+  |QRPA> iterations... b0=  1.298, Nsh=  2, N=  4, Z=  4, Eta= 0.0000000    , Omega= 3.0000000    0.50000000    
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+    i        si    mix        reSn         reSp         reSt         imSn         imSp         imSt           TrStrn       TrStrp       TrStrt          Time
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------
+   0L   1.00000000 0.33 |   0.00000      0.00000      0.00000      0.00000      0.00000      0.00000     |  -0.00000     -0.00000     -0.00000     |    0.02
+   1B   0.10234959 0.33 |  -.426714E-01 -.374669E-01 -.801382E-01 -.336178E-02 -.165566E-02 -.501744E-02 |  0.107009E-02 0.527013E-03 0.159710E-02 |    0.02
+   2B   0.04912766 0.33 |  -.347265E-01 -.337427E-01 -.684692E-01 0.195596E-03 0.175410E-03 0.371006E-03 |  -.622602E-04 -.558347E-04 -.118095E-03 |    0.02
+   3B   0.01191434 0.33 |  -.361885E-01 -.360319E-01 -.722204E-01 -.655181E-03 -.355181E-03 -.101036E-02 |  0.208550E-03 0.113058E-03 0.321608E-03 |    0.02
+   4B   0.00694739 0.33 |  -.408051E-01 -.415393E-01 -.823444E-01 -.292840E-03 -.890896E-04 -.381929E-03 |  0.932138E-04 0.283581E-04 0.121572E-03 |    0.02
+   5B   0.00125032 0.33 |  -.417232E-01 -.422901E-01 -.840133E-01 -.318925E-03 -.154379E-03 -.473304E-03 |  0.101517E-03 0.491403E-04 0.150657E-03 |    0.02
+   6B   0.00028240 0.33 |  -.417065E-01 -.422741E-01 -.839807E-01 -.309362E-03 -.180505E-03 -.489867E-03 |  0.984729E-04 0.574565E-04 0.155929E-03 |    0.02
+   7B   0.00006592 0.33 |  -.416979E-01 -.422630E-01 -.839609E-01 -.323365E-03 -.177545E-03 -.500910E-03 |  0.102930E-03 0.565143E-04 0.159445E-03 |    0.02
+   8B   0.00001425 0.33 |  -.416970E-01 -.422616E-01 -.839586E-01 -.325187E-03 -.178444E-03 -.503631E-03 |  0.103510E-03 0.568004E-04 0.160311E-03 |    0.02
+   9B   0.00000897 0.33 |  -.416959E-01 -.422605E-01 -.839564E-01 -.326434E-03 -.180583E-03 -.507017E-03 |  0.103907E-03 0.574812E-04 0.161388E-03 |    0.02
+  10B   0.00000384 0.33 |  -.416963E-01 -.422608E-01 -.839571E-01 -.326516E-03 -.180637E-03 -.507153E-03 |  0.103933E-03 0.574985E-04 0.161432E-03 |    0.02
+  11B   0.00000035 0.33 |  -.416963E-01 -.422608E-01 -.839571E-01 -.326511E-03 -.180626E-03 -.507138E-03 |  0.103932E-03 0.574951E-04 0.161427E-03 |    0.02
+  12B   0.00000014 0.33 |  -.416963E-01 -.422608E-01 -.839570E-01 -.326497E-03 -.180606E-03 -.507104E-03 |  0.103927E-03 0.574888E-04 0.161416E-03 |    0.02
+  13B   0.00000002 0.33 |  -.416963E-01 -.422608E-01 -.839570E-01 -.326495E-03 -.180603E-03 -.507097E-03 |  0.103926E-03 0.574876E-04 0.161414E-03 |    0.02

@@ -1,0 +1,23 @@
+  !          at 20 shells the total number of matrix elements
+  ! ver# 80: Accuracy for large number of shells increased by the number of gauss points
+  !          Initial run now starts with requested shell number n00
+  !          First is calculated N,Z without blocking, remembered *.hel *.tel files and
+  ! ver# 54: Back to *.hel *.tel files; Including new hodef.dat like thodef.dat file
+	   inin_INI=-Abs(inin) ! Always start from old *.hel files when blocking
+    !help     
+  !     OUPUT IS GENERATED TO thoout.dat file ONLY IF n00_INI>0. At n00_INI<0 number of shells abs(n00_INI) is used but
+  !     Final solution stored to files '  '*.hel' and/or '*.tel'
+  !  (a) n00    Number of oscillator shells
+  !              -1: (from spherical *.hel or *.tel file)
+  !              -2: (from prolate   *.hel or *.tel file)
+  !              -3: (from oblate    *.hel or *.tel file)
+  ! Allocates arrays at given number of oscillator shells 'n00'
+        Write(iw,'(a,2i5)')         '  number of oscillator shells : ',n00
+                 ierror_info(ierror_flag)=' Stop: Forbidden iLST>0, inin>0 combination. Try iLST>0, inin<0 If the file *.hel exists'
+             'maximal number of shells'
+  If(iLST1.Le.0) Write(welfile,'(a8,a4)')  FILELABEL,'.hel'
+     !hel
+     !hel
+   ! with qrpa no hel file: do nothing here
+     If(ala2(it).Ge.10.) ala2(it)=4.                   ! ala2 goes to hell
+     If(ala2(it).Ge.10.) ala2(it)=4.  ! in case ala2 goes to hell

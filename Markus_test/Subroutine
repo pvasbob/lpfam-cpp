@@ -1,0 +1,160 @@
+!  Subroutine HFBTHO_SOLVER 
+  !          - Subroutine ByNucleus moved to PTHO_PROGRAM where is its place
+  ! ver# 99: Subroutine HFBiterations. The isotopic line in tho.dat removed.
+  !          Subroutines byNucleus, byConstraint, FitPairing, HFBTHO_HFODD isolated 
+  Subroutine calculate_U_parameters(rho0_in,rho1_in,tau0_in,tau1_in,laprho0,laprho1,nablarho0s,nablarho1s)
+  End Subroutine calculate_U_parameters
+  Subroutine load_tables
+  End Subroutine load_tables
+  Subroutine read_UNEDF_NAMELIST(fname)
+  End Subroutine read_UNEDF_NAMELIST
+  Subroutine set_functional_parameters(fname,lpr)
+  End Subroutine set_functional_parameters       
+  Subroutine print_functional_parameters(lout)         
+  End Subroutine print_functional_parameters
+  Subroutine calculate_natural_units
+  End Subroutine calculate_natural_units
+  Subroutine calculate_C_form_NM(E,K,SMASS,RHO,ASS,LASS,VMASS,sigma_NM)
+  End Subroutine calculate_C_form_NM
+  Subroutine calculate_NM_properties()
+  End Subroutine calculate_NM_properties
+  Subroutine C_from_t()
+  End Subroutine C_from_t
+  Subroutine t_from_C()
+  End Subroutine t_from_C
+  Subroutine CHrho_from_NM()
+  End Subroutine CHrho_from_NM
+  Subroutine Make_Parameter_Free_Useful_Combintions()
+  End Subroutine Make_Parameter_Free_Useful_Combintions
+  Subroutine vpair
+  End  Subroutine vpair
+  Subroutine v12nz(v12z,pnosc)
+  End Subroutine v12nz
+  Subroutine v12np(v12p,pnosc)  
+  End Subroutine v12np
+  Subroutine pnoscz(nm,a,b,pnosc)	    
+  End Subroutine pnoscz
+  Subroutine pnoscp(nm,a,b,pnosc)
+  End Subroutine pnoscp
+     Subroutine binom
+     End Subroutine binom
+      Subroutine delta
+      End Subroutine delta
+  Subroutine f01234(lpr)
+  End Subroutine f01234
+  Subroutine thofun(key,r,f,f1,f2,f3,fj,lpr)
+  End Subroutine thofun
+  Subroutine printLST(ffn,ffp)
+  End Subroutine printLST
+  Subroutine densitr(it,xr,yr,yrP,msw)
+  End Subroutine densitr
+  Subroutine gaupolr(z,x)
+  End Subroutine gaupolr
+  Subroutine lingd(ma,mx,n,m,a,x,d,Ifl)
+  End Subroutine lingd
+  Subroutine csplin (n, x, y, b, c, d)
+  End Subroutine csplin
+  Subroutine cseval(n,u,x,y,b,c,d,splf0)
+  End Subroutine cseval
+  Subroutine deri(h,n,f1,dunl)
+  End Subroutine deri
+  Subroutine Main_Program
+  End Subroutine Main_Program
+Subroutine HFBTHO_SOLVER  
+End Subroutine HFBTHO_SOLVER
+Subroutine heading
+End Subroutine heading
+Subroutine thodefh(iw1)
+End Subroutine thodefh
+Subroutine thoalloc
+End Subroutine thoalloc
+Subroutine preparer(lpr)
+End Subroutine preparer
+Subroutine coordinateLST(lpr)
+End Subroutine coordinateLST
+Subroutine iter(lpr) 
+End Subroutine iter
+Subroutine hfbdiag(it,icanon)
+End Subroutine hfbdiag
+Subroutine ALambda(al,it,kl)
+End Subroutine Alambda
+Subroutine Canonical(it,icanon,k2,k1,nd,i0,lc,ib,ibiblo,m,ibroib)
+End  Subroutine canonical
+Subroutine resu(irecord)
+End Subroutine resu
+Subroutine read_HFBTHO_NAMELIST  
+End Subroutine read_HFBTHO_NAMELIST
+Subroutine iniialize_HFBTHO_SOLVER
+End Subroutine iniialize_HFBTHO_SOLVER
+Subroutine base0(lpr)
+End Subroutine base0
+Subroutine base(lpr)
+End Subroutine base
+Subroutine gaupol(lpr)
+End Subroutine gaupol
+Subroutine FileLabels(NPRI,ININL,FILELABEL)
+End Subroutine FileLabels
+Subroutine inout(is)
+End Subroutine inout
+Subroutine start
+End Subroutine start
+Subroutine printRHO
+End Subroutine printRHO
+Subroutine gfv
+End Subroutine gfv
+Subroutine sdiag(nmax,n,a,d,x,e,is)
+End Subroutine sdiag
+Subroutine nucleus(is,npr2,te)
+End Subroutine nucleus
+Subroutine stab(npr2,npr3)
+End Subroutine stab
+Subroutine ord(n,e)
+End Subroutine ord
+Subroutine blosort(it,n)
+End Subroutine blosort
+Subroutine tracesln
+End Subroutine tracesln
+Subroutine tracesln_qp
+End Subroutine tracesln_qp  
+Subroutine densitln
+End Subroutine densitln
+Subroutine coulom1
+End Subroutine coulom1
+Subroutine coulom
+End Subroutine coulom
+!Subroutine coulom
+!End Subroutine coulom
+Subroutine HartreeDir
+End Subroutine HartreeDir
+Subroutine optHFBTHO
+End Subroutine optHFBTHO
+Subroutine DENSIT
+End Subroutine DENSIT
+Subroutine field
+End Subroutine field
+Subroutine gamdel
+End Subroutine gamdel
+Subroutine densitpj
+End Subroutine densitpj
+Subroutine coulompj
+End Subroutine coulompj
+Subroutine broyden_min(N,vout,vin,alpha,si,iter,M,bbroyden)
+End Subroutine broyden_min
+Subroutine gausspoints
+End Subroutine gausspoints
+Subroutine GAUSSQ(kindi,N,ALPHA,BETA,KPTS,ENDPTS,B,T,W)
+End Subroutine GAUSSQ
+Subroutine Class(kindi,N,ALPHA,BETA,B,A,MUZERO)
+End Subroutine Class
+Subroutine GBTQL2 ( N,D,E,Z, IERR )
+End Subroutine GBTQL2
+Subroutine expect(lpr)
+End Subroutine expect
+Subroutine expectpj(lpr)
+End Subroutine expectpj
+Subroutine Constraint_or_not(inin_INI0,inin0,icstr0)
+End Subroutine Constraint_or_not
+Subroutine requested_blocked_level(ib,it)
+End Subroutine requested_blocked_level
+Subroutine get_CPU_time (subname,is)
+End Subroutine get_CPU_time 
