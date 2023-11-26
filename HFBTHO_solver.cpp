@@ -1220,7 +1220,57 @@ void HFBTHO_solver::gausspoints()
     wh[j - 1] = sparity * exp(Work[j1 - 1] * Work[j1 - 1] + log(Work[j2 - 1]));
     //! write(11,'(a,i2,a,D24.18,a,I2,a,D24.18)')  '  xh(',J,')=',xh(J),';   wh(',J,')=',wh(J)
   }
-}
+
+  // for (int qqi = 0; qqi < ngh; qqi++)
+  //{
+  //   std::cout << xh[qqi] << "** " << wh[qqi] << std::endl;
+  // }
+
+  //!--------------------------------------------------------------------
+  //!---------------------------->> Gauss-Laguerre <<--------------------|
+  //!--------------------------------------------------------------------
+  KINDI = 6;
+  std::cout << "gauss_ngl " << ngl << std::endl;
+  N = ngl;
+  N1 = 3;
+  N2 = N1 + N;
+  N3 = N2 + N;
+  gaussq(KINDI, N, al, be, kpts, &Work[-1 + 1], &Work[-1 + N1], &Work[-1 + N2], &Work[-1 + N3]);
+  // if (ierror_flag.Ne .0)
+  //   return;
+  //! WRITE(11,*) ' !'
+  //! WRITE(11,*) ' !GAUSS-LAGUERRE INTEGRATION POINTS AND WEIGHTS'
+  for (int J = 1; J <= ngl; J++)
+  {
+    j1 = N2 + J - 1;
+    j2 = N3 + J - 1;
+    xl[-1 + J] = Work[-1 + j1];
+    wl[-1 + J] = exp(Work[-1 + j1] + log(Work[-1 + j2]));
+    sxl[-1 + J] = sqrt(xl[-1 + J]);
+    //! write(11,'(a,i2,a,D24.18,a,I2,a,D24.18)')  '  xl(',J,')=',xl(J),';   wl(',J,')=',wl(J)
+  }
+
+  //!--------------------------------------------------------------------
+  //!----------------->> Gauss-Legendre (positive nodes) <<--------------
+  //!--------------------------------------------------------------------
+  KINDI = 1;
+  N = 2 * nleg;
+  N1 = 3;
+  N2 = N1 + N;
+  N3 = N2 + N;
+  gaussq(KINDI, N, al, be, kpts, &Work[-1 + 1], &Work[-1 + N1], &Work[-1 + N2], &Work[-1 + N3]);
+  // If(ierror_flag.Ne.0) Return
+  //! WRITE(11,*) ' !'
+  //! WRITE(11,*) ' !GAUSS-LEGENDRE INTEGRATION POINTS AND WEIGHTS'
+  for (int J = 1; J <= nleg; J++)
+  {
+    j1 = N2 + nleg + J - 1;
+    j2 = N3 + nleg + J - 1;
+    xleg[J] = Work[j1];
+    wleg[J] = Work[j2];
+    //! write(11,'(a,I2,a,D24.18,a,I2,a,D24.18)') ' xleg(',J,')=',xleg(J),'; wleg(',J,')=',wleg(J)
+  }
+};
 
 //!=======================================================================
 void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, const double &BETA, const int &KPTS, double *ENDPTS,
@@ -1234,10 +1284,10 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
   // Real(pr):: B(N),T(N),W(N),ENDPTS(2)
   // double GBSLVE;
   // !
-  std::cout << "Inside gaussq, kindi: " << kindi << std::endl;
-  std::cout << "Before call Class: " << MUZERO << std::endl;
+  // std::cout << "kindi: " << kindi << std::endl;
+  // std::cout << "Before call Class: " << MUZERO << std::endl;
   Class(kindi, N, ALPHA, BETA, B, T, MUZERO);
-  std::cout << "After  call Class: " << MUZERO << std::endl;
+  // std::cout << "After  call Class: " << MUZERO << std::endl;
 
   // std::cout << "B: " << B << std::endl;
   // std::cout << "*B: " << *B << std::endl;
@@ -1248,8 +1298,12 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
   if (KPTS == 0)
   {
     // W = 0.0;
+    for (int qqi = 0; qqi < N; qqi++)
+      W[qqi] = 0.0;
+
     W[-1 + 1] = 1.0;
 
+    std::cout << std::endl;
     for (int qqi = 0; qqi < N; qqi++)
       std::cout << "Before GBTQL2, T[qqi], B[qqi], W[qqi]: "
                 << T[qqi] << "**" << B[qqi] << "**" << W[qqi] << "**" << std::endl;
@@ -1264,6 +1318,7 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
       W[i] = MUZERO * W[i] * W[i];
     return;
   }
+
   if (KPTS == 2)
   {
     GAM = GBSLVE(ENDPTS[1], N, T, B);
@@ -1278,6 +1333,7 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
       W[i] = MUZERO * W[i] * W[i];
     return;
   }
+  // std::cout << "Ever executed" << std::endl;
   T[-1 + N] = GBSLVE(ENDPTS[1], N, T, B) * pow(B[N - 1], 2) + ENDPTS[1];
   // W = 0.0;
   W[1] = 1.0;
@@ -1305,12 +1361,14 @@ void HFBTHO_solver::Class(const int &kindi, const int &N, const double &ALPHA, c
   {
   case 1:
     MUZERO = 2.0;
-    for (int I = 1; i <= NM1; i++)
+    for (int I = 1; I <= NM1; I++)
     // minus 1 here instead of block cause block depend on I.
     {
       A[-1 + I] = 0;
       ABI = I;
       B[-1 + I] = ABI / sqrt(4.0 * ABI * ABI - 1.0);
+
+      std::cout << "Inside Class, kindi, B(I), A(I): " << kindi << "*  " << B[-1+I] << "*  " << A[-1+I] << std::endl;
     }
     A[N - 1] = 0.0;
     break;
@@ -1367,7 +1425,9 @@ void HFBTHO_solver::Class(const int &kindi, const int &N, const double &ALPHA, c
     A[-1 + N] = A2B2 / ((ABI - 2.0) * ABI);
     break;
   case 6:
+    // std::cout << "kindi, MUZERO, before: " << kindi << "* " << MUZERO << std::endl;
     MUZERO = DGAMMA(ALPHA + 1.0);
+    // std::cout << "kindi, MUZERO, after : " << kindi << "* " << MUZERO << std::endl;
     for (int I = 1; I <= NM1; I++)
     {
       FI = I;
@@ -1414,10 +1474,10 @@ double HFBTHO_solver::DGAMMA(double Z)
   {
     T = Z;
     P = A[-1 + 18];
-    for (int K1 = -1 + 1; K1 <= -1 + 17; K1++)
+    for (int K1 = 1; K1 <= 17; K1++)
     {
       K = 18 - K1;
-      P = T * P + A[K];
+      P = T * P + A[-1 + K];
     };
     DGAMMA = P / (Z * (Z + 1.00));
     return DGAMMA;
@@ -1432,10 +1492,10 @@ double HFBTHO_solver::DGAMMA(double Z)
   {
     T = Z - 1.00;
     P = A[-1 + 18];
-    for (int K1 = -1 + 1; K1 <= -1 + 17; K1++)
+    for (int K1 = 1; K1 <= 17; K1++)
     {
       K = 18 - K1;
-      P = T * P + A[K];
+      P = T * P + A[-1 + K];
     };
     DGAMMA = P / (Z * (Z + 1.00));
     return DGAMMA;
@@ -1447,10 +1507,10 @@ double HFBTHO_solver::DGAMMA(double Z)
   }
   T = Z - 2.00;
   P = A[-1 + 18];
-  for (int K1 = -1 + 1; K1 <= -1 + 17; K1++)
+  for (int K1 = 1; K1 <= 17; K1++)
   {
     K = 18 - K1;
-    P = T * P + A[K];
+    P = T * P + A[-1 + K];
   }
   DGAMMA = P / (Z * (Z + 1.00));
 
@@ -1470,19 +1530,19 @@ void HFBTHO_solver::GBTQL2(const int &N, double *D, double *E, double *Z, int &I
   int I, J, K, L, M, II, MML;
   double MACHEP, P, G, R, S, C, F, B;
   MACHEP = pow(16.0, -14);
-  std::cout << "MACHEP: " << MACHEP << std::endl;
+  // std::cout << "MACHEP: " << MACHEP << std::endl;
   IERR = 0;
   if (N == 1)
     return;
 
-  std::cout << "E[N-1]: " << E[N - 1] << std::endl;
-  std::cout << "E[N-2]: " << E[N - 2] << std::endl;
+  // std::cout << "E[N-1]: " << E[N - 1] << std::endl;
+  // std::cout << "E[N-2]: " << E[N - 2] << std::endl;
   E[N - 1] = 0.0;
 
-  for (int qqi = 0; qqi < N; qqi++)
-  {
-    std::cout << "qqi: " << qqi << "** " << D[qqi] << "** " << E[qqi] << "** " << Z[qqi] << std::endl;
-  }
+  // for (int qqi = 0; qqi < N; qqi++)
+  //{
+  //   std::cout << "qqi: " << qqi << "** " << D[qqi] << "** " << E[qqi] << "** " << Z[qqi] << std::endl;
+  // }
 
   for (int L = 1; L <= N; L++)
   {
@@ -1497,7 +1557,7 @@ void HFBTHO_solver::GBTQL2(const int &N, double *D, double *E, double *Z, int &I
           break;
         continue;
       }
-      //std::cout << L << "*  " << J << "*  " << M << std::endl;
+      // std::cout << L << "*  " << J << "*  " << M << std::endl;
       P = D[-1 + L];
       if (M == L)
         break;
@@ -1512,7 +1572,7 @@ void HFBTHO_solver::GBTQL2(const int &N, double *D, double *E, double *Z, int &I
 
       // G = D(M) - P + E(L) / (G + Sign(R, G));
 
-      //std::cout << "M: " << M << std::endl;
+      // std::cout << "M: " << M << std::endl;
       G = D[-1 + M] - P + E[-1 + L] / (G + copysign(R, G));
 
       S = 1.0;

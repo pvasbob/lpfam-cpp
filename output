@@ -33,9 +33,7 @@ ee: 61.5
 ee: 86.1
 5   1       4       10      26      5       10      ilpj
 11      thoalloc
-18      1600    16      10      8       176     17600   8       64      10      10      Inside gaussq, kindi: 4
-Before call Class: 0
-After  call Class: 1.77245
+18      1600    16      10      8       176     17600   8       64      10      10      
 Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.707107**1**
 Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**1**0**
 Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**1.22474**0**
@@ -116,89 +114,6 @@ Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**6.20484**0**
 Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**6.245**0**
 Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**6.2849**0**
 Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0**0**
-MACHEP: 1.38778e-17
-E[N-1]: 0
-E[N-2]: 6.2849
-qqi: 0** 0** 0.707107** 1
-qqi: 1** 0** 1** 0
-qqi: 2** 0** 1.22474** 0
-qqi: 3** 0** 1.41421** 0
-qqi: 4** 0** 1.58114** 0
-qqi: 5** 0** 1.73205** 0
-qqi: 6** 0** 1.87083** 0
-qqi: 7** 0** 2** 0
-qqi: 8** 0** 2.12132** 0
-qqi: 9** 0** 2.23607** 0
-qqi: 10** 0** 2.34521** 0
-qqi: 11** 0** 2.44949** 0
-qqi: 12** 0** 2.54951** 0
-qqi: 13** 0** 2.64575** 0
-qqi: 14** 0** 2.73861** 0
-qqi: 15** 0** 2.82843** 0
-qqi: 16** 0** 2.91548** 0
-qqi: 17** 0** 3** 0
-qqi: 18** 0** 3.08221** 0
-qqi: 19** 0** 3.16228** 0
-qqi: 20** 0** 3.24037** 0
-qqi: 21** 0** 3.31662** 0
-qqi: 22** 0** 3.39116** 0
-qqi: 23** 0** 3.4641** 0
-qqi: 24** 0** 3.53553** 0
-qqi: 25** 0** 3.60555** 0
-qqi: 26** 0** 3.67423** 0
-qqi: 27** 0** 3.74166** 0
-qqi: 28** 0** 3.80789** 0
-qqi: 29** 0** 3.87298** 0
-qqi: 30** 0** 3.937** 0
-qqi: 31** 0** 4** 0
-qqi: 32** 0** 4.06202** 0
-qqi: 33** 0** 4.12311** 0
-qqi: 34** 0** 4.1833** 0
-qqi: 35** 0** 4.24264** 0
-qqi: 36** 0** 4.30116** 0
-qqi: 37** 0** 4.3589** 0
-qqi: 38** 0** 4.41588** 0
-qqi: 39** 0** 4.47214** 0
-qqi: 40** 0** 4.52769** 0
-qqi: 41** 0** 4.58258** 0
-qqi: 42** 0** 4.63681** 0
-qqi: 43** 0** 4.69042** 0
-qqi: 44** 0** 4.74342** 0
-qqi: 45** 0** 4.79583** 0
-qqi: 46** 0** 4.84768** 0
-qqi: 47** 0** 4.89898** 0
-qqi: 48** 0** 4.94975** 0
-qqi: 49** 0** 5** 0
-qqi: 50** 0** 5.04975** 0
-qqi: 51** 0** 5.09902** 0
-qqi: 52** 0** 5.14782** 0
-qqi: 53** 0** 5.19615** 0
-qqi: 54** 0** 5.24404** 0
-qqi: 55** 0** 5.2915** 0
-qqi: 56** 0** 5.33854** 0
-qqi: 57** 0** 5.38516** 0
-qqi: 58** 0** 5.43139** 0
-qqi: 59** 0** 5.47723** 0
-qqi: 60** 0** 5.52268** 0
-qqi: 61** 0** 5.56776** 0
-qqi: 62** 0** 5.61249** 0
-qqi: 63** 0** 5.65685** 0
-qqi: 64** 0** 5.70088** 0
-qqi: 65** 0** 5.74456** 0
-qqi: 66** 0** 5.78792** 0
-qqi: 67** 0** 5.83095** 0
-qqi: 68** 0** 5.87367** 0
-qqi: 69** 0** 5.91608** 0
-qqi: 70** 0** 5.95819** 0
-qqi: 71** 0** 6** 0
-qqi: 72** 0** 6.04152** 0
-qqi: 73** 0** 6.08276** 0
-qqi: 74** 0** 6.12372** 0
-qqi: 75** 0** 6.16441** 0
-qqi: 76** 0** 6.20484** 0
-qqi: 77** 0** 6.245** 0
-qqi: 78** 0** 6.2849** 0
-qqi: 79** 0** 0** 0
 After  GBTQL2, T[qqi], B[qqi], W[qqi]: -11.8879**8.07381e-19**1.29136e-31**
 After  GBTQL2, T[qqi], B[qqi], W[qqi]: -11.2817**-1.21169e-27**-1.27075e-28**
 After  GBTQL2, T[qqi], B[qqi], W[qqi]: -10.7808**-8.38086e-27**2.97351e-26**
@@ -279,3 +194,565 @@ After  GBTQL2, T[qqi], B[qqi], W[qqi]: 10.3345**1.00974e-28**-3.15491e-24**
 After  GBTQL2, T[qqi], B[qqi], W[qqi]: 10.7808**-1.40946e-17**2.97351e-26**
 After  GBTQL2, T[qqi], B[qqi], W[qqi]: 11.2817**-5.55112e-17**1.27075e-28**
 After  GBTQL2, T[qqi], B[qqi], W[qqi]: 11.8879**0**-1.29136e-31**
+gauss_ngl 40
+
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 1**1**1**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 3**2**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 5**3**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 7**4**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 9**5**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 11**6**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 13**7**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 15**8**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 17**9**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 19**10**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 21**11**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 23**12**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 25**13**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 27**14**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 29**15**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 31**16**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 33**17**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 35**18**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 37**19**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 39**20**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 41**21**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 43**22**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 45**23**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 47**24**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 49**25**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 51**26**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 53**27**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 55**28**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 57**29**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 59**30**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 61**31**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 63**32**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 65**33**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 67**34**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 69**35**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 71**36**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 73**37**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 75**38**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 77**39**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 79**4.23516e-21**0**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.0357004**5.10803e-26**0.297342**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.188162**8.60268e-21**0.420493**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.462694**-2.24993e-20**0.459742**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.859773**1.24336e-23**-0.440546**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 1.38001**3.49897e-22**-0.382667**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 2.02421**2.02659e-22**-0.305494**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 2.79337**-1.81814e-21**0.225682**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 3.6887**-1.65436e-23**0.154842**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 4.71164**-7.85822e-22**0.0988667**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 5.86385**-2.24166e-22**0.0588043**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 7.14725**3.34595e-22**0.0325921**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 8.56402**-1.04845e-22**0.0168307**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 10.1166**1.26352e-22**0.00809379**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 11.8079**-3.82571e-23**0.00362161**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 13.6409**1.58715e-23**0.00150614**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 15.6193**-7.49632e-24**0.000581346**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 17.7469**-1.21234e-23**0.000207914**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 20.0282**1.42172e-25**6.8764e-05**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 22.4682**8.59492e-25**2.09837e-05**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 25.0726**2.55263e-25**5.89274e-06**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 27.8475**2.82728e-25**1.51835e-06**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 30.8001**-3.74816e-25**3.57739e-07**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 33.9387**1.09456e-25**7.67735e-08**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 37.2722**1.85793e-26**1.49406e-08**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 40.8115**-4.64481e-27**2.62304e-09**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 44.5686**3.28166e-27**4.1299e-10**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 48.5578**-7.95172e-28**5.79112e-11**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 52.7956**-2.77679e-28**7.1737e-12**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 57.3019**2.36658e-29**7.77481e-13**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 62.1002**-6.7842e-29**7.28738e-14**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 67.2194**-1.03867e-15**5.82454e-15**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 72.6952**-1.57772e-29**3.90094e-16**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 78.5728**-2.9577e-16**2.14133e-17**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 84.9112**-5.68989e-16**9.36064e-19**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 91.7899**-2.55872e-16**3.13487e-20**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 99.3208**-3.72966e-17**7.61653e-22**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 107.672**-2.60209e-18**1.2373e-23**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 117.122**1.0842e-18**1.17558e-25**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 128.202**5.42101e-20**5.0662e-28**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 142.28**0**5.1965e-31**
+Inside Class, kindi, B(I), A(I): 1*  0.57735*  0
+Inside Class, kindi, B(I), A(I): 1*  0.516398*  0
+Inside Class, kindi, B(I), A(I): 1*  0.507093*  0
+Inside Class, kindi, B(I), A(I): 1*  0.503953*  0
+Inside Class, kindi, B(I), A(I): 1*  0.502519*  0
+Inside Class, kindi, B(I), A(I): 1*  0.501745*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50128*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500979*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500773*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500626*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500517*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500435*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50037*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500319*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500278*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500244*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500216*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500193*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500173*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500156*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500142*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500129*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500118*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500109*  0
+Inside Class, kindi, B(I), A(I): 1*  0.5001*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500092*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500086*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50008*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500074*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500069*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500065*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500061*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500057*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500054*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500051*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500048*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500046*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500043*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500041*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500039*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500037*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500035*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500034*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500032*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500031*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500028*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500027*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500026*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500025*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500024*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500023*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500022*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500021*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500021*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50002*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500019*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500019*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500018*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500017*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500017*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500016*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500016*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500015*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500015*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500014*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500014*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500014*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500013*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500013*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500012*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500012*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500012*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500011*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500011*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500011*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500011*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50001*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50001*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50001*  0
+Inside Class, kindi, B(I), A(I): 1*  0.50001*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500009*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500009*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500009*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500009*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500008*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500008*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500008*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500008*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500008*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500008*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500007*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500007*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500007*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500007*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500007*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500007*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500007*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500006*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500005*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500004*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500003*  0
+Inside Class, kindi, B(I), A(I): 1*  0.500002*  0
+
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.57735**1**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.516398**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.507093**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.503953**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.502519**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.501745**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50128**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500979**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500773**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500626**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500517**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500435**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50037**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500319**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500278**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500244**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500216**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500193**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500173**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500156**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500142**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500129**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500118**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500109**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.5001**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500092**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500086**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50008**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500074**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500069**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500065**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500061**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500057**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500054**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500051**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500048**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500046**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500043**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500041**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500039**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500037**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500035**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500034**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500032**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500031**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500028**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500027**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500026**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500025**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500024**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500023**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500022**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500021**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500021**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50002**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500019**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500019**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500018**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500017**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500017**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500016**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500016**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500015**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500015**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500014**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500014**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500014**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500013**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500013**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500012**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500012**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500012**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500011**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500011**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500011**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500011**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50001**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50001**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50001**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.50001**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500009**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500009**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500009**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500009**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500008**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500008**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500008**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500008**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500008**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500008**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500007**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500007**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500007**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500007**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500007**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500007**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500007**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500006**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500005**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500004**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500003**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**0.500002**0**
+Before GBTQL2, T[qqi], B[qqi], W[qqi]: 0**11.8879**0**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.999888**-4.75387e-25**-0.0120012**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.999409**2.10104e-22**0.018309**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.998547**-3.17059e-26**-0.022947**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.997302**5.75553e-27**-0.0267905**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.995676**1.39037e-29**-0.0301435**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.993668**-1.87848e-29**-0.0331539**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.99128**-4.89957e-31**0.035907**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.988511**-5.95549e-18**0.0384571**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.985364**-4.82809e-20**0.0408414**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.98184**-3.93506e-30**0.0430865**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.977939**7.49307e-19**-0.0452125**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.973663**7.0939e-19**-0.0472346**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.969015**-1.21403e-17**-0.0491649**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.963995**1.2326e-29**-0.0510132**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.958606**3.99866e-19**-0.0527873**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.95285**-1.37431e-17**-0.054494**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.946729**6.32938e-30**-0.0561386**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.940245**-2.3658e-19**0.057726**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.9334**7.11179e-18**0.0592601**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.926199**2.55763e-30**0.0607444**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.918642**1.27452e-19**-0.062182**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.910733**3.34867e-18**0.0635754**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.902476**-1.58307e-17**-0.0649269**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.893872**1.28683e-29**-0.0662388**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.884926**-1.52479e-19**-0.0675126**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.875642**3.27978e-18**0.0687502**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.866021**-1.39805e-17**0.069953**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.856069**-1.46432e-29**-0.0711223**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.845789**1.3155e-18**-0.0722592**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.835185**-1.21072e-17**0.0733649**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.824261**-4.77507e-29**0.0744403**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.813021**1.63252e-20**-0.0754863**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.801469**-4.43898e-20**0.0765038**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.789611**1.09108e-19**-0.0774935**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.77745**2.35052e-20**0.078456**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.764991**-1.91535e-18**0.079392**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.752239**-2.81043e-20**0.080302**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.739199**1.30033e-21**0.0811867**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.725876**1.24697e-22**-0.0820464**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.712275**4.51765e-21**-0.0828816**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.6984**3.31948e-21**-0.0836928**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.684258**-7.67375e-21**-0.0844803**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.669854**2.5679e-20**0.0852445**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.655194**-7.48433e-21**0.0859858**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.640282**4.45354e-20**0.0867043**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.625125**-4.30366e-20**-0.0874005**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.609729**1.16652e-19**-0.0880746**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.594098**-6.26692e-19**0.0887268**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.578241**-3.43714e-18**0.0893574**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.562162**-1.65421e-17**0.0899665**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.545867**1.4954e-17**0.0905544**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.529363**0**0.0911213**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.512657**0**0.0916674**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.495754**2.16306e-27**-0.0921927**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.478661**-5.57567e-27**0.0926976**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.461385**-4.6385e-27**-0.093182**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.443932**-1.07916e-26**-0.0936461**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.426308**8.97408e-27**0.0940901**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.408522**4.94774e-27**-0.0945141**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.390579**4.48578e-26**-0.0949182**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.372486**-2.45367e-26**-0.0953024**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.354251**1.30509e-25**-0.0956669**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.33588**5.6596e-26**0.0960118**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.31738**-6.17962e-26**0.0963371**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.298759**3.43312e-27**0.096643**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.280023**-7.4317e-26**-0.0969294**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.26118**-3.317e-25**0.0971964**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.242237**-1.13091e-25**0.0974441**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.223201**1.35305e-26**-0.0976726**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.20408**1.28843e-25**0.0978819**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.18488**-3.57045e-25**-0.0980721**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.16561**2.24163e-25**0.0982431**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.146276**-2.90604e-25**0.098395**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.126886**-2.52435e-25**0.0985279**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.107447**7.93657e-26**-0.0986417**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.0879678**1.04407e-25**0.0987365**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.0684543**-4.41863e-25**0.0988124**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.0489147**-1.38133e-25**0.0988693**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.0293563**-2.37895e-25**-0.0989072**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: -0.00978669**-5.21027e-26**-0.0989261**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.00978669**-1.21169e-27**-0.0989261**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.0293563**2.09622e-25**-0.0989072**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.0489147**1.8135e-25**0.0988693**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.0684543**-7.99312e-25**0.0988124**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.0879678**-2.54455e-26**-0.0987365**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.107447**4.37016e-25**-0.0986417**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.126886**-2.78285e-25**-0.0985279**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.146276**8.1991e-26**-0.098395**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.16561**7.18936e-26**0.0982431**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.18488**-7.0278e-26**-0.0980721**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.20408**1.0986e-25**-0.0978819**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.223201**-4.08744e-25**-0.0976726**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.242237**2.51224e-25**0.0974441**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.26118**2.1245e-25**-0.0971964**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.280023**-3.6593e-25**-0.0969294**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.298759**4.62058e-25**0.096643**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.31738**2.06795e-25**-0.0963371**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.33588**3.11001e-25**0.0960118**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.354251**4.41863e-25**-0.0956669**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.372486**3.54621e-25**-0.0953024**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.390579**2.16489e-25**0.0949182**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.408522**6.51082e-25**0.0945141**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.426308**-5.00832e-25**0.0940901**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.443932**1.77715e-25**-0.0936461**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.461385**-1.9387e-26**0.093182**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.478661**-3.47351e-25**-0.0926976**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.495754**4.18437e-25**0.0921927**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.512657**2.29413e-25**-0.0916674**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.529363**1.9387e-25**0.0911213**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.545867**2.7465e-25**0.0905544**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.562162**1.59943e-25**-0.0899665**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.578241**-4.03897e-26**-0.0893574**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.594098**-1.11476e-24**0.0887268**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.609729**-5.20219e-25**-0.0880746**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.625125**-5.42837e-25**-0.0874005**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.640282**-8.88573e-25**-0.0867043**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.655194**-1.26339e-24**-0.0859858**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.669854**5.81611e-25**-0.0852445**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.684258**-3.90972e-25**-0.0844803**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.6984**3.32811e-25**-0.0836928**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.712275**1.13091e-24**-0.0828816**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.725876**-1.77715e-24**0.0820464**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.739199**-1.0469e-24**-0.0811867**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.752239**1.9904e-24**-0.080302**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.764991**-1.23431e-24**0.079392**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.77745**-4.00666e-25**-0.078456**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.789611**2.37168e-24**-0.0774935**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.801469**2.26182e-24**-0.0765038**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.813021**6.97934e-25**-0.0754863**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.824261**5.64809e-24**0.0744403**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.835185**4.12298e-24**-0.0733649**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.845789**2.52032e-24**0.0722592**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.856069**-2.32645e-24**-0.0711223**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.866021**1.29247e-24**0.069953**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.875642**1.52511e-24**-0.0687502**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.884926**1.88701e-24**-0.0675126**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.893872**-2.53324e-24**0.0662388**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.902476**5.06648e-24**0.0649269**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.910733**5.68687e-25**0.0635754**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.918642**-8.27181e-25**-0.062182**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.926199**-4.2393e-24**0.0607444**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.9334**1.7164e-23**0.0592601**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.940245**-9.30578e-25**0.057726**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.946729**1.19941e-23**0.0561386**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.95285**2.68834e-24**0.054494**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.958606**-9.92617e-24**-0.0527873**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.963995**-3.45348e-23**0.0510132**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.969015**-9.09899e-24**0.0491649**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.973663**-1.92733e-22**0.0472346**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.977939**1.31522e-22**-0.0452125**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.98184**3.80503e-23**-0.0430865**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.985364**5.54211e-22**0.0408414**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.988511**-2.29956e-21**0.0384571**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.99128**-1.63616e-20**-0.035907**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.993668**-1.52545e-19**0.0331539**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.995676**1.39702e-18**-0.0301435**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.997302**8.71995e-18**-0.0267905**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.998547**-1.01441e-17**-0.022947**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.999409**4.06576e-20**0.018309**
+After  GBTQL2, T[qqi], B[qqi], W[qqi]: 0.999888**0**0.0120012**
