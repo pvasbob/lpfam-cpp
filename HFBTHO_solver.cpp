@@ -1238,11 +1238,28 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
   std::cout << "Before call Class: " << MUZERO << std::endl;
   Class(kindi, N, ALPHA, BETA, B, T, MUZERO);
   std::cout << "After  call Class: " << MUZERO << std::endl;
+
+  // std::cout << "B: " << B << std::endl;
+  // std::cout << "*B: " << *B << std::endl;
+  // std::cout << "*(B+1): " << *(B + 1) << std::endl;
+  // for (int qqi = 0; qqi < N; qqi++)
+  //  std::cout << B[qqi] << " ** " << T[qqi] << std::endl;
+
   if (KPTS == 0)
   {
     // W = 0.0;
     W[-1 + 1] = 1.0;
+
+    for (int qqi = 0; qqi < N; qqi++)
+      std::cout << "Before GBTQL2, T[qqi], B[qqi], W[qqi]: "
+                << T[qqi] << "**" << B[qqi] << "**" << W[qqi] << "**" << std::endl;
+
     GBTQL2(N, T, B, W, IERR);
+
+    for (int qqi = 0; qqi < N; qqi++)
+      std::cout << "After  GBTQL2, T[qqi], B[qqi], W[qqi]: "
+                << T[qqi] << "**" << B[qqi] << "**" << W[qqi] << "**" << std::endl;
+
     for (int i = 0; i < N; i++)
       W[i] = MUZERO * W[i] * W[i];
     return;
@@ -1288,40 +1305,50 @@ void HFBTHO_solver::Class(const int &kindi, const int &N, const double &ALPHA, c
   {
   case 1:
     MUZERO = 2.0;
-    for (int I = 1 - 1; i <= NM1 - 1; i++)
+    for (int I = 1; i <= NM1; i++)
     // minus 1 here instead of block cause block depend on I.
     {
-      A[I] = 0;
+      A[-1 + I] = 0;
       ABI = I;
-      B[I] = ABI / sqrt(4.0 * ABI * ABI - 1.0);
+      B[-1 + I] = ABI / sqrt(4.0 * ABI * ABI - 1.0);
     }
     A[N - 1] = 0.0;
+    break;
   case 2:
     MUZERO = PI;
-    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    for (int I = 1; I <= NM1; I++)
     {
-      A[I] = 0.0;
-      B[I] = 0.50;
+      A[-1 + I] = 0.0;
+      B[-1 + I] = 0.50;
     };
-    B[1] = sqrt(0.50);
-    A[N] = 0.0;
+    B[-1 + 1] = sqrt(0.50);
+    A[-1 + N] = 0.0;
+    break;
   case 3:
     MUZERO = PI / 2.0;
-    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    for (int I = 1; I <= NM1; I++)
     {
-      A[I] = 0.0;
-      B[I] = 0.50;
+      A[-1 + I] = 0.0;
+      B[-1 + I] = 0.50;
     };
-    A[N] = 0.0;
+    A[-1 + N] = 0.0;
+    break;
   case 4:
     MUZERO = sqrt(PI);
-    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    for (int I = 1; I <= NM1; I++)
     {
-      A[I] = 0.0;
+      A[-1 + I] = 0.0;
       DI20 = I / 2.0;
-      B[I] = sqrt(DI20);
+      B[-1 + I] = sqrt(DI20);
     }
-    A[N] = 0.0;
+    A[-1 + N] = 0.0;
+
+    // std::cout << "Inside Class: " << std::endl;
+    // std::cout << "B: " << B << std::endl;
+    // std::cout << "&B[0]: " << &B[0] << std::endl;
+    // std::cout << "*B: " << *B << std::endl;
+
+    break;
   case 5:
     AB = ALPHA + BETA;
     ABI = 2.0 + AB;
@@ -1329,24 +1356,26 @@ void HFBTHO_solver::Class(const int &kindi, const int &N, const double &ALPHA, c
     A[1 - 1] = (BETA - ALPHA) / ABI;
     B[1 - 1] = sqrt(4.0 * (1.0 + ALPHA) * (1.0 + BETA) / ((ABI + 1.0) * ABI * ABI));
     A2B2 = BETA * BETA - ALPHA * ALPHA;
-    for (int I = 2 - 1; I <= NM1 - 1; I++)
+    for (int I = 2; I <= NM1; I++)
     {
       ABI = 2.0 * I + AB;
-      A[I] = A2B2 / ((ABI - 2.0) * ABI);
+      A[-1 + I] = A2B2 / ((ABI - 2.0) * ABI);
       FI = I;
-      B[I] = sqrt(4.0 * FI * (FI + ALPHA) * (FI + BETA) * (FI + AB) / ((ABI * ABI - 1.0) * ABI * ABI));
+      B[-1 + I] = sqrt(4.0 * FI * (FI + ALPHA) * (FI + BETA) * (FI + AB) / ((ABI * ABI - 1.0) * ABI * ABI));
     }
     ABI = 2.0 * N + AB;
-    A[N - 1] = A2B2 / ((ABI - 2.0) * ABI);
+    A[-1 + N] = A2B2 / ((ABI - 2.0) * ABI);
+    break;
   case 6:
     MUZERO = DGAMMA(ALPHA + 1.0);
-    for (int I = 1 - 1; I <= NM1 - 1; I++)
+    for (int I = 1; I <= NM1; I++)
     {
       FI = I;
-      A[I] = 2.0 * FI - 1.0 + ALPHA;
-      B[I] = sqrt(FI * (FI + ALPHA));
+      A[-1 + I] = 2.0 * FI - 1.0 + ALPHA;
+      B[-1 + I] = sqrt(FI * (FI + ALPHA));
     }
-    A[N - 1] = 2.0 * N - 1.0 + ALPHA;
+    A[-1 + N] = 2.0 * N - 1.0 + ALPHA;
+    break;
   default:
     break;
   }
@@ -1441,50 +1470,66 @@ void HFBTHO_solver::GBTQL2(const int &N, double *D, double *E, double *Z, int &I
   int I, J, K, L, M, II, MML;
   double MACHEP, P, G, R, S, C, F, B;
   MACHEP = pow(16.0, -14);
+  std::cout << "MACHEP: " << MACHEP << std::endl;
   IERR = 0;
   if (N == 1)
     return;
-  E[N] = 0.0;
+
+  std::cout << "E[N-1]: " << E[N - 1] << std::endl;
+  std::cout << "E[N-2]: " << E[N - 2] << std::endl;
+  E[N - 1] = 0.0;
+
+  for (int qqi = 0; qqi < N; qqi++)
+  {
+    std::cout << "qqi: " << qqi << "** " << D[qqi] << "** " << E[qqi] << "** " << Z[qqi] << std::endl;
+  }
+
   for (int L = 1; L <= N; L++)
   {
     J = 0;
     while (true)
     {
-      for (int M = L; M <= N; M++)
+      for (M = L; M <= N; M++)
       {
         if (M == N)
-          exit;
-        if (abs(E[M]) <= MACHEP * (abs(D[M]) + abs(D[M + 1])))
-          exit;
+          break;
+        if (abs(E[-1 + M]) <= MACHEP * (abs(D[-1 + M]) + abs(D[-1 + M + 1])))
+          break;
         continue;
       }
-      P = D[L];
+      //std::cout << L << "*  " << J << "*  " << M << std::endl;
+      P = D[-1 + L];
       if (M == L)
-        exit;
+        break;
       if (J == 30)
       {
         IERR = L;
         return;
       }
       J = J + 1;
-      G = (D[L + 1] - P) / (2.0 * E[L]);
+      G = (D[-1 + L + 1] - P) / (2.0 * E[-1 + L]);
       R = sqrt(G * G + 1.0);
+
       // G = D(M) - P + E(L) / (G + Sign(R, G));
-      G = D[M] - P + E[L] / (G + pow(-1, std::signbit(G)) * R);
+
+      //std::cout << "M: " << M << std::endl;
+      G = D[-1 + M] - P + E[-1 + L] / (G + copysign(R, G));
+
       S = 1.0;
       C = 1.0;
       P = 0.0;
       MML = M - L;
-      for (int II = 1; II <= MML; II++)
+
+      for (II = 1; II <= MML; II++)
       {
         I = M - II;
-        F = S * E[I];
-        B = C * E[I];
+        F = S * E[-1 + I];
+        B = C * E[-1 + I];
         if (abs(F) >= abs(G))
         {
           C = G / F;
           R = sqrt(C * C + 1.0);
-          E[I + 1] = F * R;
+          E[-1 + I + 1] = F * R;
           S = 1.0 / R;
           C = C * S;
         }
@@ -1492,43 +1537,43 @@ void HFBTHO_solver::GBTQL2(const int &N, double *D, double *E, double *Z, int &I
         {
           S = F / G;
           R = sqrt(S * S + 1.0);
-          E[I + 1] = G * R;
+          E[-1 + I + 1] = G * R;
           C = 1.0 / R;
           S = S * C;
         };
-        G = D[I + 1] - P;
-        R = (D[I] - G) * S + 2.0 * C * B;
+        G = D[-1 + I + 1] - P;
+        R = (D[-1 + I] - G) * S + 2.0 * C * B;
         P = S * R;
-        D[I + 1] = G + P;
+        D[-1 + I + 1] = G + P;
         G = C * R - B;
-        F = Z[I + 1];
-        Z[I + 1] = S * Z[I] + C * F;
-        Z[I] = C * Z[I] - S * F;
+        F = Z[-1 + I + 1];
+        Z[-1 + I + 1] = S * Z[-1 + I] + C * F;
+        Z[-1 + I] = C * Z[-1 + I] - S * F;
       };
-      D[L] = D[L] - P;
-      E[L] = G;
-      E[M] = 0.0;
+      D[-1 + L] = D[-1 + L] - P;
+      E[-1 + L] = G;
+      E[-1 + M] = 0.0;
     }
   }
-  for (int II = 2; II <= N; II++)
+  for (II = 2; II <= N; II++)
   {
     I = II - 1;
     K = I;
-    P = D[I];
-    for (int J = II; J <= N; J++)
+    P = D[-1 + I];
+    for (J = II; J <= N; J++)
     {
-      if (D[J] >= P)
+      if (D[-1 + J] >= P)
         continue;
       K = J;
-      P = D[J];
+      P = D[-1 + J];
     }
     if (K == I)
       continue;
-    D[K] = D[I];
-    D[I] = P;
-    P = Z[I];
-    Z[I] = Z[K];
-    Z[K] = P;
+    D[-1 + K] = D[-1 + I];
+    D[-1 + I] = P;
+    P = Z[-1 + I];
+    Z[-1 + I] = Z[-1 + K];
+    Z[-1 + K] = P;
   }
   // End Subroutine GBTQL2
   //!=======================================================================
