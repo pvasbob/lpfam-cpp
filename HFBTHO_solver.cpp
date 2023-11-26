@@ -1230,7 +1230,7 @@ void HFBTHO_solver::gausspoints()
   //!---------------------------->> Gauss-Laguerre <<--------------------|
   //!--------------------------------------------------------------------
   KINDI = 6;
-  std::cout << "gauss_ngl " << ngl << std::endl;
+  // std::cout << "gauss_ngl " << ngl << std::endl;
   N = ngl;
   N1 = 3;
   N2 = N1 + N;
@@ -1303,16 +1303,16 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
 
     W[-1 + 1] = 1.0;
 
-    std::cout << std::endl;
-    for (int qqi = 0; qqi < N; qqi++)
-      std::cout << "Before GBTQL2, T[qqi], B[qqi], W[qqi]: "
-                << T[qqi] << "**" << B[qqi] << "**" << W[qqi] << "**" << std::endl;
+    // std::cout << std::endl;
+    // for (int qqi = 0; qqi < N; qqi++)
+    //   std::cout << "Before GBTQL2, T[qqi], B[qqi], W[qqi]: "
+    //             << T[qqi] << "**" << B[qqi] << "**" << W[qqi] << "**" << std::endl;
 
     GBTQL2(N, T, B, W, IERR);
 
-    for (int qqi = 0; qqi < N; qqi++)
-      std::cout << "After  GBTQL2, T[qqi], B[qqi], W[qqi]: "
-                << T[qqi] << "**" << B[qqi] << "**" << W[qqi] << "**" << std::endl;
+    // for (int qqi = 0; qqi < N; qqi++)
+    //   std::cout << "After  GBTQL2, T[qqi], B[qqi], W[qqi]: "
+    //             << T[qqi] << "**" << B[qqi] << "**" << W[qqi] << "**" << std::endl;
 
     for (int i = 0; i < N; i++)
       W[i] = MUZERO * W[i] * W[i];
@@ -1326,6 +1326,8 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
     B[N - 1] = sqrt(T1);
     T[N] = ENDPTS[1] + GAM * T1;
     // W = 0.0;
+    for (int qqi = 0; qqi < N; qqi++)
+      W[qqi] = 0.0;
     W[1] = 1.0;
     GBTQL2(N, T, B, W, IERR);
     // W = MUZERO * W * W;
@@ -1336,6 +1338,8 @@ void HFBTHO_solver::gaussq(const int &kindi, const int &N, const double &ALPHA, 
   // std::cout << "Ever executed" << std::endl;
   T[-1 + N] = GBSLVE(ENDPTS[1], N, T, B) * pow(B[N - 1], 2) + ENDPTS[1];
   // W = 0.0;
+  for (int qqi = 0; qqi < N; qqi++)
+    W[qqi] = 0.0;
   W[1] = 1.0;
   GBTQL2(N, T, B, W, IERR);
   // W = MUZERO * W * W
@@ -1368,7 +1372,7 @@ void HFBTHO_solver::Class(const int &kindi, const int &N, const double &ALPHA, c
       ABI = I;
       B[-1 + I] = ABI / sqrt(4.0 * ABI * ABI - 1.0);
 
-      std::cout << "Inside Class, kindi, B(I), A(I): " << kindi << "*  " << B[-1+I] << "*  " << A[-1+I] << std::endl;
+      // std::cout << "Inside Class, kindi, B(I), A(I): " << kindi << "*  " << B[-1 + I] << "*  " << A[-1 + I] << std::endl;
     }
     A[N - 1] = 0.0;
     break;
