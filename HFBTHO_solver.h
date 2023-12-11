@@ -26,6 +26,7 @@ public:
   void Class(const int &kindi, const int &N, const double &ALPHA, const double &BETA, double *B, double *A, double &MUZERO);
   void GBTQL2(const int &, double *, double *, double *, int &);
   double GBSLVE(const double &, const int &, double *, double *);
+  void base(bool);
 
 private:
   int iw, ib, j, i, it;

@@ -1709,7 +1709,7 @@ void HFBTHO_solver::base(bool lpr)
       {
         for (iz = 0; iz <= nze; iz++)
         {
-          for (il = la; il <= le; il++)
+          for (il = la; il <= le; i++)
           {
             for (is = +1; is >= -1; is = is - 2)
             {
@@ -1720,11 +1720,8 @@ void HFBTHO_solver::base(bool lpr)
               if ((iz + il) % 2 != ip - 1)
                 continue;
               ee = hbz * (iz + half) + hbp * (two * ir + il + one);
-              // std::cout << k << ip << ir << iz << il << is << "ee: " << ee << std::endl;
-              // std::cout << k << ip << ir << iz << il << is  << "ee: " << ee << std::endl;
               if (ee <= EBASECUT)
               {
-                // std::cout << "ee, EBASECUT: " << ee << "   " << EBASECUT << std::endl;
                 ilauf = ilauf + 1;
                 // if (ilauf.Gt.ntx) {
                 //    ierror_flag=ierror_flag+1
@@ -1737,32 +1734,23 @@ void HFBTHO_solver::base(bool lpr)
                 ns[-1 + ilauf] = is;
                 npar[-1 + ilauf] = ip;
                 nn = iz + 2 * ir + il;
-
-                // std::cout << "nz: "
-                //           << nz[-1 + ilauf]
-                //           << nr[-1 + ilauf]
-                //           << nl[-1 + ilauf]
-                //           << ns[-1 + ilauf]
-                //           << npar[-1 + ilauf]
-                //           << nn
-                //           << std::endl;
-                //  Write(tb(ilauf),100) 2*k-1,tp(ip),nn,iz,il
-                //  100                    //Format(i2,a1,'[',i2,',',i2,',',i2,']')
-                //  Do iw=lout,lfile
-                //     If(lpr.And.IDEBUG.Gt.10) Write(iw,'(i4,a,i2,a,i2,a,i2,a,i2,a,i2,a,2x,a,1x,a,f14.8)')  &
-                //          ilauf,'   nn=',nn,'   nz=',iz,'   nr=',ir,  &
-                //          '   ml=',il,'  ms=',is,' /2',tb(ilauf),'e=',ee
-                //  Enddo
+                // Write(tb(ilauf),100) 2*k-1,tp(ip),nn,iz,il
+                // 100                    //Format(i2,a1,'[',i2,',',i2,',',i2,']')
+                // Do iw=lout,lfile
+                //    If(lpr.And.IDEBUG.Gt.10) Write(iw,'(i4,a,i2,a,i2,a,i2,a,i2,a,i2,a,2x,a,1x,a,f14.8)')  &
+                //         ilauf,'   nn=',nn,'   nz=',iz,'   nr=',ir,  &
+                //         '   ml=',il,'  ms=',is,' /2',tb(ilauf),'e=',ee
+                // Enddo
                 nzm = std::max(nzm, iz);
                 nrm = std::max(nrm, ir);
                 nlm = std::max(nlm, il);
+                nom = std::max(nom, 2 * k - 1);
                 nnm = std::max(nnm, iz + 2 * ir + il);
               }
             }
           }
         }
       }
-      // std::cout << nz.size() << nr.size() << nl.size() << ns.size() << npar.size() << std::endl;
       //!-----------------------------------------------
       //! Block memory
       //!-----------------------------------------------
@@ -1771,16 +1759,10 @@ void HFBTHO_solver::base(bool lpr)
         if (ilauf > jlauf)
         {
           ib = ib + 1;
-          ia[-1 + ib] = jlauf;
-          id[-1 + ib] = ilauf - jlauf;
-          ikb[-1 + ib] = k;
-          ipb[-1 + ib] = ip;
-          std::cout << ilauf
-                    << " " << jlauf
-                    << " " << ib
-                    << " " << ikb[-1 + ib]
-                    << " " << ipb[-1 + ib]
-                    << " " << std::endl;
+          ia[ib] = jlauf;
+          id[ib] = ilauf - jlauf;
+          ikb[ib] = k;
+          ipb[ib] = ip;
           // Write(txb(ib),'(i3,a,i2,a,a1)') ib,'. block:  k=',k+k-1,'/2',tp(ip)
           //! ir=(ib+1)/2
           //! write(*,*)  ib,2*k-1,'2*Omega=',2*ir - 1
@@ -1803,10 +1785,10 @@ void HFBTHO_solver::base(bool lpr)
       if (ilauf > jlauf)
       {
         ib = ib + 1;
-        ia[-1 + ib] = jlauf;
-        id[-1 + ib] = ilauf - jlauf;
-        ikb[-1 + ib] = k;
-        ipb[-1 + ib] = ip;
+        ia[ib] = jlauf;
+        id[ib] = ilauf - jlauf;
+        ikb[ib] = k;
+        ipb[ib] = ip;
         // Write(txb(ib),'(i3,a,i2,a,a1)') ib,'. block:  k=',k+k-1,'/2',tp(ip)
         // Write(txb(ib),'(i3,a,i2,a)') ib,'. block:  k=',k+k-1,'/2'
         // Do iw=lout,lfile
@@ -1820,56 +1802,4 @@ void HFBTHO_solver::base(bool lpr)
       // Endif
     }
   }
-  nb = ib;
-  nt = ilauf;
-  //!-----------------------------------------------
-  //! broyden/linear mixing (storage)
-  //!-----------------------------------------------
-  nhhdim = 0;
-  for (ib = 1; ib <= nb; ib++)
-  {
-    ND = id[-1 + ib];
-    for (N1 = 1; N1 <= ND; N1++)
-    {
-      for (N2 = 1; N2 <= N1; N2++)
-      {
-        nhhdim = nhhdim + 1;
-      }
-    }
-  }
-  nhhdim2 = 2 * nhhdim;
-  nhhdim3 = 3 * nhhdim;
-  nhhdim4 = 4 * nhhdim;
-  std::cout << "nhhdimx: "
-            << nhhdim2
-            << nhhdim3
-            << nhhdim4
-            << std::endl;
-  // If(Allocated(brin)) Deallocate(brin,brout)
-  // Allocate(brin(nhhdim4),brout(nhhdim4))
-  brin.resize(nhhdim4), brout.resize(nhhdim4);
-  //!-----------------------------------------------
-  //! Print statistics
-  //!-----------------------------------------------
-  // If(lpr) Then
-  //    Do iw=lout,lfile
-  //       Write(iw,'(a,i4)')   '  actual basis used:'
-  //       Write(iw,'(a,i4)')   '  number of blocks: nb=',nb
-  //       Write(iw,'(a,i4)')   '  number of levels: nt=',nt
-  //       Write(iw,'(a,i4)')   '  maximal 2*omega : nom=',nom
-  //       Write(iw,'(a,i4)')   '  maximal nz:       nzm=',nzm
-  //       Write(iw,'(a,i4)')   '  maximal nr:       nrm=',nrm
-  //       Write(iw,'(a,i4)')   '  maximal ml:       nlm=',nlm
-  //       Write(iw,'(a,i4)')   '  maximal nn=nz+2*nr+nl=',nnm
-  //       Write(iw,'(a,i4)')   '  2 x bigest block dim.=',ndx2
-  //       Write(iw,'(a,i8)')   '  Nonzero elemets of HH=',nhhdim
-  //       Write(iw,'(a,i8)')   '  Number Broyden elemens=',nhhdim4
-  //       Write(iw,'(a,i4)')
-  //    Enddo
-  // Endif
-  // If(nzm.Ge.n00max.Or.(nom-1)/2.Eq.n00max) Then
-  //    Write(*,*) 'nzm=',nzm,'  (nom-1)/2=',(nom-1)/2,'  n00max=',n00max
-  //    ierror_flag=ierror_flag+1
-  //    ierror_info(ierror_flag)='STOP: Please increase n00max to have correct basis'
-  // Endif
 }
