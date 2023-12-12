@@ -1968,14 +1968,64 @@ void HFBTHO_solver::gaupol(bool lpr)
     }
   }
 
-  for (int i = 0; i < ql.size(); i++)
+  // for (int i = 0; i < ql.size(); i++)
+  //{
+  //   for (int j = 0; j < ql[0].size(); j++)
+  //   {
+  //     for (int k = 0; k < ql[0][0].size() - 1; k++)
+  //     {
+  //       std::cout << "i, j, k: " << i << " " << j << " " << k << " " << ql[i][j][k] << "  " << ql1[i][j][k] << std::endl;
+  //     }
+  //   }
+  // }
+  //!
+  //!-----------------------------------------------
+  //! test accuracy for hermit orthonormalization
+  //!-----------------------------------------------
+  hs0 = 0.0;
+  hs1 = 2.0;
+  for (n1 = 0; n1 <= nzm; n1++)
   {
-    for (int j = 0; j < ql[0].size(); j++)
+    for (n2 = 0; n2 <= n1; n2++)
     {
-      for (int k = 0; k < ql[0][0].size() - 1; k++)
+      if ((n1 - n2) % 2 == 0)
       {
-        std::cout << "i, j, k: " << i << " " << j << " " << k << " " << ql[i][j][k] << "  " << ql1[i][j][k] << std::endl;
+        s = zero;
+        for (ih = 1; ih <= ngh; ih++)
+        {
+          s = s + qh[n1][-1 + ih] * qh[n2][-1 + ih];
+        }
+        if (n1 != n2)
+          hs0 = std::max(s, hs0);
+        else
+          hs1 = std::min(s, hs1);
       }
     }
   }
+  //!-----------------------------------------------
+  //! test accuracy for laguerre orthonormalization
+  //!-----------------------------------------------
+  s0 = 0.0;
+  s1 = 2.0;
+  for (l = 0; l <= nlm; l++)
+  {
+    for (n1 = 0; n1 <= nrm; n1++)
+    {
+      for (n2 = 0; n2 <= n1; n2++)
+      {
+        s = zero;
+        for (il = 1; il <= ngl; il++)
+        {
+          s = s + ql[n1][l][-1 + il] * ql[n2][l][-1 + il];
+        }
+        if (n1 != n2)
+          s0 = std::max(s, s0);
+        else
+          s1 = std::min(s, s1);
+      }
+    }
+  }
+
+  std::cout << "hs0, hs1: " << hs0 << "  " << hs1 << std::endl;
+  std::cout << "s0, s1: " << s0 << "  " << s1 << std::endl;
 }
