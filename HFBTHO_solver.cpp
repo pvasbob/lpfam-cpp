@@ -479,6 +479,7 @@ void HFBTHO_solver::preparer(bool lpr)
   thoalloc();
   gausspoints();
   base(lpr);
+  gaupol(lpr);
 }
 
 void HFBTHO_solver::gfv()
@@ -1872,4 +1873,109 @@ void HFBTHO_solver::base(bool lpr)
   //    ierror_flag=ierror_flag+1
   //    ierror_info(ierror_flag)='STOP: Please increase n00max to have correct basis'
   // Endif
+}
+
+void HFBTHO_solver::gaupol(bool lpr)
+{
+  //!---------------------------------------------------------------------
+  //! HO wave functions in cylindrical coordinates
+  //!---------------------------------------------------------------------
+  // Use HFBTHO
+  // Implicit None
+  // Logical :: lpr
+  double w0, z, x, s, s0, s1, w00, w4pii, dsq, d1, d2, d3, d4, hs0, hs1;
+  int ih, il, iw, ix, n, l, n1, n2;
+  //!-----------------------------------------------
+  //! Hermit
+  //!-----------------------------------------------
+  w4pii = pow(PI, (-0.250));
+  for (ih = 1; ih <= ngh; ih++)
+  {
+    z = xh[-1 + ih];
+    w0 = w4pii * exp(-half * z * z);
+    // std::cout << "z, w0: " << -1 + ih << "   " << z << w0 << std::endl;
+    //! functions qh, qh1; norm: \sum_{ih} qh(n1,ih)*qh(n2,ih)=\delta_{n1,n2}
+    w0 = w0 * sqrt(wh[-1 + ih]);
+    qh[0][-1 + ih] = w0;
+    // std::cout << "sq[-1+2]" << sq[-1 + 2] << std::endl;
+    qh[1][-1 + ih] = sq[2] * w0 * z;
+    qh1[0][-1 + ih] = -w0 * z;
+    qh1[1][-1 + ih] = sq[2] * w0 * (one - z * z);
+
+    // std::cout << "z: " << z << "w0: " << w0 << "qh"
+    //           << "1" << -1 + ih << "  " << qh[1][-1 + ih] << std::endl;
+
+    for (n = 2; n <= nzm; n++)
+    {
+      qh[n][-1 + ih] = sqi[n] * (sq[2] * z * qh[n - 1][-1 + ih] - sq[n - 1] * qh[n - 2][-1 + ih]);
+      qh1[n][-1 + ih] = sq[n + n] * qh[n - 1][-1 + ih] - z * qh[n][-1 + ih];
+    }
+  };
+
+  // for (int i = 0; i < sq.size(); i++)
+  //{
+  //   std::cout << sq.size() << "sq[i]: " << sq[i] << std::endl;
+  // }
+
+  //!-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+  // std::cout << "dimension: " << qh.size() << " " << qh[0].size() << std::endl;
+  // std::cout << "xh size: " << xh.size() << std::endl;
+  // for (int i = 0; i < xh.size(); i++)
+  //{
+  //  std::cout << i << " " << xh[i] << std::endl;
+  //}
+
+  // for (int i = 0; i < qh.size(); i++)
+  //{
+  //   for (int j = 0; j < qh[0].size() - 1; j++)
+  //   {
+  //     std::cout << qh.size() << " " << qh[0].size() << " " << i << " " << j << " " << qh[i][j] << std::endl;
+  //   }
+  // }
+
+  //!-----------------------------------------------
+  //! Laguerre
+  //!-----------------------------------------------
+  for (il = 1; il <= ngl; il++)
+  {
+    x = xl[-1 + il];
+    w00 = sq[2] * exp(-half * x);
+    // std::cout << "-1+il"
+    //           << " " << -1 + il << " " << x << " " << w00 << std::endl;
+    for (l = 0; l <= nlm; l++)
+    {
+      //! functions ql, ql1; norm: \sum_{il} ql(n1,l,il)*ql(n2,l,il)=\delta_{n1,n2}
+      w0 = w00 * sqrt(half * wl[-1 + il] * pow(x, l));
+      //
+      // std::cout << "-1+il, l" << -1 + il << " " << l << " " << w0 << std::endl;
+      //
+      ql[0][l][-1 + il] = wfi[l] * w0;
+      ql[1][l][-1 + il] = (l + 1 - x) * wfi[l + 1] * w0;
+      ql1[0][l][-1 + il] = (l - x) * wfi[l] * w0;
+      ql1[1][l][-1 + il] = ((l * l + l) - x * (l + l + 3) + x * x) * wfi[l + 1] * w0;
+      // std::cout << "l, -1+il" << l << " " << -1 + il << " " << ql1[0][l][-1 + il] << "  " << ql1[1][l][-1 + il] << std::endl;
+      for (n = 2; n <= nrm; n++)
+      {
+        dsq = sq[n] * sq[n + l];
+        d1 = (n + n + l - 1) - x;
+        d2 = sq[n - 1] * sq[n - 1 + l];
+        d3 = n + n + l - x;
+        d4 = two * dsq;
+        ql[n][l][-1 + il] = (d1 * ql[n - 1][l][-1 + il] - d2 * ql[n - 2][l][-1 + il]) / dsq;
+        ql1[n][l][-1 + il] = d3 * ql[n][l][-1 + il] - d4 * ql[n - 1][l][-1 + il];
+        // std::cout << "n, l, -1+il:    " << n << " " << l << " " << -1 + il << " " << ql[n][l][-1 + il] << "  " << ql1[n][l][-1 + il] << std::endl;
+      }
+    }
+  }
+
+  for (int i = 0; i < ql.size(); i++)
+  {
+    for (int j = 0; j < ql[0].size(); j++)
+    {
+      for (int k = 0; k < ql[0][0].size() - 1; k++)
+      {
+        std::cout << "i, j, k: " << i << " " << j << " " << k << " " << ql[i][j][k] << "  " << ql1[i][j][k] << std::endl;
+      }
+    }
+  }
 }

@@ -27,6 +27,7 @@ public:
   void GBTQL2(const int &, double *, double *, double *, int &);
   double GBSLVE(const double &, const int &, double *, double *);
   void base(bool);
+  void gaupol(bool);
 
 private:
   int iw, ib, j, i, it;
