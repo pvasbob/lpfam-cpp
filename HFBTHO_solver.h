@@ -28,6 +28,8 @@ public:
   double GBSLVE(const double &, const int &, double *, double *);
   void base(bool);
   void gaupol(bool);
+  void coordinateLST(bool);
+  void optHFBTHO();
 
 private:
   int iw, ib, j, i, it;

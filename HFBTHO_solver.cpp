@@ -2028,4 +2028,51 @@ void HFBTHO_solver::gaupol(bool lpr)
 
   std::cout << "hs0, hs1: " << hs0 << "  " << hs1 << std::endl;
   std::cout << "s0, s1: " << s0 << "  " << s1 << std::endl;
+  //
+  coordinateLST(false);
+}
+
+void HFBTHO_solver::coordinateLST(bool lpr)
+{
+  //  !------------------------------------------------------------------
+  //  ! HO/THO
+  //  !------------------------------------------------------------------
+  //  Use HFBTHO
+  // #ifndef hide_tho
+  //  Use THO_MODULE, Only: f01234
+  // #endif
+  //  Implicit None
+  //  Logical :: lpr
+  int i, il, ih;
+
+  std::cout << "iLST1: " << iLST1 << std::endl;
+
+  if (iLST1 == 0)
+  {
+    //! HO-basis
+    for (il = 1; il <= ngl; il++)
+    {
+      for (ih = 1; ih <= ngh; ih++)
+      {
+        i = ih + (il - 1) * ngh;
+        fh[-1 + i] = bz * xh[-1 + ih];
+        fl[-1 + i] = bp * sqrt(xl[-1 + il]);
+        wdcor[-1 + i] = PI * wh[-1 + ih] * wl[-1 + il] * bz * bp * bp;
+        wdcori[-1 + i] = one / wdcor[-1 + i];
+        //
+        std::cout << "il, ih: " << il << " " << ih << " " << fh[-1 + i] << " " << fl[-1 + i] << std::endl;
+      }
+    }
+  }
+  // #ifndef hide_tho
+  else
+  {
+    //! THO basis
+    // Call f01234(.False.)
+    // If(ierror_flag.Ne.0) Return
+    // #endif
+  } //!
+  //  Call optHFBTHO                ! optimal HO/THO combinations
+  //  If(ierror_flag.Ne.0) Return
+  //!
 }
