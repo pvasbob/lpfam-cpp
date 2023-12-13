@@ -67,11 +67,11 @@ Main_Program
  | | |                                                                                                                    
  | | |-base -F                                                                                                                    
  | | |                                                                                                                    
- | | |-gaupol -F                                                                                                                   
- | | |                                                                                                                    
- | |                                                                                                                     
- | |                                                                                                                     
- | |                                                                                                                     
+ | | |-gaupol                                                                                                                    
+ | | |  |                                                                                                                    
+ | |	|-coordinateLST                                                                                                                     
+ | |	      |                                                                                                                     
+ | |          |-optHFBTHO                                                                                                          
  | |-inout                                                                                                                     
  | |  |                                                                                                                   
  | |  |-FileLabels                                                                                                                   
