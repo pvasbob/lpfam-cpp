@@ -2490,4 +2490,330 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
   norm_to_improve = true;
   inner[-1 + it] = -1;
   sumnz[-1 + it] = one;
+
+  while (norm_to_improve)
+  {
+    //!
+    inner[-1 + it] = inner[-1 + it] + 1;
+    //!
+    if (abs(sumnz[-1 + it]) < sitest && inner[-1 + it] == 20)
+      norm_to_improve = false;
+    //!
+    sumnz[-1 + it] = zero;
+    v2min[-1 + it] = one;
+    Dispersion[-1 + it] = zero;
+    //!
+    kl = 0;
+    emin = 1000.0;
+    al = ala[-1 + it];
+    //!
+    //! blocking
+    // If(iparenti(it).Eq.0) blomax(it)=0
+    // blo123d(it)=0; blok1k2d(it)=0; blocanon(it)=0;
+    // ibiblo=bloblo(keyblo(it),it)
+    //!------------------------------------------------------------------
+    //! Runs over blocks
+    //!------------------------------------------------------------------
+    i_uv = 0;
+    i_eqp = 0;
+    lc = 0;
+    lcanon[0][-1 + it] = 0;
+    klmax[0] = 0;
+    klmax[1] = 0;
+    ibro = 0;
+    for (ib = 1; ib <= nb; ib++)
+    {
+      nd = id[-1 + ib];
+      nhfb = nd + nd;
+      i0 = ia[-1 + ib];
+      m = ib + (it - 1) * nbx;
+      ibroib = ibro;
+      //!------------------------------------------------------------------
+      //!  hfb-matrix
+      //!------------------------------------------------------------------
+      for (n1 = 1; n1 <= nd; n1++)
+      {
+        nd1 = n1 + nd;
+        for (n2 = 1; n2 <= n1; n2++)
+        {
+          nd2 = n2 + nd;
+          ibro = ibro + 1;
+          hla = brin[-1 + nhhph + ibro];
+          dla = brin[-1 + nhhpp + ibro];
+          hfb[-1 + n1, -1 + n2] = hla;
+          hfb[-1 + nd2, -1 + n1] = dla;
+          hfb[-1 + nd1, -1 + n2] = dla;
+          hfb[-1 + nd1, -1 + nd2] = -hla;
+        }
+        hfb[-1 + n1, -1 + n1] = hfb[-1 + n1, -1 + n1] - al;
+        hfb[-1 + nd1, -1 + nd1] = hfb[-1 + nd1, -1 + nd1] + al;
+      }
+      ier = 0;
+      DSYEVD('V', 'L', nhfb, hfb, ndx2, evvk, ALWORK, ialwork, LWORK, ilwork, ier);
+      //! Call dsyev('V','L',nhfb,hfb,ndx2,evvk,ALWORK,ialwork,ier)
+      //!------------------------------------------------------------------
+      //!  NB! Diagonalization bug in LAPACK
+      //!------------------------------------------------------------------
+      // no need back If(ier.Gt.0) Then
+      // no need back    Do iw=lout,lfile
+      // no need back       Write(iw,*) 'FATAL ERROR CONDITION IN HFBDIAG DSYEVD, ier=',ier,'(RECOVERED)'
+      // no need back    End Do
+      // no need back    ibro=ibroib
+      // no need back    Do n1=1,nd
+      // no need back       nd1=n1+nd
+      // no need back       Do n2=1,n1
+      // no need back          nd2=n2+nd; ibro=ibro+1
+      // no need back          hla=brin(nhhph+ibro);     dla=brin(nhhpp+ibro)
+      // no need back          hfb(n1,n2)=hla;           hfb(nd2,n1)=dla
+      // no need back          hfb(nd1,n2)=dla;          hfb(nd1,nd2)=-hla
+      // no need back       End Do
+      // no need back       hfb(n1,n1)=hfb(n1,n1)-al; hfb(nd1,nd1)=hfb(nd1,nd1)+al
+      // no need back    End Do
+      // no need back    Call sdiag(ndx2,nhfb,hfb,evvk,hfb,zhfb,+1)
+      // no need back End If
+      // wait!------------------------------------------------------------------
+      // wait! Blocking
+      // wait!------------------------------------------------------------------
+      // wait! external blocking
+      // waitIf(iiter.Eq.1.And.inner(it).Eq.0) Then
+      // wait   If(iparenti(it).Ne.0.And.keyblo(it).Eq.0) Then
+      // wait      ! eventually charging
+      // wait      !   keyblo(it)=1
+      // wait      !   bloblo(keyblo(it),it)=ib
+      // wait      !   blo123(keyblo(it),it)=requested level (k0)
+      // wait      Call requested_blocked_level(ib,it)
+      // wait      If(ierror_flag.Ne.0) Return
+      // wait  ibiblo=bloblo(keyblo(it),it)
+      // wait   Endif
+      // waitEndif
+      // wait! general blocking
+      // waitk0=0
+      // waitIf(ibiblo.Eq.ib) Then
+      // wait   If(iiter.Eq.1.And.inner(it).Eq.0) Then
+      // wait      ! blocked level as in the even-even nucleus
+      // wait      k0=blo123(keyblo(it),it); ndk=k0+nd
+      // wait      Do n2=1,nd
+      // wait         nd2=n2+nd
+      // wait         hfb1(n2,it)=hfb(n2,ndk)    !U
+      // wait         hfb1(nd2,it)=hfb(nd2,ndk)  !V
+      // wait      Enddo
+      // wait      ! number of states in the block to be tested
+      // wait      blocross(it)=Min(blomax(it)+10,nd)
+      // wait   Endif
+      // wait   ! overlap between new and old blocked levels
+      // wait   s3=zero
+      // wait   Do n1=1,blocross(it)
+      // wait      ndk=n1+nd; s1=zero
+      // wait      Do n2=1,nd
+      // wait         nd2=n2+nd
+      // wait         s1=s1+Abs(hfb1(nd2,it)*hfb(nd2,ndk)) !VV
+      // wait         s1=s1+Abs(hfb1(n2,it)*hfb(n2,ndk))   !UU
+      // wait      Enddo
+      // wait      If(s1.Gt.s3) Then
+      // wait         s3=s1; k0=n1
+      // wait      Endif
+      // wait   Enddo
+      // wait   blo123d(it)=k0
+      // wait   If(.Not.norm_to_improve) Then
+      // wait      ! find maximal HO component
+      // wait      ndk=k0+nd
+      // wait      s1=zero
+      // wait      Do n1=1,nd
+      // wait         nd1=n1+nd
+      // wait         hfb1(n1,it)=hfb(n1,ndk); hfb1(nd1,it)=hfb(nd1,ndk)
+      // wait         s2=Max(s1,Abs(hfb(n1,ndk)),Abs(hfb(nd1,ndk)))
+      // wait         If(s2.Gt.s1) Then
+      // wait            s1=s2; i=n1+i0  ! labels in k[k1,k2] numbering
+      // wait         End If
+      // wait      End Do
+      // wait      ! print blocked state
+      // wait      Do iw=lout,lfile
+      // wait         Write(iw,'(4x,a,2(a,i3),2x,3(a,1x,f12.8,1x),(i3,a,i3,1x),a)')  &
+      // wait              protn(it),' Blocking: block=',ib,  &
+      // wait              ' state=',k0,  &
+      // wait              ' Eqp=',evvk(k0+nd),  &
+      // wait              ' Dqpe=',evvk(k0+nd)-eqpmin(it),  &
+      // wait              ' Ovlp=',s3  &
+      // wait              , keyblo(it),'/',blomax(it)  &
+      // wait              , tb(i)
+      // wait      Enddo
+      // wait      ! ieresbl=6, 'BLKN','BLKZ'
+      // wait      ereslbl(it)=tb(i)
+      // wait      If(it.Eq.1) Then
+      // wait         ! 'BlEqpN','BlDEqpN','BlOvrN'
+      // wait         eresbl(1)=evvk(k0+nd); eresbl(2)=evvk(k0+nd)-eqpmin(it); eresbl(3)=s1
+      // wait      Else
+      // wait         ! 'BlEqpZ','BlDEqpZ','BlOvrZ'
+      // wait         eresbl(4)=evvk(k0+nd); eresbl(5)=evvk(k0+nd)-eqpmin(it); eresbl(6)=s1
+      // wait      Endif
+      // wait   End If
+      // waitEnd If
+      //!------------------------------------------------------------------
+      //! Run over all qp states k in the block
+      //!------------------------------------------------------------------
+      kaib = kl;
+      for (k = 1; k <= nd; k++)
+      {
+        ndk = k + nd;
+        //! referent spectra
+        pn = zero;
+        for (i = 1; nd; i++)
+        {
+          hla = pow(hfb[-1 + i + nd, -1 + ndk], 2);
+          pn = pn + hla;
+          // no need back If(i.Eq.1) Then
+          // no need back    !write(*,*) hfb(i+nd,ndk),hfb(i,ndk),evvk(nd+k)         ! Vak, Uak, Sign( V*U)  Ek
+          // no need back    !write(*,*) hfb(i,nd-k+1),hfb(i+nd,nd-k+1),evvk(nd-k+1) ! Vak, Uak, Sign(-V*U) -Ek
+          // no need back Endif
+        }
+        // blocking ? ! Blocking
+        // blocking ? If(k.Eq.k0) Then
+        // blocking ?    n1=k0+nd
+        // blocking ?    Do i=1,nd
+        // blocking ?       hla=hfb(i+nd,n1)**2; dla=hfb(i,n1)**2; pn=pn-half*(hla-dla)
+        // blocking ?    Enddo
+        // blocking ? Endif
+        eqpe = evvk[-1 + nd + k];
+        ela = eqpe * (one - two * pn);
+        enb = ela + al;
+        ekb = sqrt(abs(eqpe * eqpe - pow(ela, 2)));
+        //!------------------------------------------------------------------
+        //! cut-off condition: energy pwi + Fermi cut-off function
+        //!------------------------------------------------------------------
+        lpr_pwi = enb <= pwi && abs(one / (one + exp(100.0 * (enb - pwi)))) > 0.000001;
+        // #ifndef hide_qrpa
+        lpr_pwi = enb <= pwi; //! cristina sharp cut off for qrpa
+        // #endif
+        if (use_TMR_pairing == 0)
+          lpr_pwi = true; //! no pairing window with TMR pairing
+        //!------------------------------------------------------------------
+        //! Remember the whole qp solution
+        //!------------------------------------------------------------------
+        if (!norm_to_improve)
+        {
+          i_eqp = i_eqp + 1;
+          (*EqpPo)[-1 + i_eqp] = evvk[-1 + nd + k]; //! Eqp_k
+          if (lpr_pwi)
+            (*KqpPo)[-1 + kl + 1] = i_eqp; //! below pwi otherwise zero
+          if (lpr_pwi)
+            (*KpwiPo)[-1 + kl + 1] = i_uv; //! below pwi otherwise zero
+          for (n2 = 1; n2 <= nd; n2++)
+          {
+            nd2 = n2 + nd;
+            i_uv = i_uv + 1;
+            (*UqpPo)[-1 + i_uv] = hfb[-1 + n2, -1 + ndk];  //! U_ak
+            (*VqpPo)[-1 + i_uv] = hfb[-1 + nd2, -1 + ndk]; //! V_ak
+          }
+        }
+        //!------------------------------------------------------------------
+        //! Pairing window
+        //!------------------------------------------------------------------
+        if (lpr_pwi)
+        {
+          kl = kl + 1; //! number of active states
+          // if(k0.Eq.k) blok1k2d(it)=kl                  //!blocking: dynamic #: k[k1,k2] numbering
+          if ((eqpe <= emin) && (pn > 0.0001))
+          { //! to avoid unocc at magic numbers
+            emin = eqpe;
+            alnorm = pn; //! min qpe and its occupation
+          }
+          erhfb[-1 + kl] = enb;
+          drhfb[-1 + kl] = ekb;
+          uk[-1 + kl][-1 + it] = pn;                  //! ref.s.p. energies, deltas, occupancies
+          sumnz[-1 + it] = sumnz[-1 + it] + two * pn; //! internal normalization
+        }
+      }
+      // wait If(norm_to_improve) Cycle
+      // wait !------------------------------------------------------------------
+      // wait !  Density matrices
+      // wait !------------------------------------------------------------------
+      // wait kdib=kl-kaib; ka(ib,it)=kaib; kd(ib,it)=kdib
+      // wait k1=kaib+1; k2=kaib+kdib
+      // wait eqpe=0.
+      // wait Do n2=1,nd
+      // wait    Do n1=n2,nd
+      // wait       s1=zero; s2=zero
+      // wait       If(k1.Le.k2) Then
+      // wait          Do k=k1,k2
+      // wait             nd1=KpwiPo(k)+n1; nd2=KpwiPo(k)+n2
+      // wait             s1=s1+VqpPo(nd1)*VqpPo(nd2)
+      // wait             s2=s2+UqpPo(nd1)*VqpPo(nd2) +VqpPo(nd1)*UqpPo(nd2)
+      // wait          End Do
+      // wait    !if(it.eq.1) write(200,*) n1,n2,s1-s2
+      // wait          s1=two*s1; s2=half*s2               ! two:due to m-projection, half:due to symmetrization
+      // wait          ! blocking
+      // wait          If(ibiblo.Eq.ib) Then
+      // wait             i=blok1k2d(it); id1=KpwiPo(i)+n1; id2=KpwiPo(i)+n2
+      // wait             s1=s1-VqpPo(id1)*VqpPo(id2)+UqpPo(id1)*UqpPo(id2)
+      // wait             s2=s2-half*(UqpPo(id1)*VqpPo(id2)+VqpPo(id1)*UqpPo(id2))
+      // wait          Endif
+      // wait       End If
+      // wait       n12=n1+(n2-1)*nd; n21=n2+(n1-1)*nd
+      // wait       rk(n12,m)=s1; rk(n21,m)=s1              !  V V'
+      // wait       ak(n12,m)=-s2; ak(n21,m)=-s2            !- U V', ak=half*(pairing density)
+      // wait       hfbcan(n1,n2)=s1; hfb(n1,n2)=s1
+      // wait    End Do !n1
+      // wait End Do !n2
+      // wait !------------------------------------------------------------------
+      // wait ! Canonical basis
+      // wait !------------------------------------------------------------------
+      // wait If(k1.Le.k2) Then
+      // wait    Call Canonical(it,icanon,k2,k1,nd,i0,lc,ib,ibiblo,m,ibroib)
+      // wait    If(ierror_flag.Ne.0) Return
+      // wait Endif
+      // wait lcanon(ib,it)=lc
+    }
+    //! ib
+    // If(kl.Eq.0) Then
+    //    ierror_flag=ierror_flag+1
+    //    ierror_info(ierror_flag)=' STOP: kl=zero, no states below pwi!!!'
+    //    Return
+    // Endif
+    // If(iparenti(it).Ne.0.And.ibiblo.Eq.0) Then
+    //    ierror_flag=ierror_flag+1
+    //    ierror_info(ierror_flag)='STOP: No blocking candidate found!!!'
+    //    Return
+    // Endif
+    eqpmin[-1 + it] = emin;
+    klmax[-1 + it] = kl;
+    sumnz[-1 + it] = sumnz[-1 + it] - tz[-1 + it];
+    //!------------------------------------------------------------------
+    //! Lambda search
+    //!------------------------------------------------------------------
+    ALambda(al, it, kl);
+    // If(ierror_flag.Ne.0) Return
+    if (keyblo[-1 + it] == 0)
+      ala[-1 + it] = al;
+    else
+      ala[-1 + it] = ala[-1 + it] + 0.50 * (al - ala[-1 + it]);
+    //
+    //! NB! 'alast' instead of 'al' at small pairing
+    alast[-1 + it] = al;
+    if (abs(ept[-1 + it]) < 0.0001)
+    {
+      ntz = tz[-1 + it] + 0.1;
+      ntz = ntz / 2;
+      for (k = 1; k <= kl; k++)
+        drhfb[-1 + k] = erhfb[-1 + k];
+      //
+      ord(kl, drhfb);
+      alast[-1 + it] = drhfb[-1 + ntz]; //! last bound s.p. energy
+    }
+    //!------------------------------------------------------------------
+    //! THO asymptotic decay
+    //!------------------------------------------------------------------
+    //! density asymptotic decay \rho(r)->Exp(-ass(it)*r)
+    //! ass(it)=2*Sqrt((E_min-\lambda)/((A-1)/A)*hbar**2/(2*m)))
+    al2 = zero;
+    if (kindhfb < 0)
+      al2 = al + two * ala2[-1 + it] * (one - two * alnorm); //! al=al+two*ala2(it)
+    //
+    al2 = (emin - al2) / hb0;
+    //! wrong asymptotic
+    iasswrong[-1 + it] = 0;
+    if (al2 <= zero)
+      iasswrong[-1 + it] = 1;
+    ass[-1 + it] = two * sqrt(abs(al2));
+    //!
+  } //! While(norm_to_improve)
 }
