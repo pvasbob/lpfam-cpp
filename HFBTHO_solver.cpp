@@ -2060,7 +2060,7 @@ void HFBTHO_solver::coordinateLST(bool lpr)
         wdcor[-1 + i] = PI * wh[-1 + ih] * wl[-1 + il] * bz * bp * bp;
         wdcori[-1 + i] = one / wdcor[-1 + i];
         //
-        std::cout << "il, ih: " << il << " " << ih << " " << fh[-1 + i] << " " << fl[-1 + i] << std::endl;
+        // std::cout << "il, ih: " << il << " " << ih << " " << fh[-1 + i] << " " << fl[-1 + i] << std::endl;
       }
     }
   }
@@ -2071,8 +2071,161 @@ void HFBTHO_solver::coordinateLST(bool lpr)
     // Call f01234(.False.)
     // If(ierror_flag.Ne.0) Return
     // #endif
-  } //!
-  //  Call optHFBTHO                ! optimal HO/THO combinations
+  }            //!
+  optHFBTHO(); //! optimal HO/THO combinations
   //  If(ierror_flag.Ne.0) Return
   //!
+}
+
+void HFBTHO_solver::optHFBTHO()
+{
+  // Subroutine optHFBTHO
+  //   !---------------------------------------------------------------------
+  //   ! oprimization arrays
+  //   ! NB FI2D_opt(JA,ihil) == Laplassisan(r,z) HOwf
+  //   !    FID2D-xlamy2*FID  == Laplassisan(r,z,phy) FID
+  //   !    FIU2D-xlapy2*FIU  == Laplassisan(r,z,phy) FIU
+  //   !---------------------------------------------------------------------
+  //   Use HFBTHO
+  //   Implicit None
+  int i, ih, il, ib, ibx, nd, nza, nra, nla, nsa;
+  int ihil, laplus, im, JA, N1, N2, ndnd, n12, n21;
+  double qla, v2, v4, yi, y, y2, qha, qhla, xmi, u, u2, un, up, xxx;
+  double sml2, cnzaa, cnraa, a, b;
+  // double FITW1,FITW2,FITW3,FITW4;
+  double fitw1, fitw2, fitw3, fitw4;
+  // double fi1r,fi1z,fi2d,QHL1A,QH1LA,vh,vdh,vsh,hbh;
+  double fi1r, fi1z, fi2d, qhl1a, qh1la, vh, vdh, vsh, hbh;
+  // double SRFIh,SFIRh,SFIZh,SZFIh,SNABLARh,SNABLAZh;
+  double srfih, sfirh, sfizh, szfih, snablarh, snablazh;
+  // double xlam, xlam2, xlamy, xlamy2, xlap, xlap2, xlapy, xlapy2, XLAMPY;
+  double xlam, xlam2, xlamy, xlamy2, xlap, xlap2, xlapy, xlapy2, xlampy;
+  double bpi, bpi2, bzi, bzi2, xh2;
+  //!
+  bpi = one / bp;
+  bpi2 = bpi * bpi;
+  bzi = one / bz;
+  bzi2 = bzi * bzi;
+  //!
+  //!-----------------------------------------
+  //! Allocate the optimization arrays
+  //!-----------------------------------------
+  // If(Allocated(QHLA_opt)) Deallocate(QHLA_opt,FI1R_opt,FI1Z_opt,FI2D_opt,y_opt)
+  QHLA_opt.resize(ntx, std::vector<double>(nghl));
+  FI1R_opt.resize(ntx, std::vector<double>(nghl));
+  FI1Z_opt.resize(ntx, std::vector<double>(nghl));
+  FI2D_opt.resize(ntx, std::vector<double>(nghl));
+  y_opt.resize(nghl);
+  //!----------------------------------------------
+  //! START BLOCKS
+  //!----------------------------------------------
+  for (ib = 1; ib <= nb; ib++)
+  {
+    nd = id[-1 + ib];
+    im = ia[-1 + ib];
+    if (Parity)
+      laplus = (ib + 1) / 2; //! Yesp
+    else
+      laplus = ib; //! Nop
+    // Endif
+    xlap = laplus;
+    xlam = xlap - one;
+    xlap2 = xlap * xlap;
+    xlam2 = xlam * xlam;
+    //!----------------------------------------------
+    //! SUM OVER GAUSS INTEGRATION POINTS
+    //!----------------------------------------------
+    for (il = 1; il <= ngl; il++)
+    {
+      v2 = half / xl[-1 + il];
+      v4 = v2 * v2;
+      for (ih = 1; ih <= ngh; ih++)
+      {
+        ihil = ih + (il - 1) * ngh;
+        xh2 = pow(xh[-1 + ih], 2);
+        if (iLST1 == 0)
+        {
+          //! HO-basis
+          yi = sqrt(xl[-1 + il]) * bp;
+          y = one / yi;
+          y2 = y * y;
+          xlamy = xlam * y;
+          xlamy2 = xlam2 * y2;
+          xlapy = xlap * y;
+          xlapy2 = xlap2 * y2;
+          // XLAMPY = XLAMY + XLAPY;
+          xlampy = xlamy + xlapy;
+        }
+        // #ifndef hide_tho
+        else
+        {
+          ////! THO - basis
+          // y = fli(ihil);
+          // y2 = y * y;
+          // xlamy = xlam * y;
+          // u = xh(ih);
+          // u2 = u * u;
+          // xlamy2 = xlam2 * y2;
+          // xlapy = xlap * y;
+          // xlapy2 = xlap2 * y2;
+          // XLAMPY = XLAMY + XLAPY;
+        }
+        // #endif
+        // End If
+        y_opt[-1 + ihil] = y;
+        //!----------------------------------------------
+        //! SCAN OVER BASIS STATES
+        //!----------------------------------------------
+        for (N1 = 1; N1 <= nd; N1++)
+        {
+          JA = N1 + im;
+          nla = nl[-1 + JA];
+          nra = nr[-1 + JA];
+          nza = nz[-1 + JA];
+          nsa = ns[-1 + JA];
+          // SML2 = NLA * NLA;
+          sml2 = nla * nla;
+          // CNZAA = NZA + NZA + 1;
+          cnzaa = nza + nza + 1;
+          // CNRAA = NRA + NRA + NLA + 1;
+          cnraa = nra + nra + nla + 1;
+          qha = qh[nza][-1 + ih];
+          qla = ql[nra][nla][-1 + il];
+          qhla = qha * qla;
+          qhl1a = qha * ql1[nra][nla][-1 + il] * v2;
+          qh1la = qh1[nza][-1 + ih] * qla;
+          if (iLST1 == 0)
+          {
+            //! HO-basis
+            fi1r = (two * sqrt(xl[-1 + il]) * bpi) * qhl1a;
+            fi1z = bzi * qh1la;
+            fi2d = ((xh2 - cnzaa) * bzi2 + four * (p14 - cnraa * v2 + sml2 * v4) * xl[-1 + il] * bpi2) * qhla;
+          }
+          // #ifndef hide_tho
+          else
+          {
+            //  //! THO-basis
+            //  u = xh(ih);
+            //  u2 = u * u;
+            //  FI1R = FP4(IHIL) * QHLA + FP5(IHIL) * QH1LA + FP6(IHIL) * QHL1A;
+            //  FI1Z = FP1(IHIL) * QHLA + FP2(IHIL) * QH1LA + FP3(IHIL) * QHL1A;
+            //  FI2D = (FS1(IHIL) * QH1LA * QH1LA + FS2(IHIL) * QHL1A * QHL1A  \ 
+          //            +
+            //          FOUR * FS4(IHIL) * QH1LA * QHL1A + TWO * (FS5(IHIL) * QH1LA + FS6(IHIL) * QHL1A) * QHLA \ 
+          //            +
+            //          ((U2 - CNZAA) * FS1(IHIL) + (p14 - CNRAA * V2 + SML2 * V4) * FS2(IHIL) + FS3(IHIL)) * QHLA * QHLA - TWO * (FI1R * FI1R + FI1Z * FI1Z)) /
+            //         (TWO * QHLA);
+          }
+          // #endif
+          // Endif
+          QHLA_opt[-1 + JA][-1 + ihil] = qhla;
+          FI2D_opt[-1 + JA][-1 + ihil] = fi2d;
+          FI1R_opt[-1 + JA][-1 + ihil] = fi1r;
+          FI1Z_opt[-1 + JA][-1 + ihil] = fi1z;
+          // std::cout << "ib: " << QHLA_opt[-1 + JA][-1 + ihil] << " " << FI2D_opt[-1 + JA][-1 + ihil] << " " << FI1R_opt[-1 + JA][-1 + ihil] << " " << FI1Z_opt[-1 + JA][-1 + ihil] << std::endl;
+        } //! N1
+        //!
+      } //! IH
+    }   //! IL
+  }     //! IB
 }
