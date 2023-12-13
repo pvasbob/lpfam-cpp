@@ -2482,4 +2482,12 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
   //
   std::cout << "nhhph, nhhpp, nhhdim: " << nhhph << " " << nhhpp << " " << nhhdim << std::endl;
   //!
+  //!
+  //!------------------------------------------------------------------
+  //! Loop the internal normalization
+  //!------------------------------------------------------------------
+  sitest = std::max(std::min(0.10, si * 0.010), 0.000010);
+  norm_to_improve = true;
+  inner[-1 + it] = -1;
+  sumnz[-1 + it] = one;
 }

@@ -287,7 +287,7 @@ public:
     static double av[2];
     static double rso[2];
     static double aso[2];
-    static double Sumnz[2];
+    static double sumnz[2];
     static double Dispersion[2];
     static double v2min[2];
     static double v2minv[2];

@@ -266,7 +266,7 @@ double HFBTHO::r0v[2];
 double HFBTHO::av[2];
 double HFBTHO::rso[2];
 double HFBTHO::aso[2];
-double HFBTHO::Sumnz[2];
+double HFBTHO::sumnz[2];
 double HFBTHO::Dispersion[2];
 double HFBTHO::v2min[2];
 double HFBTHO::v2minv[2];
