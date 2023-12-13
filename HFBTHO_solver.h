@@ -30,6 +30,8 @@ public:
   void gaupol(bool);
   void coordinateLST(bool);
   void optHFBTHO();
+  void iter(bool);
+  void hfbdiag(int, int);
 
 private:
   int iw, ib, j, i, it;

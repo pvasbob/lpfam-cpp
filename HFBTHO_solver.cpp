@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <bits/stdc++.h>
+#include <ctime>
 
 #include "HFBTHO_solver.h"
 #include "lapack.h"
@@ -61,7 +62,45 @@ void HFBTHO_solver::solver()
       icahartree = 0;
       preparer(true);
       // inout(1);
+      // If(ierror_flag.Ne.0) Return
+      //!-------------------------------------------------------------
+      //! Preliminary constrained calculations
+      //!-------------------------------------------------------------
+      if (inin > 0 && icstr == 0)
+      {
+        epsi0 = epsi; //! remember accuracu
+        icstr = 1;    //! constraint true
+        epsi = 1.0;   //! small accuracu
+        // Do iw=lout,lfile
+        //    If(Parity) Then
+        //       Write(iw,'(/,a,i3,a,i2,a,/)') '  ### INITIAL STAGE(constrained calculations, reflection symmetry used)'
+        //    Else
+        //       Write(iw,'(/,a,i3,a,i2,a,/)') '  ### INITIAL STAGE(constrained calculations, no reflection symmetry used)'
+        //    Endif
+        // Enddo
+        iter(true); //! small constraint iterations
+        // If(ierror_flag.Ne.0) Return
+        icstr = 0;    //! requested unconstraint calculation
+        epsi = epsi0; //! return to requested requested accuracy
+      }
+      //!-------------------------------------------------------------
+      //! REGULAR HFB+HO ITERATIONS
+      //!-------------------------------------------------------------
+      // Do iw=lout,lfile
+      //    If(Parity) Then
+      //       Write(iw,'(/,a,i3,a,i2,a,/)')    '  ### REGULAR STAGE (reflection symmetry imposed)'
+      //    Else
+      //       Write(iw,'(/,a,i3,a,i2,a,/)')    '  ### REGULAR STAGE (no reflection symmetry imposed)'
+      //    Endif
+      // Enddo
+      iter(true);
+      // If(ierror_flag.Ne.0) Return
+      // resu(1);
+      // If(ierror_flag.Ne.0) Return
     }
+    //
+
+    //
   } while (irestart != 0);
 }
 
@@ -2228,4 +2267,219 @@ void HFBTHO_solver::optHFBTHO()
       } //! IH
     }   //! IL
   }     //! IB
+}
+
+void HFBTHO_solver::iter(bool lpr)
+{
+  //!------------------------------------------------------------------
+  //! Iterations through successive diagonalisation
+  //!------------------------------------------------------------------
+  // Use HFBTHO
+  // Implicit None
+  // Logical :: lpr
+  double assprn, delln[2];
+  clock_t time;
+  int iw, it, ite;
+  clock_t time1, time2, time3;
+  //!---------------------------------------------------
+  //! print to screen('lout')/thoout.dat('lfile')
+  //!---------------------------------------------------
+  // Do iw=lout,lfile
+  //    If(iLST.Eq.0) Then
+  //       Write(iw,'(a,f7.3,4(a,i3),a)')  &
+  //            '  |HFB+HO> iterations(b0=',b0,', Nsh=',n00,  &
+  //            ', inin=',inin,', N=',npr(1),', Z=',npr(2),')...'
+  //    Else
+  //       If(iLST1.Eq.0.Or.iasswrong(3).Ne.0) Then
+  //          If(iasswrong(3).Ne.0) Then
+  //             Write(iw,'(a,f7.3,a,i3,a)')  &
+  //                  '  |HFB+THO substituted by HFB+HO> iterations (b0=',  &
+  //                  b0,', Nsh=',n00,')...'
+  //          Else
+  //             Write(iw,'(a,f7.3,a)')'  towards |hfb+tho> iterations...'
+  //             Write(iw,'(a,f7.3,a)')
+  //             Write(iw,'(a,f7.3,a,i3,a)')  &
+  //                  '  |Preliminary HFB+HO> iterations (b0=',b0,', Nsh=',n00,')...'
+  //          End If
+  //       Else
+  //          If(itass.Eq.1) Then
+  //             Write(iw,'(2(a,f7.3),a,i3,a)')  &
+  //                  '  |HFB+THO> iterations(b0=',b0,', neutron density decay=',  &
+  //                  decay,', Nsh=',n00,')...'
+  //          Else
+  //             Write(iw,'(2(a,f7.3),a,i3,a)')  &
+  //                  '  |HFB+THO> iterations(b0=',b0,', proton density decay=',  &
+  //                  decay,', Nsh=',n00,')...'
+  //          End If
+  //       End If
+  //    End If
+  //    Write(iw,1)
+  //    Write(iw,'(20(a))')'  i','          si ','    mix ','  beta', '  &
+  //         &  Etot ','    A ','      rn','      rp ','        En', '   &
+  //         &    Dn','      Ep','      Dp','        Ln  ','   Lp ', '   &
+  //         &    time' !Idro '
+  //    Write(iw,1)
+  // End Do
+  //
+  std::cout << "iter() execute: " << std::endl;
+
+  for (ite = 1; ite <= maxi; ite++)
+  {
+
+    // Cpu_time(time1);
+    time1 = std::clock();
+    // std::cout << "ite, lpr, time1 " << ite << " " << lpr << " " << time1 << std::endl;
+
+    //!
+    iiter = ite;
+    // std::cout << "lpr, iiter " << lpr << " " << iiter << std::endl;
+    if (lpr && iiter == 1)
+    {
+      // std::cout << "Inside if. lpr, iiter " << lpr << " " << iiter << std::endl;
+      assprn = ass[-1 + 1];
+      if (assprn > ass[-1 + 2])
+        assprn = -ass[-1 + 2]; //! protons come with '-'
+                               // delLN = del;
+                               // std::cout << "sizeof(del): " << sizeof(del) / sizeof(del[0]) << std::endl;
+      for (int i = 0; i < sizeof(del) / sizeof(del[0]); i++)
+        delln[i] = del[i];
+      //
+      std::cout << "kindhfb: " << kindhfb << std::endl;
+      //
+      if (kindhfb < 0)
+      {
+        // delLN = del + ala2; //! LN case
+        for (int i = 0; i < sizeof(del) / sizeof(del[0]); i++)
+        {
+          delln[i] = del[i] + ala2[i];
+          std::cout << "delln[i]: " << delln[i] << std::endl;
+        }
+      }
+      //! during iterations print
+      // Do iw=lout,lfile
+      //    If(Max(Abs(drhoi(1)),Abs(drhoi(2))).Gt.1.0e-10_pr) Then
+      //       Write(*,*) '  WARNING! Int(Dro)=',Max(Abs(drhoi(1)),Abs(drhoi(2)))
+      //    Endif
+      //    Write(iw,2) iiter,bbroyden,si,xmix,bet,etot,varmas,rms(1),rms(2),ept(1),delLN(1), &
+      //         ept(2),delLN(2),alast(1),alast(2),time
+      // End Do
+    }
+    //!-------------------------------------------------
+    //! HFBDIAG
+    //!-------------------------------------------------
+    for (it = itmin; it <= itmax; it++)
+      hfbdiag(it, 0); //! hfb diagonalization with minimal canonical
+                      // If(ierror_flag.Ne.0) Return
+    //     !-------------------------------------------------
+    //     ! EXPECT, DENSIT, COULOMB, FILED, GAMDEL
+    //     !-------------------------------------------------
+    //     Call expect(.False.)    ! expectation values
+    //     If(ierror_flag.Ne.0) Return
+    //     Call field              ! new fields
+    //     If(ierror_flag.Ne.0) Return
+    //     Call gamdel             ! hf-matrix
+    //     If(ierror_flag.Ne.0) Return
+    //     !-------------------------------------------------
+    //     ! Dumping control (old linear mixing)
+    //     !-------------------------------------------------
+    //     xmix0=0.10 !original 0.1
+    //     If(si.Lt.siold) Then
+    //        xmix=Min(xmax,xmix * 1.130_pr);  !old value 1.13
+    //     Else
+    //        xmix=xmix0
+    //     End If
+    //     siold=si
+    //     !-------------------------------------------------
+    //     ! time per iteration
+    //     !-------------------------------------------------
+    //     Call Cpu_time(time2)
+    //     time=time2-time1; time3=time3+time
+    //     !-------------------------------------------------
+    //     ! Solution is OK within the iteration limit
+    //     !-------------------------------------------------
+    //     If(iiter.Ge.2.And.si.Lt.epsi) Then
+    //        If(iLST1.Eq.0) Then
+    //           iError_in_HO=0
+    //        Else
+    //           iError_in_THO=0
+    //        End If
+    //        ! iteration interrupted print
+    //        If(.Not.lpr) Then
+    //           delLN=del; If(kindhfb.Lt.0) delLN=del+ala2
+    //           Do iw=lout,lfile
+    //              Write(iw,3) iiter,bbroyden,si,xmix,bet,etot,varmas,rms(1),rms(2),ept(1),delLN(1), &
+    //                   ept(2),delLN(2),alast(1),alast(2),time !Max(Abs(drhoi(1)),Abs(drhoi(2)))
+    //              Write(iw,'(a,f8.3,a)') '  Total CPU time=',time3/60.0_pr,' minutes'
+    //           Enddo
+    //        End If
+    //        ! converged print
+    //        Do iw=lout,lfile
+    //           Write(iw,4) iiter,si,iError_in_HO,iError_in_THO
+    //           Write(iw,'(a,f8.3,a)') '  Total CPU time=',time3/60.0_pr,' minutes'
+    //        Enddo
+    //        iiter=iiter+1
+    //        Return
+    //     End If
+    //     !-------------------------------------------------
+    //     ! Slow convergence and lambda >0 (stop iterations)
+    //     !-------------------------------------------------
+    //     If(iiter.Ge.1000.And.(alast(1).Gt.zero.Or.alast(2).Gt.zero)) Exit
+    //     !
+    //
+    //  }
+  }
+}
+
+void HFBTHO_solver::hfbdiag(int it, int icanon)
+{
+  // std::cout << "it, icacon: " << it << " " << icancon << std::endl;
+  //!------------------------------------------------------------------
+  //! Skyrme-HFB diagonalization in axial HO/THO basis
+  //!------------------------------------------------------------------
+  // Use HFBTHO
+  // Implicit None
+  bool lpr_pwi, norm_to_improve;
+  double al, al2, emin, hla, dla, pn, eqpe, ela, enb, enb1, ekb, s1, s2, s3, alnorm, sitest;
+  int iw, i0, ibiblo, ier, i, j, k, k0, kl, lc, ib, nd;
+  int nhfb, n1, n2, kaib, m, ndk, nd1, nd2, kdib, k1, k2, id1, id2;
+  int n12, n21, ntz, nhhph, nhhpp, ibro, ibroib, i_uv, i_eqp;
+  std::vector<double> *EqpPo;
+  std::vector<double> *VqpPo;
+  std::vector<double> *UqpPo;
+  std::vector<int> *KpwiPo;
+  std::vector<int> *KqpPo;
+  //!
+  // Call get_CPU_time('hfbdiag',0)
+  //!
+  if (it == 1)
+  {
+    EqpPo = &REqpN;
+    VqpPo = &RVqpN;
+    UqpPo = &RUqpN;
+    KpwiPo = &KpwiN;
+    KqpPo = &KqpN;
+  }
+  else
+  {
+    EqpPo = &REqpP;
+    VqpPo = &RVqpP;
+    UqpPo = &RUqpP;
+    KpwiPo = &KpwiP;
+    KqpPo = &KqpP;
+  }
+  //
+  std::cout << "it, icanon: " << it << " " << icanon << std::endl;
+  std::cout << "(*KpwiPo).size(): " << (*EqpPo).size() << " " << (*VqpPo).size() << " " << (*UqpPo).size() << " " << (*KpwiPo).size() << " " << KpwiN.size() << std::endl;
+
+  for (int i = 0; i < (*KpwiPo).size(); i++)
+  {
+    (*KpwiPo)[i] = 0;
+    (*KqpPo)[i] = 0;
+  }
+  //!
+  nhhph = (it - 1) * nhhdim;
+  nhhpp = (it + 1) * nhhdim;
+  //
+  std::cout << "nhhph, nhhpp, nhhdim: " << nhhph << " " << nhhpp << " " << nhhdim << std::endl;
+  //!
 }

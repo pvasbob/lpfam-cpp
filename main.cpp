@@ -110,7 +110,7 @@ int main()
     // use brute way to hard implement unedf_namelist.dat first
     //!================================= HFBTHO_NAMELIST =========================================
     //&HFBTHO_NAMELIST
-    HFBTHO::MAX_ITER_INI = 201;
+    HFBTHO::MAX_ITER_INI = 2;
     HFBTHO::epsi_INI = 1.000E-08;
     HFBTHO::Add_Pairing_INI = true;
     HFBTHO::icou_INI = 2;
