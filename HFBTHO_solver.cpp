@@ -2549,7 +2549,10 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
         hfb[-1 + nd1, -1 + nd1] = hfb[-1 + nd1, -1 + nd1] + al;
       }
       ier = 0;
-      DSYEVD('V', 'L', nhfb, hfb, ndx2, evvk, ALWORK, ialwork, LWORK, ilwork, ier);
+      // DSYEVD('V', 'L', nhfb, hfb, ndx2, evvk, ALWORK, ialwork, LWORK, ilwork, ier);
+      LAPACK_dsyevd("V", "L", &nhfb, &hfb[0], &ndx2, &evvk[0], &alwork[0], &ialwork, &lwork[0], &ilwork, &ier);
+      std::cout << "LAPACK_dsyevd call: " << std::endl;
+      // LAPACK_dsyevd("V", "L", &ndx2, &hfb[0], &ndx2, &evvk[0], &alwork[0], &a, &lwork[0], &b, &ier);
       //! Call dsyev('V','L',nhfb,hfb,ndx2,evvk,ALWORK,ialwork,ier)
       //!------------------------------------------------------------------
       //!  NB! Diagonalization bug in LAPACK
@@ -2651,6 +2654,7 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
       //!------------------------------------------------------------------
       //! Run over all qp states k in the block
       //!------------------------------------------------------------------
+      std::cout << "kaib: " << std::endl;
       kaib = kl;
       for (k = 1; k <= nd; k++)
       {
@@ -2780,7 +2784,7 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
     //!------------------------------------------------------------------
     //! Lambda search
     //!------------------------------------------------------------------
-    ALambda(al, it, kl);
+    Alambda(al, it, kl);
     // If(ierror_flag.Ne.0) Return
     if (keyblo[-1 + it] == 0)
       ala[-1 + it] = al;
@@ -2816,4 +2820,109 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
     ass[-1 + it] = two * sqrt(abs(al2));
     //!
   } //! While(norm_to_improve)
+}
+
+void HFBTHO_solver::Alambda(double al, int it, int kl)
+{
+  //!---------------------------------------------------------------------
+  //! Adjusting Fermi energy
+  //!---------------------------------------------------------------------
+  // Use HFBTHO
+  // Implicit None
+  double fm7 = 0.0000001, fm10 = 0.0000000001;
+  double vh, xinf, xsup, esup, ez, dez, dvh, y, a, b, einf, absez, sn;
+  int i, k, icze, lit, ntz;
+  //!-------------------------------------------------
+  //! Chemical potential without pairing
+  //!-------------------------------------------------
+  if (CpV0[it - 1] == zero)
+  {
+    ntz = tz[-1 + it] + 0.1;
+    ntz = ntz / 2;
+    for (k = 1; k <= kl; k++)
+      drhfb[-1 + k] = erhfb[-1 + k];
+    ord(kl, drhfb);
+    if (ntz < kl)
+      al = half * (drhfb[-1 + ntz] + drhfb[-1 + ntz + 1]);
+    else
+      al = drhfb[-1 + ntz] + 0.001;
+    //
+    return;
+  }
+  //!-------------------------------------------------
+  //! Chemical potential with pairing
+  //!-------------------------------------------------
+  xinf = -100.0;
+  xsup = 80.0;
+  esup = one;
+  icze = 0;
+  for (lit = 1; lit <= 500; lit++)
+  {
+    sn = zero;
+    dez = zero;
+    for (i = 1; i <= kl; i++)
+    {
+      vh = zero;
+      dvh = zero;
+      y = erhfb[-1 + i] - al;
+      a = y * y + pow(drhfb[-1 + i], 2);
+      b = sqrt(a);
+      if (b > zero)
+        vh = half * (one - y / b);
+      if (b < fm7 && icze == 1)
+        vh = -einf / (esup - einf); //! no pairing
+      if (vh < zero)
+        vh = zero;
+      if (vh > one)
+        vh = one;
+      if (b > zero)
+        dvh = pow(drhfb[-1 + i], 2) / (a * b); //! D[ez,al](i)
+      ////! blocking
+      // if (i.Eq.blok1k2d(it))
+      //{
+      //   vh = half;
+      //   dvh = zero;
+      // }
+      ////
+      sn = sn + two * vh;
+      dez = dez + dvh; //! D[ez,al]
+    }
+    ez = sn - tz[-1 + it];
+    absez = abs(ez);
+    //!-------------------------------------------------
+    //! Correcting bounds
+    //!-------------------------------------------------
+    if (ez < zero)
+    {
+      xinf = std::max(xinf, al);
+      einf = ez;
+    }
+    else
+    {
+      xsup = std::min(xsup, al);
+      esup = ez;
+    }
+    //
+    if (lit == 1)
+    {
+      if (absez <= 0.10)
+        al = al - ez;
+      else
+        al = al - 0.10 * copysign(one, ez);
+      //
+    }
+    else
+      al = al - ez / (dez + pow(10, -20)); //! newton method
+    //
+    if (xsup - xinf < fm7)
+      icze = 1; //! low/upp close
+    if (al < xinf || al > xsup)
+      al = half * (xinf + xsup); //! mean upp/low
+    if (absez <= fm10)
+      return;
+  }
+  //!-------------------------------------------------
+  //! Low accuracy warning
+  //!-------------------------------------------------
+  // Write(lout,'(a,2(e12.5,2x),a,2(2x,f8.4),a,i2)') ' Low accuracy=',sn,ez,' for N,Z=',tz,' it=',it
 }

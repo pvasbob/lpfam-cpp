@@ -32,6 +32,7 @@ public:
   void optHFBTHO();
   void iter(bool);
   void hfbdiag(int, int);
+  void Alambda(double, int ,int);
 
 private:
   int iw, ib, j, i, it;
