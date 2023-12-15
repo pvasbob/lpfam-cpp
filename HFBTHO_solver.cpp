@@ -37,7 +37,7 @@ void HFBTHO_solver::solver()
     npr[0] = npr_INI[0];
     npr[1] = npr_INI[1];
     npr[2] = npr[0] + npr[1];
-    strncpy(skyrme, skyrme_INI, 30);
+    skyrme = skyrme_INI;
     kindhfb = kindhfb_INI;
     cdef = cdef_INI;
     cqad = cqad_INI;
@@ -61,7 +61,7 @@ void HFBTHO_solver::solver()
       icacou = 0;
       icahartree = 0;
       preparer(true);
-      // inout(1);
+      inout(1);
       // If(ierror_flag.Ne.0) Return
       //!-------------------------------------------------------------
       //! Preliminary constrained calculations
@@ -1031,7 +1031,7 @@ void HFBTHO_solver::thoalloc()
   drhfb1.resize(nkx);
   // If(Allocated(hfb)) Deallocate(hfb,zhfb,evvk,hfbcan,evvkcan)
   // hfb.resize(ndx2, std::vector<double>(ndx2));
-  hfb.resize(ndx2 * ndx2);
+  hfb.resize(ndx2, std::vector<double>(ndx2));
   zhfb.resize(ndx2);
   evvk.resize(ndx2);
   hfbcan.resize(ndx, std::vector<double>(ndx));
@@ -1079,7 +1079,7 @@ void HFBTHO_solver::thoalloc()
   const int a = -1;
   const int b = -1;
   // LAPACK_dsyevd("V", "L", &ndx2, hfb, &ndx2, evvk, alwork, &a, lwork, &b, &ier);
-  LAPACK_dsyevd("V", "L", &ndx2, &hfb[0], &ndx2, &evvk[0], &alwork[0], &a, &lwork[0], &b, &ier);
+  LAPACK_dsyevd("V", "L", &ndx2, &hfb[0][0], &ndx2, &evvk[0], &alwork[0], &a, &lwork[0], &b, &ier);
   // If(ier.Ne.0) Then
   //    ierror_flag=ierror_flag+1
   //    ierror_info(ierror_flag)='STOP: FATAL ERROR CONDITION IN DSYEVD'
@@ -2482,6 +2482,11 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
   //
   std::cout << "nhhph, nhhpp, nhhdim: " << nhhph << " " << nhhpp << " " << nhhdim << std::endl;
   //!
+  std::cout << "brin.size(), brout.size(): " << brin.size() << " " << brout.size() << std::endl;
+  for (int qqi = 1; qqi < brin.size(); qqi++)
+  {
+    std::cout << "qqi, brin(qqi), brout(qqi): " << qqi << " " << brin[qqi] << " " << brout[qqi] << std::endl;
+  }
   //!
   //!------------------------------------------------------------------
   //! Loop the internal normalization
@@ -2493,6 +2498,7 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
 
   while (norm_to_improve)
   {
+    std::cout << "sumnz: " << sumnz[-1 + it] << std::endl;
     //!
     inner[-1 + it] = inner[-1 + it] + 1;
     //!
@@ -2502,10 +2508,12 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
     sumnz[-1 + it] = zero;
     v2min[-1 + it] = one;
     Dispersion[-1 + it] = zero;
+    std::cout << "it, sumnz, v2min, Dispersion: " << it << " " << sumnz[-1 + it] << " " << v2min[-1 + it] << " " << Dispersion[-1 + it] << std::endl;
     //!
     kl = 0;
     emin = 1000.0;
     al = ala[-1 + it];
+    std::cout << "it, al: " << it << " " << al << std::endl;
     //!
     //! blocking
     // If(iparenti(it).Eq.0) blomax(it)=0
@@ -2528,31 +2536,35 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
       i0 = ia[-1 + ib];
       m = ib + (it - 1) * nbx;
       ibroib = ibro;
+      std::cout << "nd, nhfb, i0, m, ibroib: " << nd << " " << nhfb << " " << i0 << " " << m << " " << ibroib << std::endl;
       //!------------------------------------------------------------------
       //!  hfb-matrix
       //!------------------------------------------------------------------
       for (n1 = 1; n1 <= nd; n1++)
       {
         nd1 = n1 + nd;
+        std::cout << "nd1: " << nd1 << std::endl;
         for (n2 = 1; n2 <= n1; n2++)
         {
           nd2 = n2 + nd;
           ibro = ibro + 1;
+          std::cout << "nd1, n2, nd2, ibro: " << nd1 << " " << n2 << " " << nd2 << " " << ibro << std::endl;
           hla = brin[-1 + nhhph + ibro];
           dla = brin[-1 + nhhpp + ibro];
-          hfb[-1 + n1, -1 + n2] = hla;
-          hfb[-1 + nd2, -1 + n1] = dla;
-          hfb[-1 + nd1, -1 + n2] = dla;
-          hfb[-1 + nd1, -1 + nd2] = -hla;
+          hfb[-1 + n1][-1 + n2] = hla;
+          hfb[-1 + nd2][-1 + n1] = dla;
+          hfb[-1 + nd1][-1 + n2] = dla;
+          hfb[-1 + nd1][-1 + nd2] = -hla;
+          std::cout << "hla, dla: " << hla << " " << dla << std::endl;
         }
-        hfb[-1 + n1, -1 + n1] = hfb[-1 + n1, -1 + n1] - al;
-        hfb[-1 + nd1, -1 + nd1] = hfb[-1 + nd1, -1 + nd1] + al;
+        hfb[-1 + n1][-1 + n1] = hfb[-1 + n1][-1 + n1] - al;
+        hfb[-1 + nd1][-1 + nd1] = hfb[-1 + nd1][-1 + nd1] + al;
       }
       ier = 0;
       // DSYEVD('V', 'L', nhfb, hfb, ndx2, evvk, ALWORK, ialwork, LWORK, ilwork, ier);
-      LAPACK_dsyevd("V", "L", &nhfb, &hfb[0], &ndx2, &evvk[0], &alwork[0], &ialwork, &lwork[0], &ilwork, &ier);
-      std::cout << "LAPACK_dsyevd call: " << std::endl;
-      // LAPACK_dsyevd("V", "L", &ndx2, &hfb[0], &ndx2, &evvk[0], &alwork[0], &a, &lwork[0], &b, &ier);
+      LAPACK_dsyevd("V", "L", &nhfb, &hfb[0][0], &ndx2, &evvk[0], &alwork[0], &ialwork, &lwork[0], &ilwork, &ier);
+      // std::cout << "LAPACK_dsyevd call: " << std::endl;
+      //  LAPACK_dsyevd("V", "L", &ndx2, &hfb[0], &ndx2, &evvk[0], &alwork[0], &a, &lwork[0], &b, &ier);
       //! Call dsyev('V','L',nhfb,hfb,ndx2,evvk,ALWORK,ialwork,ier)
       //!------------------------------------------------------------------
       //!  NB! Diagonalization bug in LAPACK
@@ -2654,16 +2666,16 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
       //!------------------------------------------------------------------
       //! Run over all qp states k in the block
       //!------------------------------------------------------------------
-      std::cout << "kaib: " << std::endl;
+      // std::cout << "kaib: " << std::endl;
       kaib = kl;
       for (k = 1; k <= nd; k++)
       {
         ndk = k + nd;
         //! referent spectra
         pn = zero;
-        for (i = 1; nd; i++)
+        for (i = 1; i <= nd; i++)
         {
-          hla = pow(hfb[-1 + i + nd, -1 + ndk], 2);
+          hla = pow(hfb[-1 + i + nd][-1 + ndk], 2);
           pn = pn + hla;
           // no need back If(i.Eq.1) Then
           // no need back    !write(*,*) hfb(i+nd,ndk),hfb(i,ndk),evvk(nd+k)         ! Vak, Uak, Sign( V*U)  Ek
@@ -2705,8 +2717,8 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
           {
             nd2 = n2 + nd;
             i_uv = i_uv + 1;
-            (*UqpPo)[-1 + i_uv] = hfb[-1 + n2, -1 + ndk];  //! U_ak
-            (*VqpPo)[-1 + i_uv] = hfb[-1 + nd2, -1 + ndk]; //! V_ak
+            (*UqpPo)[-1 + i_uv] = hfb[-1 + n2][-1 + ndk];  //! U_ak
+            (*VqpPo)[-1 + i_uv] = hfb[-1 + nd2][-1 + ndk]; //! V_ak
           }
         }
         //!------------------------------------------------------------------
@@ -2723,49 +2735,65 @@ void HFBTHO_solver::hfbdiag(int it, int icanon)
           }
           erhfb[-1 + kl] = enb;
           drhfb[-1 + kl] = ekb;
-          uk[-1 + kl][-1 + it] = pn;                  //! ref.s.p. energies, deltas, occupancies
+          uk[-1 + kl][-1 + it] = pn; //! ref.s.p. energies, deltas, occupancies
+          std::cout << "pn: " << pn << std::endl;
           sumnz[-1 + it] = sumnz[-1 + it] + two * pn; //! internal normalization
         }
       }
-      // wait If(norm_to_improve) Cycle
-      // wait !------------------------------------------------------------------
-      // wait !  Density matrices
-      // wait !------------------------------------------------------------------
-      // wait kdib=kl-kaib; ka(ib,it)=kaib; kd(ib,it)=kdib
-      // wait k1=kaib+1; k2=kaib+kdib
-      // wait eqpe=0.
-      // wait Do n2=1,nd
-      // wait    Do n1=n2,nd
-      // wait       s1=zero; s2=zero
-      // wait       If(k1.Le.k2) Then
-      // wait          Do k=k1,k2
-      // wait             nd1=KpwiPo(k)+n1; nd2=KpwiPo(k)+n2
-      // wait             s1=s1+VqpPo(nd1)*VqpPo(nd2)
-      // wait             s2=s2+UqpPo(nd1)*VqpPo(nd2) +VqpPo(nd1)*UqpPo(nd2)
-      // wait          End Do
-      // wait    !if(it.eq.1) write(200,*) n1,n2,s1-s2
-      // wait          s1=two*s1; s2=half*s2               ! two:due to m-projection, half:due to symmetrization
-      // wait          ! blocking
-      // wait          If(ibiblo.Eq.ib) Then
-      // wait             i=blok1k2d(it); id1=KpwiPo(i)+n1; id2=KpwiPo(i)+n2
-      // wait             s1=s1-VqpPo(id1)*VqpPo(id2)+UqpPo(id1)*UqpPo(id2)
-      // wait             s2=s2-half*(UqpPo(id1)*VqpPo(id2)+VqpPo(id1)*UqpPo(id2))
-      // wait          Endif
-      // wait       End If
-      // wait       n12=n1+(n2-1)*nd; n21=n2+(n1-1)*nd
-      // wait       rk(n12,m)=s1; rk(n21,m)=s1              !  V V'
-      // wait       ak(n12,m)=-s2; ak(n21,m)=-s2            !- U V', ak=half*(pairing density)
-      // wait       hfbcan(n1,n2)=s1; hfb(n1,n2)=s1
-      // wait    End Do !n1
-      // wait End Do !n2
-      // wait !------------------------------------------------------------------
-      // wait ! Canonical basis
-      // wait !------------------------------------------------------------------
-      // wait If(k1.Le.k2) Then
-      // wait    Call Canonical(it,icanon,k2,k1,nd,i0,lc,ib,ibiblo,m,ibroib)
-      // wait    If(ierror_flag.Ne.0) Return
-      // wait Endif
-      // wait lcanon(ib,it)=lc
+      if (norm_to_improve)
+        continue;
+      //!------------------------------------------------------------------
+      //!  Density matrices
+      //!------------------------------------------------------------------
+      kdib = kl - kaib;
+      ka[-1 + ib][-1 + it] = kaib;
+      kd[-1 + ib][-1 + it] = kdib;
+      k1 = kaib + 1;
+      k2 = kaib + kdib;
+      eqpe = 0.0;
+      for (n2 = 1; n2 <= nd; n2++)
+      {
+        for (n1 = n2; n1 <= nd; n1)
+        {
+          s1 = zero;
+          s2 = zero;
+          if (k1 <= k2)
+          {
+            for (k = k1; k <= k2; k++)
+            {
+              nd1 = (*KpwiPo)[-1 + k] + n1;
+              nd2 = (*KpwiPo)[-1 + k] + n2;
+              s1 = s1 + (*VqpPo)[-1 + nd1] * (*VqpPo)[-1 + nd2];
+              s2 = s2 + (*UqpPo)[-1 + nd1] * (*VqpPo)[-1 + nd2] + (*VqpPo)[-1 + nd1] * (*UqpPo)[-1 + nd2];
+            }
+            //! if(it.eq.1) write(200,*) n1,n2,s1-s2
+            s1 = two * s1;
+            s2 = half * s2; //! two:due to m-projection, half:due to symmetrization
+                            //! blocking
+                            // If(ibiblo.Eq.ib) Then
+            //    i=blok1k2d(it); id1=KpwiPo(i)+n1; id2=KpwiPo(i)+n2
+            //    s1=s1-VqpPo(id1)*VqpPo(id2)+UqpPo(id1)*UqpPo(id2)
+            //    s2=s2-half*(UqpPo(id1)*VqpPo(id2)+VqpPo(id1)*UqpPo(id2))
+            // Endif
+          }
+          n12 = n1 + (n2 - 1) * nd;
+          n21 = n2 + (n1 - 1) * nd;
+          rk[-1 + n12][-1 + m] = s1;
+          rk[-1 + n21][-1 + m] = s1; //!  V V'
+          ak[-1 + n12][-1 + m] = -s2;
+          ak[-1 + n21][-1 + m] = -s2; //!- U V', ak=half*(pairing density)
+          hfbcan[-1 + n1][-1 + n2] = s1;
+          hfb[-1 + n1][-1 + n2] = s1;
+        } //! n1
+      }   //! n2
+      //!------------------------------------------------------------------
+      //! Canonical basis
+      //!------------------------------------------------------------------
+      // If(k1.Le.k2) Then
+      //    Call Canonical(it,icanon,k2,k1,nd,i0,lc,ib,ibiblo,m,ibroib)
+      //    If(ierror_flag.Ne.0) Return
+      // Endif
+      // lcanon(ib,it)=lc
     }
     //! ib
     // If(kl.Eq.0) Then
@@ -2832,6 +2860,8 @@ void HFBTHO_solver::Alambda(double al, int it, int kl)
   double fm7 = 0.0000001, fm10 = 0.0000000001;
   double vh, xinf, xsup, esup, ez, dez, dvh, y, a, b, einf, absez, sn;
   int i, k, icze, lit, ntz;
+  //
+  // std::cout << "Alambda execute: " << std::endl;
   //!-------------------------------------------------
   //! Chemical potential without pairing
   //!-------------------------------------------------
@@ -2925,4 +2955,437 @@ void HFBTHO_solver::Alambda(double al, int it, int kl)
   //! Low accuracy warning
   //!-------------------------------------------------
   // Write(lout,'(a,2(e12.5,2x),a,2(2x,f8.4),a,i2)') ' Low accuracy=',sn,ez,' for N,Z=',tz,' it=',it
+}
+
+int HFBTHO_solver::inout(int is)
+{
+
+  //!---------------------------------------------------------------------
+  //! is=1: reads matrix elements from tape and exit
+  //! is=2: writes matrix elements to tape and exit
+  //! NB! if the welfile is missing or corrupt call start
+  //!     to restart calculations from scratch
+  //!---------------------------------------------------------------------
+  // Use HFBTHO
+  // Implicit None
+  int iw, n1, n2, nd, ib, bloall1;
+  std::string nucname1;
+  std::string filelabel;
+  std::string welfile;
+  double tz1[2], b01, beta1, v0r[2], v1r[2], pwir;
+  int npr1, npr11, ngh1, ngl1, n001, nt1;
+  int ntx1, nb1, nhhdim1, NLANSA0, NLANSA1, NZA2NRA, NZA1, NLA1;
+  int ID1[nbx];
+  //!==== HFBODD interface
+  int i, nza, nra, nla, nsa, ibasis;
+  int ibro;
+  //!====
+  //! label organization
+  // not used yet FileLabels(NPR, ININ, FILELABEL);
+  // If(ierror_flag.Ne.0) Return
+  // If(iLST1.Le.0) Write(welfile,'(a8,a4)')  FILELABEL,'.hel'
+  // If(iLST1.Gt.0) Write(welfile,'(a8,a4)')  FILELABEL,'.tel'
+  //!
+  if (is == 1)
+  {
+    //!---------------------------------------------------------------------
+    //! read matrix elements from 'welfile' file or start from scratch
+    //!---------------------------------------------------------------------
+    if (inin > 0)
+    {
+      start();
+      return 0;
+    }
+    // not consider now     !read matrix elements
+    // not consider now     Open(lwin,file=welfile,status='unknown',form='unformatted', ERR=100)
+    // not consider now     !hel
+    // not consider now     Read(lwin,Err=100,End=100) nucname1,npr11,npr1,ngh1,ngl1,n001,nb1,nt1
+    // not consider now     If(Abs(n001).Ne.Abs(n00).And.nb1.Ne.nb) go to 100
+    // not consider now     Read(lwin,Err=100,End=100) b01,beta1,si,etot,rms,bet,xmix,v0r,v1r,pwir  &
+    // not consider now          ,del,ept,ala,ala2,alast,tz1,varmas,varmasNZ,pjmassNZ,ass,skass
+    // not consider now     brin=zero; si=one; bbroyden='L'
+    // not consider now     Read(lwin,Err=100,End=100) ntx1,nb1,nhhdim1
+    // not consider now     Read(lwin,Err=100,End=100) id1
+    // not consider now     Read(lwin,Err=100,End=100) brin
+    // not consider now     !
+    // not consider now     ! Add small pairing de=de+0.1 in the no-LN
+    // not consider now     ! case to prevent pairing collaps
+    // not consider now     If(kindhfb.Eq.1.And.Add_Pairing) Then
+    // not consider now        ibro=0
+    // not consider now        Do ib=1,NB
+    // not consider now           ND=ID1(ib)
+    // not consider now           I=ibro
+    // not consider now           Do N1=1,ND
+    // not consider now              Do N2=1,N1
+    // not consider now                 I=I+1
+    // not consider now                 brin(i+nhhdim2)=brin(i+nhhdim2)+0.10_pr
+    // not consider now                 brin(i+nhhdim3)=brin(i+nhhdim3)+0.10_pr
+    // not consider now              End Do !N2
+    // not consider now           End Do !N1
+    // not consider now           ibro=i
+    // not consider now        End Do !IB
+    // not consider now     Endif
+    // not consider now     Do ib=1,NB
+    // not consider now        ND=ID1(ib)
+    // not consider now        Do N1=1,ND
+    // not consider now           Read(lwin,Err=100,End=100) NLANSA0,NLANSA1,NZA2NRA,NZA1,NLA1
+    // not consider now        End Do
+    // not consider now     End Do
+    // not consider now     ! blocking
+    // not consider now     Read(lwin,Err=100,End=100)  bloall1
+    // not consider now     Read(lwin,Err=100,End=100)  bloblo,blo123,blok1k2,blomax,bloqpdif
+    // not consider now     If(bloall1.Ne.bloall) go to 100
+    // not consider now     !tel
+    // not consider now     If(iLST.Gt.0) Then
+    // not consider now        Read(lwin,Err=100,End=100) decay,rmm3,cmm3,amm3,bmm3,itass,iqqmax
+    // not consider now        If(Allocated(fdsx)) Deallocate(fdsx,fdsy,fdsy1,fdsy2,fdsy3,  &
+    // not consider now             fspb0,fspc0,fspd0,fspb1,fspc1,fspd1,fspb2,fspc2,fspd2,  &
+    // not consider now             fspb3,fspc3,fspd3)
+    // not consider now        Allocate(fdsx(iqqmax),fdsy(iqqmax),fdsy1(iqqmax),  &
+    // not consider now             fdsy2(iqqmax),fdsy3(iqqmax),fspb0(iqqmax),fspc0(iqqmax),  &
+    // not consider now             fspd0(iqqmax),fspb1(iqqmax),fspc1(iqqmax),fspd1(iqqmax),  &
+    // not consider now             fspb2(iqqmax),fspc2(iqqmax),fspd2(iqqmax),fspb3(iqqmax),  &
+    // not consider now             fspc3(iqqmax),fspd3(iqqmax))
+    // not consider now        Read(lwin,Err=100,End=100) fdsx,fdsy,fdsy1,fdsy2,fdsy3,fspb0,fspc0,fspd0  &
+    // not consider now             ,fspb1,fspc1,fspd1,fspb2,fspc2,fspd2,fspb3,fspc3,fspd3
+    // not consider now     End If
+    // not consider now     Do iw=lout,lfile
+    // not consider now        Write(iw,*)
+    // not consider now        Write(iw,*) ' Reading from wel_file: ',welfile
+    // not consider now        Write(iw,*)
+    // not consider now     Enddo
+    // not consider now     Close(lwin)
+    // not consider now     !---------------------------------------------------------------------
+    // not consider now     !for HFODD interface
+    // not consider now     !ib=abs(inin); npr_temp(1)=npr11; npr_temp(2)=npr1;
+    // not consider now     !Call HFBTHO_HFODD(1616,npr_temp,ib)
+    // not consider now     !---------------------------------------------------------------------
+    // not consider now     Return
+    // not consider now     !
+    // not consider now100  Continue
+    // not consider now     !---------------------------------------------------------------------
+    // not consider now     ! missing or corrupt 'welfile' file
+    // not consider now     !---------------------------------------------------------------------
+    // not consider now     Close(lwin)
+    // not consider now     Do iw=lout,lfile
+    // not consider now        Write(iw,'(1x,a,a,a)')
+    // not consider now        Write(iw,'(1x,a,a,a)')   ' The file ',welfile,' is corrupted, missing, or wrong!'
+    // not consider now        Write(iw,'(1x,a,a,a)')   ' STARTING FROM SCRATCH WITH ININ=IABS(ININ)!'
+    // not consider now        Write(iw,'(1x,a,a,a)')
+    // not consider now     Enddo
+    // not consider now     Call start
+    // not consider now     Return
+  }
+  // not consider now  !---------------------------------------------------------------------
+  // not consider now  ! write matrix elements to 'welfile' file
+  // not consider now  !---------------------------------------------------------------------
+  // not consider now  If (is.Eq.2.And.iasswrong(3).Eq.0) Then
+  // not consider now  ! don't write with mpi qrpa
+  // not consider now#ifdef hide_mpi_qrpa
+  // not consider now     Open(lwou,file=welfile,status='unknown',form='unformatted')
+  // not consider now     !hel
+  // not consider now     npr11=npr(1); npr1=npr(2)
+  // not consider now     Write(lwou) nucname,npr11,npr1,ngh,ngl,n00,nb,nt
+  // not consider now     Write(lwou) b0,beta0,si,etot,rms,bet,xmix,CpV0,CpV1,pwi,del,ept  &
+  // not consider now          ,ala,ala2,alast,tz,varmas,varmasNZ,pjmassNZ,ass,skass
+  // not consider now     Write(lwou) ntx,nb,nhhdim
+  // not consider now     Write(lwou) id
+  // not consider now     Write(lwou) brin
+  // not consider now     ibasis=0
+  // not consider now     Do ib=1,NB
+  // not consider now        ND=ID(ib)
+  // not consider now        Do N1=1,ND
+  // not consider now           ibasis=ibasis+1
+  // not consider now           NLA=NL(ibasis); NRA=NR(ibasis); NZA=NZ(ibasis); NSA=NS(ibasis); NLANSA1=(-1)**(NZA+NLA)
+  // not consider now           Write(lwou) 2*NLA+NSA,NLANSA1,NZA+2*NRA+NLA,NZA,NLA
+  // not consider now        End Do
+  // not consider now     End Do
+  // not consider now     !---------------------------------------------------------------------
+  // not consider now     ! blocking: sort blocking candidates first
+  // not consider now     !---------------------------------------------------------------------
+  // not consider now     Do ib=1,2
+  // not consider now        Call blosort(ib,blomax(ib))
+  // not consider now     Enddo
+  // not consider now     Write(lwou) bloall
+  // not consider now     Write(lwou) bloblo,blo123,blok1k2,blomax,bloqpdif
+  // not consider now     !tel
+  // not consider now     If(Allocated(fdsx)) Then
+  // not consider now        Write(lwou) decay,rmm3,cmm3,amm3,bmm3,itass,iqqmax
+  // not consider now        Write(lwou) fdsx,fdsy,fdsy1,fdsy2,fdsy3,fspb0,fspc0,fspd0  &
+  // not consider now             ,fspb1,fspc1,fspd1,fspb2,fspc2,fspd2,fspb3,fspc3,fspd3
+  // not consider now     End If
+  // not consider now     Close(lwou)
+  // not consider now     Do iw=lout,lfile
+  // not consider now        Write(iw,'(a,a,a)')
+  // not consider now        Write(iw,'(a,a,a)') '  Writing to wel_file: ',welfile
+  // not consider now        Write(iw,'(a,a,a)') ' __________________________________  '
+  // not consider now        Write(iw,'(a,a,a)') '  The tape ',welfile,' recorded:     '
+  // not consider now        Write(iw,'(a,a,a)') '  nucname,npr,ngh,ngl,n00,nb,nt      '
+  // not consider now        Write(iw,'(a,a,a)') '  b0,beta0,si,etot,rms,bet,xmix      '
+  // not consider now        Write(iw,'(a,a,a)') '  pairing:     CpV0,CpV1,pwi         '
+  // not consider now        Write(iw,'(a,a,a)') '  delta:       del,ept               '
+  // not consider now        Write(iw,'(a,a,a)') '  lambda:      ala,ala2,alast,tz     '
+  // not consider now        Write(iw,'(a,a,a)') '  asymptotic:  varmas,ass,skass      '
+  // not consider now        Write(iw,'(a,a,a)') '  ntx,nb,nhhdim,id,N_rz,n_r,n_z      '
+  // not consider now        Write(iw,'(a,a,a)') '  Omega2,Sigma2,Parirty,Lambda       '
+  // not consider now        Write(iw,'(a,a,a)') '  matrices(inbro):    hh,de          '
+  // not consider now        Write(iw,'(a,a,a)') '  *all blocking candidates           '
+  // not consider now        If(Allocated(fdsx)) Write(iw,'(a,a,a)') '  *all THO arrays                    '
+  // not consider now        Write(iw,'(a,a,a)') ' __________________________________  '
+  // not consider now        Write(iw,'(a,a,a)')
+  // not consider now     Enddo
+  // not consider now#else
+  // not consider now   ! with qrpa no hel file: do nothing here
+  // not consider now#endif
+  // not consider now  Endif
+  // not consider now  !
+  // not consider now  !ib=abs(inin); npr_temp(1)=npr11; npr_temp(2)=npr1;
+  // not consider now  !Call HFBTHO_HFODD(1717,npr_temp,ib)
+  // not consider now  !
+  // not consider now
+  return 0;
+}
+
+void HFBTHO_solver::start()
+{
+
+  // Subroutine start
+  //   !---------------------------------------------------------------------
+  //   ! initializes scratch Saxon-Woods potentials
+  //   !---------------------------------------------------------------------
+  //   Use HFBTHO
+  //   Implicit None
+  int iw, i, ih, il, ihl, it, ita;
+  double zb[ngh], rrb[ngl], rb[ngl], rav, rao, vpws, vls, betas, gamma;
+  double fac, facb, zz, rr, r, ctet, cphi, p2, p20, p22, s, u, w, f, rc, c, beta00;
+  //!--------------------------------------------------------------------
+  //! initializing
+  //!--------------------------------------------------------------------
+  //!----------------------------------------------------------------------------
+  //! reinatializing all again since scratch calculation
+  //!----------------------------------------------------------------------------
+  iniialize_HFBTHO_SOLVER();
+  // If(ierror_flag.Ne.0) Return
+  //! mario
+  for (it = itmin; it < itmax; it++)
+  {
+    if (npr[-1 + it] != 2 * (npr[-1 + it] / 2))
+    {
+      irestart = irestart + 1;
+      npr[-1 + it] = npr_INI[-1 + it];
+    }
+    //
+  }
+  // If(irestart.Ne.0) Then
+  //    ! odd nucleus requested but no even-even solution
+  //    ! recalculate the even-even nucleus from scratch
+  //    Do iw=lout,lfile
+  //       Write(iw,'(1x,a,2i4)')
+  //       Write(iw,'(1x,a,2i4)') ' Initialization for the even-even core (N,Z)=: ',npr(1:2)
+  //    Enddo
+  // Else
+  //    ! scratch for the even-even nucleus requested
+  //    Do iw=lout,lfile
+  //       Write(iw,'(1x,a,2i4)')
+  //       Write(iw,'(a,a,3i4)')    '  Scratch initialization for the nucleus: ',nucname,npr(1:2)
+  //       Write(iw,'(1x,a,2i4)')
+  //    Enddo
+  // Endif
+  n00 = abs(n00_INI);
+  b0 = b0_INI;
+  q = q_INI;
+  iLST = iLST_INI;
+  maxi = MAX_ITER_INI;
+  inin = inin_INI;
+  skyrme = skyrme_INI;
+  kindhfb = kindhfb_INI;
+  cdef = cdef_INI;
+  cqad = cqad_INI;
+  iproj = iproj_INI;
+  npr1pj = npr1pj_INI;
+  npr2pj = npr2pj_INI;
+  Constraint_or_not(inin_INI, inin, icstr);
+  // If(ierror_flag.Ne.0) Return
+  preparer(false);
+  // If(ierror_flag.Ne.0) Return
+  inin = abs(inin); //! positive even if inin_INI is not
+  bet = cdef;
+  //!-----------------------------------
+  //! Saxon-Woods potentials
+  //!-----------------------------------
+  // Do iw=lout,lfile
+  //    Write(iw,'(/,a)') '  Initial potentials of Saxon-Woods shape '
+  // End Do
+  beta00 = bet; //! wf to requested deformation
+  // Do iw=lout,lfile
+  //    Write(iw,'(a,f10.4)')  '  v0ws   =',v0ws
+  //    Write(iw,'(a,f10.4)')  '  kappa  =',akv
+  //    Write(iw,'(a,2f10.4)') '  vs0    =',vso
+  //    Write(iw,'(a,2f10.4)') '  r0     =',r0v
+  //    Write(iw,'(a,2f10.4)') '  a      =',av
+  //    Write(iw,'(a,2f10.4)') '  r0-so  =',rso
+  //    Write(iw,'(a,2f10.4)') '  a-so   =',aso
+  //    Write(iw,'(a,f10.4)')  '  beta00 =',beta00
+  // Enddo
+  //!-----------------------------------
+  //! Densities
+  //!-----------------------------------
+  for (it = itmin; it < itmax; it++)
+  {
+    ita = 3 - it;
+    rav = r0v[-1 + it] * pow(amas, p13);
+    rao = rso[-1 + it] * pow(amas, p13);
+    vpws = v0ws * (one - akv * (npr[-1 + it] - npr[-1 + ita]) / amas);
+    vls = half * pow((hqc / amu), 2) * vpws * vso[-1 + it];
+    betas = beta00 * sqrt(5.0 / (16.0 * PI));
+    gamma = zero;
+    fac = one + betas * cos(gamma * PI / 180.0);
+    fac = (one + betas * cos((gamma + 120.0) * PI / 180.0)) * fac;
+    fac = (one + betas * cos((gamma - 120.0) * PI / 180.0)) * fac;
+    fac = pow(fac, (-p13));
+    //! z,r-coordinates in fm
+    // zb = xh * bz;
+    for (int i = 0; i < xh.size(); i++)
+    {
+      zb[i] = xh[i] * bz;
+    }
+    //
+    // rrb = xl * bp * bp;
+    for (int i = 0; i < xl.size(); i++)
+    {
+      rrb[i] = xl[i] * bp * bp;
+    }
+    //
+    // rb = Sqrt(rrb);
+    //
+    for (int i = 0; i < sizeof(rrb) / sizeof(rrb[0]); i++)
+    {
+      rb[i] = sqrt(rrb[i]);
+    }
+
+    for (ih = 1; ih <= ngh; ih++)
+    {
+      zz = pow(zb[-1 + ih], 2);
+      for (il = 1; il <= ngl; il++)
+      {
+        rr = rrb[-1 + il] + zz;
+        r = sqrt(rr);
+        //! woods saxon
+        ctet = zz / rr;
+        cphi = zero;
+        p20 = 3.0 * ctet - one;
+        p22 = sqrt(3.0) * cphi;
+        p2 = p20 * cos(gamma * PI / 180) + p22 * sin(gamma * PI / 180.0);
+        facb = fac * (one + betas * p2);
+        u = vpws / (one + exp((r - rav * facb) / av[-1 + it]));
+        w = -vls / (one + exp((r - rao * facb) / aso[-1 + it]));
+        ihl = ih + (il - 1) * ngh;
+        if (it == 1)
+        {
+          vhbn[-1 + ihl] = hb0;
+          vn[-1 + ihl] = u;
+          vsn[-1 + ihl] = w;
+          vrn[-1 + ihl] = zero;
+          vzn[-1 + ihl] = zero;
+          vdn[-1 + ihl] = zero;
+          vSFIZn[-1 + ihl] = zero;
+          vSZFIn[-1 + ihl] = zero;
+          vSFIRn[-1 + ihl] = zero;
+          vSRFIn[-1 + ihl] = zero;
+        }
+        else
+        {
+          vhbp[-1 + ihl] = hb0;
+          vp[-1 + ihl] = u;
+          vsp[-1 + ihl] = w;
+          vrp[-1 + ihl] = zero;
+          vzp[-1 + ihl] = zero;
+          vdp[-1 + ihl] = zero;
+          vSFIZp[-1 + ihl] = zero;
+          vSZFIp[-1 + ihl] = zero;
+          vSFIRp[-1 + ihl] = zero;
+          vSRFIp[-1 + ihl] = zero;
+        }
+        ro[-1 + ihl][-1 + it] = u;
+        aka[-1 + ihl][-1 + it] = pow(10, -3) * exp((r - rav * facb) / 2.0);
+      }
+    }
+    // s = npr[-1 + it] / Sum(ro( :, it));
+    double sum_ro_it = 0.0;
+    for (int i = 0; i < sizeof(ro) / sizeof(ro[0]); i++)
+      sum_ro_it = sum_ro_it + ro[i][-1 + it];
+    //
+    for (il = 1; il <= ngl; il++)
+    {
+      for (ih = 1; ih <= ngh; ih++)
+      {
+        ihl = ih + (il - 1) * ngh;
+        f = s / (PI * wh[-1 + ih] * wl[-1 + il] * bz * bp * bp);
+        ro[-1 + ihl][-1 + it] = f * ro[-1 + ihl][-1 + it];
+      }
+    }
+    //!-----------------------------------
+    //! pairing
+    //!-----------------------------------
+    for (il = 1; il <= nghl; il++)
+    {
+      f = (ro[-1 + il][-1 + 1] + ro[-1 + il][-1 + 2]) / rho_c;
+      if (it == 1)
+        dvn[-1 + il] = CpV0[it - 1] * (one - CpV1[it - 1] * f) * aka[-1 + il][-1 + it];
+      else
+        dvp[-1 + il] = CpV0[it - 1] * (one - CpV1[it - 1] * f) * aka[-1 + il][-1 + it];
+      //
+    }
+  }
+  //!-----------------------------------
+  //! coulomb
+  //!-----------------------------------
+  if (icou == 0)
+  // cou = zero;
+  {
+    for (int i = 0; i < sizeof(cou) / sizeof(cou[0]); i++)
+      cou[i] = zero;
+  }
+  else
+  {
+    rc = r0v[-1 + 2] * pow(amas, p13);
+    for (il = 1; il <= ngl; il++)
+    {
+      for (ih = 1; ih <= ngh; ih++)
+      {
+        r = sqrt(pow(zb[-1 + ih], 2) + rrb[-1 + il]);
+        if (r < rc)
+          c = half * (3 / rc - r * r / pow(rc, 3));
+        else
+          c = one / r;
+        //
+        cou[-1 + ih + (il - 1) * ngh] = c * npr[-1 + 2] / alphi;
+      }
+    }
+  }
+  //!-----------------------------------
+  //! initial ph+pp matrix elements
+  //!-----------------------------------
+  // ak = 0.1;
+  for (auto &m : ak)
+    for (auto &n : m)
+      n = 0.1;
+  //
+  // rk = 0.1; //! initial density matrix elements (improve later)
+  for (auto &m : rk)
+    for (auto &n : m)
+      n = 0.1;
+  //
+  // brin = zero; //! initial matrix elements to zero
+  for (auto &m : brin)
+    m = zero;
+  iiter = 0; //! iteration number iiter to zero
+  gamdel();
+  //!
+  // End Subroutine start
+}
+
+void HFBTHO_solver::gamdel()
+{
+  std::cout << "Inside gamdel: " << std::endl;
 }

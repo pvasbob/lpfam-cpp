@@ -49,7 +49,7 @@ double HFBTHO::q_INI;
 double HFBTHO::cdef_INI;
 double HFBTHO::cqad_INI;
 
-char HFBTHO::skyrme_INI[30];
+std::string HFBTHO::skyrme_INI;
 double HFBTHO::epsi_INI;
 // bool Add_Pairing_INI, Print_HFBTHO_Namelist_INI, DO_FITT_INI;
 bool HFBTHO::Add_Pairing_INI;
@@ -334,7 +334,7 @@ char HFBTHO::tp[2];
 char HFBTHO::tl[21];
 char HFBTHO::tis[2];
 
-char HFBTHO::skyrme[30];
+std::string HFBTHO::skyrme;
 std::string HFBTHO::tit[2];
 char HFBTHO::protn[2][8] = {"neutron", "proton"};
 //! Allocatable arrays
@@ -611,7 +611,7 @@ std::vector<double> HFBTHO::zhfb;
 
 // std::vector<std::vector<double>> hfb, hfbcan;
 // std::vector<std::vector<double>> HFBTHO::hfb;
-std::vector<double> HFBTHO::hfb;
+std::vector<std::vector<double>> HFBTHO::hfb;
 std::vector<std::vector<double>> HFBTHO::hfbcan;
 
 //! Broyden

@@ -28,7 +28,7 @@ int main()
     double qqcdef_INI;
     double qqcqad_INI;
 
-    char qqskyrme_INI[30];
+    std::string qqskyrme_INI;
     double qqepsi_INI;
     // bool Add_Pairing_INI, Print_HFBTHO_Namelist_INI, DO_FITT_INI;
     bool qqAdd_Pairing_INI;
@@ -77,8 +77,9 @@ int main()
         HFBTHO::cqad_INI = qqcqad_INI;
 
         // char skyrme_INI[30] = qqskyrme_INI[30];
-        for (int i = 0; i < 30; i++)
-            HFBTHO::skyrme_INI[i] = qqskyrme_INI[i];
+        // for (int i = 0; i < 30; i++)
+        // HFBTHO::skyrme_INI[i] = qqskyrme_INI[i];
+        HFBTHO::skyrme_INI = qqskyrme_INI;
 
         HFBTHO::epsi_INI = qqepsi_INI;
         // bool Add_Pairing_INI, Print_HFBTHO_Namelist_INI, DO_FITT_INI;

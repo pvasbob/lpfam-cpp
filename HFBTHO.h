@@ -35,7 +35,7 @@ public:
     static double cdef_INI;
     static double cqad_INI;
 
-    static char skyrme_INI[30];
+    static std::string skyrme_INI;
     static double epsi_INI;
     // bool Add_Pairing_INI, Print_HFBTHO_Namelist_INI, DO_FITT_INI;
     static bool Add_Pairing_INI;
@@ -355,7 +355,7 @@ public:
     static char tl[21];
     static char tis[2];
 
-    static char skyrme[30];
+    static std::string skyrme;
     static std::string tit[2];
     static char protn[2][8];
     //! Allocatable arrays
@@ -632,7 +632,7 @@ public:
 
     // std::vector<std::vector<double>> hfb, hfbcan;
     // static std::vector<std::vector<double>> hfb;
-    static std::vector<double> hfb;
+    static std::vector<std::vector<double>> hfb;
     static std::vector<std::vector<double>> hfbcan;
 
     //! Broyden
