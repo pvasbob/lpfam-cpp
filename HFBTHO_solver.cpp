@@ -3148,7 +3148,7 @@ int HFBTHO_solver::inout(int is)
 
 void HFBTHO_solver::start()
 {
-
+  std::cout << "start() execute" << std::endl;
   // Subroutine start
   //   !---------------------------------------------------------------------
   //   ! initializes scratch Saxon-Woods potentials
@@ -3380,6 +3380,7 @@ void HFBTHO_solver::start()
   for (auto &m : brin)
     m = zero;
   iiter = 0; //! iteration number iiter to zero
+  std::cout << "before execute gamdel(): " << std::endl;
   gamdel();
   //!
   // End Subroutine start
@@ -3388,4 +3389,240 @@ void HFBTHO_solver::start()
 void HFBTHO_solver::gamdel()
 {
   std::cout << "Inside gamdel: " << std::endl;
+  //!---------------------------------------------------------------------
+  //! ph- and pp- matrices in configurational space
+  //!---------------------------------------------------------------------
+  // Use HFBTHO
+  // Use pairing_HFBTHO !mario
+  // Implicit None
+  int i, ih, il, ib, ibx, nd, nd2, nza, nra, nla, nsa, nsb, nsab;
+  // int ihil, laplus, im, JA, N1, N2, ndnd, n12, n21;
+  int ihil, laplus, IM, JA, N1, N2, ndnd, n12, n21;
+  int i1, i2, i3;
+  double qla, yi, y, y2, qha, qhla, xmi, u2, un, up, xxx;
+  double sml2, cnzaa, cnraa, SSU, SSD;
+  double FITW1, FITW2, FITW3, FITW4;
+  double fi1r, fi1z, fi2d, QHL1A, QH1LA;
+  double vh, vdh, vsh, hbh, vsum;
+  double SRFIh, SFIRh, SFIZh, SZFIh, SNABLARh, SNABLAZh;
+  // double xlam, xlam2, xlamy, xlamy2, xlap, xlap2, xlapy, xlapy2, XLAMPY;
+  double xlam, xlam2, xlamy, xlamy2, xlap, xlap2, xlapy, xlapy2, xlampy;
+  double FIUN1, FIDN1, FIURN1, FIDRN1, FIUZN1, FIDZN1, FIUD2N1, FIDD2N1;
+  double FIUN2, FIDN2, FIURN2, FIDRN2, FIUZN2, FIDZN2, FIUD2N2, FIDD2N2;
+  double FIUN12, FIDN12, FIURN12, FIDRN12, FIUZN12, FIDZN12;
+  double vnhl, vrnhl, vznhl, vdnhl, vsnhl, vhbnhl, vSRFInhl, vSFIRnhl;
+  double vSFIZnhl, vSZFInhl, vphl, vrphl, vzphl, vdphl, vsphl, vhbphl;
+  double vSRFIphl, vSFIRphl, vSFIZphl, vSZFIphl, dvnhl, dvphl;
+  int ibro;
+  //!
+  // Call get_CPU_time('gamdel',0)
+  //!
+  //!----------------------------------------------
+  //! START BLOCKS
+  //!----------------------------------------------
+  for (int qqi = 0; qqi < sizeof(brout) / sizeof(brout[0]); qqi++)
+    brout[qqi] = 0;
+  // brout=zero;
+  ibro = 0;
+  for (ib = 1; ib <= nb; ib++)
+  {
+    nd = id[-1 + ib];
+    IM = ia[-1 + ib];
+    ibx = ib + nbx;
+    if (Parity)
+      laplus = (ib + 1) / 2; //! Yesp
+    else
+      laplus = ib; //! Nop
+    // Endif
+    // XLAP=LAPLUS; XLAM=XLAP-ONE; xlap2=xlap*xlap; xlam2=xlam*xlam
+    xlap = laplus;
+    xlam = xlap - one;
+    xlap2 = xlap * xlap;
+    xlam2 = xlam * xlam;
+    //!----------------------------------------------
+    //! SUM OVER GAUSS INTEGRATION POINTS
+    //!----------------------------------------------
+    for (ihil = 1; ihil < nghl; ihil++)
+    {
+      y = y_opt[-1 + ihil];
+      xlamy = xlam * y;
+      xlapy = xlap * y;
+      // XLAMPY=XLAMY+XLAPY;
+      xlampy = xlamy + xlapy;
+      y2 = y * y;
+      xlamy2 = xlam2 * y2;
+      xlapy2 = xlap2 * y2;
+      //!
+      vnhl = vn[-1 + ihil];
+      vrnhl = vrn[-1 + ihil];
+      vznhl = vzn[-1 + ihil];
+      vdnhl = vdn[-1 + ihil];
+      vsnhl = vsn[-1 + ihil];
+      vhbnhl = vhbn[-1 + ihil];
+      vSRFInhl = vSRFIn[-1 + ihil];
+      vSFIRnhl = vSFIRn[-1 + ihil];
+      vSFIZnhl = vSFIZn[-1 + ihil];
+      vSZFInhl = vSZFIn[-1 + ihil];
+      vphl = vp[-1 + ihil];
+      vrphl = vrp[-1 + ihil];
+      vzphl = vzp[-1 + ihil];
+      vdphl = vdp[-1 + ihil];
+      vsphl = vsp[-1 + ihil];
+      vhbphl = vhbp[-1 + ihil];
+      vSRFIphl = vSRFIp[-1 + ihil];
+      vSFIRphl = vSFIRp[-1 + ihil];
+      vSFIZphl = vSFIZp[-1 + ihil];
+      vSZFIphl = vSZFIp[-1 + ihil];
+      dvnhl = dvn[-1 + ihil];
+      dvphl = dvp[-1 + ihil];
+      //!
+      for (N1 = 1; N1 < nd; N1++)
+      {
+        JA = IM + N1;
+        nsa = ns[-1 + JA];
+        SSU = std::max(nsa, 0);
+        SSD = std::max(-nsa, 0);
+        qhla = QHLA_opt[-1 + JA][-1 + ihil];
+        fi1r = FI1R_opt[-1 + JA][-1 + ihil];
+        fi1z = FI1Z_opt[-1 + JA][-1 + ihil];
+        fi2d = FI2D_opt[-1 + JA][-1 + ihil];
+        FIU[-1 + N1] = qhla * SSU;
+        FIUR[-1 + N1] = fi1r * SSU;
+        FIUZ[-1 + N1] = fi1z * SSU;
+        FIUD2N[-1 + N1] = (fi2d - xlamy2 * qhla) * SSU;
+        FID[-1 + N1] = qhla * SSD;
+        FIDR[-1 + N1] = fi1r * SSD;
+        FIDZ[-1 + N1] = fi1z * SSD;
+        FIDD2N[-1 + N1] = (fi2d - xlapy2 * qhla) * SSD;
+      } // End Do
+      //!
+      i = ibro;
+      for (N1 = 1; N1 < nd; N1++)
+      {
+        JA = IM + N1;
+        nsa = ns[-1 + JA];
+        FIUN1 = FIU[-1 + N1];
+        FIURN1 = FIUR[-1 + N1];
+        FIUZN1 = FIUZ[-1 + N1];
+        FIUD2N1 = FIUD2N[-1 + N1];
+        FIDN1 = FID[-1 + N1];
+        FIDRN1 = FIDR[-1 + N1];
+        FIDZN1 = FIDZ[-1 + N1];
+        FIDD2N1 = FIDD2N[-1 + N1];
+        for (N2 = 1; N2 < N1; N2++)
+        {
+          i = i + 1;
+          i1 = i + nhhdim;
+          i2 = i + nhhdim2;
+          i3 = i + nhhdim3;
+          nsb = ns[-1 + N2 + IM];
+          nsab = nsa + nsb;
+          if (nsab != 0)
+          {
+            if (nsb > 0)
+            {
+              //! spin : UpUp
+              //!  SRFIh=ZERO; SFIRh=ZERO; SZFIh=ZERO
+              FIUN2 = FIU[-1 + N2];
+              FIURN2 = FIUR[-1 + N2];
+              FIUD2N2 = FIUD2N[-1 + N2];
+              FIUZN2 = FIUZ[-1 + N2];
+              vh = FIUN1 * FIUN2;
+              hbh = vh * xlamy2 + FIURN1 * FIURN2 + FIUZN1 * FIUZN2;
+              vdh = hbh + hbh + FIUN1 * FIUD2N2 + FIUN2 * FIUD2N1;
+              SNABLARh = FIURN1 * FIUN2 + FIURN2 * FIUN1;
+              SNABLAZh = FIUZN1 * FIUN2 + FIUZN2 * FIUN1;
+              vsh = SNABLARh * xlamy;
+              SFIZh = (vh + vh) * xlamy;
+            }
+            else
+            //! spin : DoDo
+            {
+              //! SRFIh=ZERO; SFIRh=ZERO; SZFIh=ZERO
+              FIDN2 = FID[-1 + N2];
+              FIDRN2 = FIDR[-1 + N2];
+              FIDZN2 = FIDZ[-1 + N2];
+              FIDD2N2 = FIDD2N[-1 + N2];
+              vh = FIDN1 * FIDN2;
+              hbh = vh * xlapy2 + FIDRN1 * FIDRN2 + FIDZN1 * FIDZN2;
+              vdh = hbh + hbh + FIDN1 * FIDD2N2 + FIDN2 * FIDD2N1;
+              SNABLARh = FIDRN1 * FIDN2 + FIDRN2 * FIDN1;
+              SNABLAZh = FIDZN1 * FIDN2 + FIDZN2 * FIDN1;
+              vsh = -SNABLARh * xlapy;
+              SFIZh = -(vh + vh) * xlapy;
+            } // End If
+            brout[-1 + i] = brout[-1 + i] + vSFIZnhl * SFIZh + vh * vnhl + SNABLARh * vrnhl + SNABLAZh * vznhl + vdh * vdnhl + vsh * vsnhl + hbh * vhbnhl;
+            brout[-1 + i1] = brout[-1 + i1] + vSFIZphl * SFIZh + vh * vphl + SNABLARh * vrphl + SNABLAZh * vzphl + vdh * vdphl + vsh * vsphl + hbh * vhbphl;
+            brout[-1 + i2] = brout[-1 + i2] + vh * dvnhl;
+            brout[-1 + i3] = brout[-1 + i3] + vh * dvphl;
+          }
+          else
+          {
+            if (nsb > 0)
+            { //! spin:DoUp
+              //! vh = ZERO;
+              hbh = zero;
+              vdh = zero;
+              SNABLARh = zero;
+              SNABLAZh = zero;
+              SFIZh = zero;
+              FIUN2 = FIU[-1 + N2];
+              FIURN2 = FIUR[-1 + N2];
+              FIUD2N2 = FIUD2N[-1 + N2];
+              FIUZN2 = FIUZ[-1 + N2];
+              FITW3 = -FIDZN1 * FIUN2;
+              FITW4 = FIUZN2 * FIDN1;
+              vsh = -FIDRN1 * FIUZN2 + FIURN2 * FIDZN1 + FITW3 * xlamy - FITW4 * xlapy;
+              SRFIh = -FIDRN1 * FIUN2 + FIURN2 * FIDN1;
+              SFIRh = FIDN1 * FIUN2 * xlampy;
+              SZFIh = FITW3 + FITW4;
+            }
+            else // !spin:UpDo
+            {
+              //! vh = ZERO;
+              hbh = zero;
+              vdh = zero;
+              SNABLARh = zero;
+              SNABLAZh = zero;
+              SFIZh = zero;
+              FIDN2 = FID[-1 + N2];
+              FIDRN2 = FIDR[-1 + N2];
+              FIDZN2 = FIDZ[-1 + N2];
+              FIDD2N2 = FIDD2N[-1 + N2];
+              FITW3 = -FIDZN2 * FIUN1;
+              FITW4 = FIUZN1 * FIDN2;
+              vsh = FIURN1 * FIDZN2 - FIDRN2 * FIUZN1 - FITW4 * xlapy + FITW3 * xlamy;
+              SRFIh = FIURN1 * FIDN2 - FIDRN2 * FIUN1;
+              SFIRh = FIUN1 * FIDN2 * xlampy;
+              SZFIh = FITW3 + FITW4;
+            } // Endif
+            brout[-1 + i] = brout[-1 + i] + vsh * vsnhl + vSRFInhl * SRFIh + vSFIRnhl * SFIRh + vSZFInhl * SZFIh;
+            brout[-1 + i1] = brout[-1 + i1] + vsh * vsphl + vSRFIphl * SRFIh + vSFIRphl * SFIRh + vSZFIphl * SZFIh;
+          } // End If
+          //!----------------------------------------------
+          //! LN PH PART
+          //!----------------------------------------------
+          if (kindhfb < 0)
+          {
+            if (ihil == 1)
+            {
+              un = zero;
+              up = zero;
+              if (N1 == N2)
+              {
+                un = -ala2[-1 + 1];
+                up = -ala2[-1 + 2];
+              } // End If
+              n12 = N1 + (N2 - 1) * nd;
+              brout[-1 + i] = brout[-1 + i] + two * (ala2[-1 + 1] * rk[-1 + n12][-1 + ib] + un);
+              brout[-1 + i1] = brout[-1 + i1] + two * (ala2[-1 + 2] * rk[-1 + n12][-1 + ibx] + up);
+            } // End If
+          }   // End If
+        }     // End Do !N2
+      }       // End Do !N1
+    }         // End Do !ihil
+    ibro = i;
+  } // End Do !IB
+  //
+  std::cout << "End of gamdel()" << std::endl;
 }
