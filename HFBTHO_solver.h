@@ -36,6 +36,9 @@ public:
   int inout(int);
   void start();
   void gamdel();
+  void broyden_min(int &nhhdim4, std::vector<double> &brout, std::vector<double> &brin, double &alphamix,
+                   double &si, int &iiter, int &nbroyden, char &bbroyden);
+  void qqdaxpy(int &, double &, std::vector<double> &, int &, std::vector<double> &, int &);
 
 private:
   int iw, ib, j, i, it;

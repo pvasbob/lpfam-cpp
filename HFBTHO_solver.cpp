@@ -8,7 +8,8 @@
 #include <ctime>
 
 #include "HFBTHO_solver.h"
-#include "lapack.h"
+#include <lapack.h>
+#include <cblas.h>
 
 void HFBTHO_solver::solver()
 {
@@ -3442,7 +3443,7 @@ void HFBTHO_solver::gamdel()
     //!----------------------------------------------
     //! SUM OVER GAUSS INTEGRATION POINTS
     //!----------------------------------------------
-    for (ihil = 1; ihil < nghl; ihil++)
+    for (ihil = 1; ihil <= nghl; ihil++)
     {
       y = y_opt[-1 + ihil];
       xlamy = xlam * y;
@@ -3476,7 +3477,7 @@ void HFBTHO_solver::gamdel()
       dvnhl = dvn[-1 + ihil];
       dvphl = dvp[-1 + ihil];
       //!
-      for (N1 = 1; N1 < nd; N1++)
+      for (N1 = 1; N1 <= nd; N1++)
       {
         JA = IM + N1;
         nsa = ns[-1 + JA];
@@ -3497,7 +3498,7 @@ void HFBTHO_solver::gamdel()
       } // End Do
       //!
       i = ibro;
-      for (N1 = 1; N1 < nd; N1++)
+      for (N1 = 1; N1 <= nd; N1++)
       {
         JA = IM + N1;
         nsa = ns[-1 + JA];
@@ -3509,7 +3510,7 @@ void HFBTHO_solver::gamdel()
         FIDRN1 = FIDR[-1 + N1];
         FIDZN1 = FIDZ[-1 + N1];
         FIDD2N1 = FIDD2N[-1 + N1];
-        for (N2 = 1; N2 < N1; N2++)
+        for (N2 = 1; N2 <= N1; N2++)
         {
           i = i + 1;
           i1 = i + nhhdim;
@@ -3560,12 +3561,7 @@ void HFBTHO_solver::gamdel()
           {
             if (nsb > 0)
             { //! spin:DoUp
-              //! vh = ZERO;
-              hbh = zero;
-              vdh = zero;
-              SNABLARh = zero;
-              SNABLAZh = zero;
-              SFIZh = zero;
+              // vh = ZERO hbh = zero vdh = zero SNABLARh = zero SNABLAZh = zero SFIZh = zero;
               FIUN2 = FIU[-1 + N2];
               FIURN2 = FIUR[-1 + N2];
               FIUD2N2 = FIUD2N[-1 + N2];
@@ -3625,4 +3621,202 @@ void HFBTHO_solver::gamdel()
   } // End Do !IB
   //
   std::cout << "End of gamdel()" << std::endl;
+  // not consider for now ! TMR pairing matrix elements
+  // not consider for now If(use_TMR_pairing.Ne.0) Then
+  // not consider for now  !if(inin.lt.0.or.(inin.gt.0.and.iiter.gt.0))
+  // not consider for now  Call delta
+  // not consider for now Endif
+  // not consider for now !
+  //!----------------------------------------------
+  //! BROYDEN/LINEAR MIXING
+  //!----------------------------------------------
+  //!
+  // Call get_CPU_time('broyden',0)
+  //!
+  broyden_min(nhhdim4, brout, brin, alphamix, si, iiter, nbroyden, bbroyden);
+  //!
+  // Call get_CPU_time('broyden',1)
+  //!
+}
+
+//!=======================================================================
+void HFBTHO_solver::broyden_min(int &N, std::vector<double> &vout, std::vector<double> &vin, double &alpha,
+                                double &si, int &iter, int &M, char &bbroyden)
+{
+  //!---------------------------------------------------------------------
+  //! Modified Broyden's method: D.D.Johnson, PRB 38, 12807 (1988)
+  //! Adopted from: (C) 2001 PWSCF group
+  //! Input :
+  //!  N      dimension of arrays vin,vout
+  //!  vin    outpu at previous iteration
+  //!  vout   output at current iteration
+  //!  alpha  mixing factor (0 < alpha <= 1)
+  //!  iter   current iteration number
+  //!  M      number of iterations in Broyden history
+  //!  M=0    Linear mixing
+  //! Output:
+  //!  si     MaxVal(|vout-vin|)
+  //!  vin    Broyden/Linear mixing result
+  //!  vout   vout-vin
+  //!  bbroyden='B' Broyden mixing, curvature>0
+  //!  bbroyden='L' Linear mixing,  curvature<0
+  //!---------------------------------------------------------------------
+  // Use HFBTHO, Only: pr,ipr,ierror_flag,ierror_info
+  // Implicit None
+  // Integer(ipr),     Intent(In)    :: N,iter,M
+  // Real(pr),        Intent(In)     :: alpha
+  // Real(pr),        Intent(Out)    :: si
+  // Character(1),      Intent(Out)  :: bbroyden
+  // Real(pr),        Intent(InOut)  :: vout(N),vin(N)
+  int i, j, iter_used, ipos, inext;
+  std::vector<int> iwork;
+  std::vector<double> work, curv;
+  std::vector<std::vector<double>> beta, df, dv;
+  // Real(pr),    Allocatable, Save  :: beta(:,:),work(:)
+  // Real(pr),    Allocatable, Save  :: df(:,:),dv(:,:),curv(:)
+  double w0;
+  double DDOT, DNRM2, normi, gamma, curvature, sf;
+  int qqone;
+  //!
+  sf = -1.0;
+  qqone = 1.0;
+
+  // DAXPY(N, sf, vin, 1, vout, 1);
+  // qqdaxpy(N, sf, vin, qqone, vout, qqone);
+  // need to check storage pattern for c++ and fortran
+  cblas_daxpy(N, sf, &vin[0], qqone, &vout[0], qqone);
+  // for (int qqi = 0; qqi < sizeof(vin) / sizeof(vin[0]); qqi++)
+  //{
+  //  vout[qqi] = vout[i] + sf * vin[qqi];
+  //}
+  // si = Maxval(Abs(vout));
+  si = std::max(*std::max_element(vout.begin(), vout.end()), *std::min_element(vout.begin(), vout.end()));
+  //! Linear mixing
+  if (M == 0 || iter == 0)
+  {
+    bbroyden = 'L';
+    // need to check storage pattern for c++ and fortran
+    cblas_daxpy(N, alpha, &vout[0], qqone, &vin[0], qqone);
+    //! If(iter.Eq.0) Write(6,*) '  Linear mixing (alpha) : ',alpha
+    return;
+  }
+  //! Broyden mixing
+  iter_used = std::min(iter - 1, M);
+  ipos = iter - 1 - ((iter - 2) / M) * M;
+  inext = iter - ((iter - 1) / M) * M;
+  if (iter == 1)
+  {
+    w0 = 0.010;
+    // if (Allocated(df))
+    //   Deallocate(curv, df, dv, beta, work, iwork);
+    // Allocate(curv(N), df(N, M), dv(N, M), beta(M, M), work(M), iwork(M));
+    //! write(6,'(a,i3,3(2x,f18.8),a)') '   Broyden mixing (M,alpha,w0,mem) : '  &
+    //!      ,M,alpha,w0,(2*N*M+N)*8._pr/1.e6,' MB'
+    curv.resize(N);
+    work.resize(N);
+    iwork.resize(N);
+    df.resize(N, std ::vector<double>(M));
+    dv.resize(N, std ::vector<double>(M));
+    beta.resize(M, std ::vector<double>(M));
+  }
+  else
+  {
+    // df( :, ipos) = vout( :) - df( :, ipos);
+    // dv( :, ipos) = vin( :) - dv( :, ipos);
+    for (int qqi = 1; qqi <= N; qqi++)
+    {
+      df[-1 + qqi][-1 + ipos] = vout[-1 + qqi] - df[-1 + qqi][-1 + ipos];
+      dv[-1 + qqi][-1 + ipos] = vin[-1 + qqi] - dv[-1 + qqi][-1 + ipos];
+    }
+
+    // need to check storage pattern for c++ and fortran
+    normi = 1.0 / std::sqrt(pow((cblas_dnrm2(N, &df[-1 + 1][-1 + ipos], 1)), 2));
+    // need to check storage pattern for c++ and fortran
+    cblas_dscal(N, normi, &df[-1 + 1][-1 + ipos], 1);
+    // need to check storage pattern for c++ and fortran
+    cblas_dscal(N, normi, &dv[-1 + 1][-1 + ipos], 1);
+  }
+  // Endif
+  for (i = 1; i <= iter_used; i++)
+  {
+    for (j = i + 1; j <= iter_used; j++)
+    {
+      // need to check the storage pattern for c++ and fortran
+      beta[-1 + i][-1 + j] = cblas_ddot(N, &df[-1 + 1][-1 + j], 1, &df[-1 + 1][-1 + i], 1);
+    };
+    beta[-1 + i][-1 + i] = 1.0 + w0 * w0;
+  };
+  // DSYTRF('U', iter_used, beta, M, iwork, work, M, i);
+  LAPACK_dsytrf("U", &iter_used, &beta[0][0], &M, &iwork[0], &work[0], &M, &i);
+  if (i != 0)
+  {
+    // ierror_flag=ierror_flag+1
+    // ierror_info(ierror_flag)='STOP: In Broyden: info at DSYTRF '
+    return;
+  }
+  // DSYTRI('U', iter_used, beta, M, iwork, work, i);
+  LAPACK_dsytri("U", &iter_used, &beta[0][0], &M, &iwork[0], &work[0], &i);
+  if (i != 0)
+  {
+    // ierror_flag=ierror_flag+1
+    // ierror_info(ierror_flag)='STOP: In Broyden: info at DSYTRI '
+    return;
+  }
+  for (i = 1; i <= iter_used; i++)
+  {
+    for (j = i + 1; iter_used; j++)
+    {
+      beta[-1 + j][-1 + i] = beta[-1 + i][-1 + j];
+    }
+    work[-1 + i] = cblas_ddot(N, &df[-1 + 1][-1 + i], 1, &vout[0], 1);
+  }
+  // curv = alpha * vout;
+  for (int qqi = 1; qqi <= sizeof(vout) / sizeof(vout[0]); qqi++)
+  {
+    curv[qqi] = alpha * vout[qqi];
+  }
+  //
+  for (i = 1; i <= iter_used; i++)
+  {
+    gamma = 0.0;
+    for (j = 1; j <= iter_used; j++)
+    {
+      gamma = gamma + beta[-1 + j][-1 + i] * work[-1 + j];
+    }
+    // curv = curv - gamma * (dv( :, i) + alpha * df( :, i));
+    for (int qqi = 1; qqi <= N; qqi++)
+    {
+      curv[-1 + qqi] = curv[-1 + qqi] - gamma * (dv[-1 + qqi][-1 + i] + alpha * df[-1 + qqi][-1 + i]);
+    }
+  }
+  cblas_dcopy(N, &vout[0], 1, &df[-1 + 1][-1 + inext], 1);
+  cblas_dcopy(N, &vin[0], 1, &dv[-1 + 1][-1 + inext], 1);
+  curvature = cblas_ddot(N, &vout[0], 1, &curv[0], 1);
+  if (curvature > -1.0)
+  {
+    bbroyden = 'B';
+    sf = +1.0;
+    cblas_daxpy(N, sf, &curv[0], 1, &vin[0], 1);
+  }
+  else
+  {
+    bbroyden = 'L';
+    sf = alpha * 0.50;
+    cblas_daxpy(N, sf, &vout[0], 1, &vin[0], 1);
+  } // End If
+  // End Subroutine broyden_min
+  //!=======================================================================
+  //!
+}
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// self made tools.  can't find blas header so has to do it self.
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void HFBTHO_solver::qqdaxpy(int &N, double &sf, std::vector<double> &x, int &incx, std::vector<double> &y, int &incy)
+{
+  // incx and incy not used here, default as 1
+  for (int qqi = 0; qqi < N; qqi++)
+  {
+    y[qqi] = y[qqi] + sf * x[qqi];
+  }
 }
